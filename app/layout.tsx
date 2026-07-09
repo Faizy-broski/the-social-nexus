@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import Header from "@/components/home/Header";
 import Footer from "@/components/home/Footer";
 import LetsTalkBadge from "@/components/home/LetsTalkBadge";
+import {HeaderThemeProvider} from "@/contexts/header-theme-contexts";
+import WhatsappButton from "@/components/home/WhatsappButton";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -38,10 +40,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body>
+        <HeaderThemeProvider>
         <Header />
         <LetsTalkBadge/>
         {children}
+        <div className="relative pt-30 mt-20 overflow-hidden">
         <Footer />
+        </div>
+        <WhatsappButton />
+        </HeaderThemeProvider>
         </body>
     </html>
   );

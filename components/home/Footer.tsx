@@ -1,28 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Mail, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-
-/**
- * SiteFooter — The Social Nexus
- * ------------------------------------------------------------------
- * Matches the reference design: a photographic banner fading into a
- * near-black navy panel, brand + nav columns, a "start a project" CTA
- * row, and a copyright line.
- *
- * Brand tokens used below (swap for your Tailwind v4 @theme vars if
- * you've already defined --color-teal / --color-navy / --color-gold):
- *   navy  -> #0B0E13 (panel background)
- *   teal  -> #2FD4C9 (accent / buttons / icon strokes)
- *   gold  -> #E4B65C (used sparingly, e.g. hover states)
- *
- * Assets you'll need to drop in /public (I don't have access to your
- * WP media library, so these are placeholders):
- *   /public/footer/banner.jpg        -> the wide background photo
- *   /public/footer/tsn-logo-white.svg -> white wordmark
- *   /public/footer/flags/pk.svg, us.svg, gb.svg
- */
+import { useParallax } from "@/hooks/use-parallax";
 
 const socialLinks = [
   {
@@ -70,125 +53,136 @@ const offices = [
 const phoneNumbers = ["+44 7402 843322", "+44 7462 254013"];
 
 export function SiteFooter() {
+  const { containerRef, offset } = useParallax(0.25);
+
   return (
-    <footer className="relative overflow-hidden bg-[#0B0E13] text-white">
-      {/* Banner image, faded into the panel below */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[420px]">
-        <Image
-          src="/footer/banner.jpg"
-          alt=""
-          fill
-          priority={false}
-          className="object-cover opacity-40"
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-[#0B0E13]/40 via-[#0B0E13]/80 to-[#0B0E13]" />
-      </div>
-
-      <div className="relative mx-auto max-w-7xl px-6 pt-20 pb-10 lg:px-8">
-        {/* Brand / nav grid */}
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
-          {/* Brand + tagline + socials */}
-          <div className="lg:col-span-5">
-            <Link href="/" className="inline-block">
-              <Image
-                src="/footer/tsn-logo-white.svg"
-                alt="The Social Nexus"
-                width={160}
-                height={54}
-                className="h-10 w-auto"
-              />
-            </Link>
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/60">
-              Crafting premium digital experiences that define the future.
-              Where creativity meets cutting-edge technology.
-            </p>
-            <ul className="mt-6 flex items-center gap-3">
-              {socialLinks.map((social) => (
-                <li key={social.label}>
-                  <a
-                    href={social.href}
-                    aria-label={social.label}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={cn(
-                      "flex h-9 w-9 items-center justify-center rounded-full border border-white/15",
-                      "text-white/70 transition-colors hover:border-[#2FD4C9] hover:text-[#2FD4C9]"
-                    )}
-                  >
-                    {social.icon}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Information */}
-          <div className="lg:col-span-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wide text-white">
-              Information
-            </h4>
-            <ul className="mt-5 space-y-3">
-              {infoLinks.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/60 transition-colors hover:text-[#2FD4C9]"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Office locations */}
-          <div className="lg:col-span-4">
-            <h4 className="text-sm font-semibold uppercase tracking-wide text-white">
-              Office Locations
-            </h4>
-            <ul className="mt-5 space-y-3">
-              {offices.map((office) => (
-                <li key={office.label} className="flex items-center gap-3">
-                  <span className="relative h-4 w-6 overflow-hidden rounded-[2px] ring-1 ring-white/10">
-                    <Image
-                      src={office.flag}
-                      alt=""
-                      fill
-                      className="object-cover"
-                    />
-                  </span>
-                  <span className="text-sm text-white/70">
-                    {office.label}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+    <>
+      {/* Parallax banner, faded into the panel below */}
+      <div
+        ref={containerRef}
+        className="pointer-events-none absolute inset-x-0 top-10 h-[420px] hidden md:block"
+      >
+        <div
+          className="absolute inset-x-0 -top-[30%] left-29 -right-29 h-[158%] will-change-transform"
+          style={{ transform: `translate3d(0, ${offset}px, 0)` }}
+        >
+          <Image
+            src="/footer-parallax.jpeg"
+            alt=""
+            fill
+            priority={false}
+            className="object-cover"
+          />
         </div>
+      </div>
+      <footer className="relative overflow-hidden max-w-6xl  bg-[#0B0E13] text-white">
+        <div className="relative flex justify-center mx-auto max-w-5xl px-6 pt-20 pb-10 lg:px-8">
+          {/* Brand / nav grid */}
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+            {/* Brand + tagline + socials */}
+            <div className="lg:col-span-4">
+              <Link href="/" className="inline-block">
+                <Image
+                  src="/footer/tsn-logo-white.svg"
+                  alt="The Social Nexus"
+                  width={160}
+                  height={54}
+                  className="h-10 w-auto"
+                />
+              </Link>
+              <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/60">
+                Crafting premium digital experiences that define the future.
+                Where creativity meets cutting-edge technology.
+              </p>
+              <ul className="mt-6 flex items-center gap-3">
+                {socialLinks.map((social) => (
+                  <li key={social.label}>
+                    <a
+                      href={social.href}
+                      aria-label={social.label}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={cn(
+                        "flex h-9 w-9 items-center justify-center rounded-full border border-white/15",
+                        "text-white/70 transition-colors hover:border-[#2FD4C9] hover:text-[#2FD4C9]",
+                      )}
+                    >
+                      {social.icon}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-        {/* Divider */}
-        <div className="my-12 h-px w-full bg-white/10" />
+            {/* Information */}
+            <div className="lg:col-span-3">
+              <h4 className="text-sm font-semibold uppercase tracking-wide text-white">
+                Information
+              </h4>
+              <ul className="mt-5 space-y-3">
+                {infoLinks.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-white/60 transition-colors hover:text-[#2FD4C9]"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-        {/* CTA row */}
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-          <p className="text-xs text-white/40">
-            © <span className="font-semibold text-white/60">TSN</span> 2026.
-            All rights reserved
-          </p>
+            {/* Office locations */}
+            <div className="lg:col-span-4">
+              <h4 className="text-sm font-semibold uppercase tracking-wide text-white">
+                Office Locations
+              </h4>
+              <ul className="mt-5 space-y-3">
+                {offices.map((office) => (
+                  <li key={office.label} className="flex items-center gap-3">
+                    <span className="relative h-4 w-6 overflow-hidden rounded-[2px] ring-1 ring-white/10">
+                      <Image
+                        src={office.flag}
+                        alt=""
+                        fill
+                        className="object-cover"
+                      />
+                    </span>
+                    <span className="text-sm text-white/70">
+                      {office.label}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <div className="lg:max-w-md">
-            <h2 className="text-2xl font-semibold text-white sm:text-3xl">
+            <div className="col-span-12">
+              {/* Divider */}
+              <div className="my-12 h-px w-full bg-white/10" />
+
+              {/* Copyright */}
+              <p className="text-xs text-white/40">
+                &copy; <span className="font-semibold text-white/60">TSN</span>{" "}
+                {new Date().getFullYear()}. All rights reserved
+              </p>
+            </div>
+          </div>
+          {/* "Have a project" CTA — its own grid column, everything centered
+              to match the reference screenshot exactly. */}
+          <div className="flex flex-col items-center text-center">
+            <h2 className="text-2xl font-semibold leading-tight text-white sm:text-3xl">
               Have a project in your mind?
             </h2>
 
-            <Link href="/contact-us" className="inline-flex mt-6">
-              <Button className="h-11 rounded-full bg-[#2FD4C9] px-6 text-sm font-medium text-[#0B0E13] hover:bg-[#2FD4C9]/90">
-                Contact Us
-                <ArrowUpRight className="h-4 w-4" />
-            </Button>
-              </Link>
+            <Link
+              href="/contact-us"
+              className="mt-8 flex h-32 w-32 items-center justify-center rounded-full border border-white/25 text-sm font-medium text-white transition-colors hover:border-[#2FD4C9] hover:text-[#2FD4C9]"
+            >
+              Contact Us
+            </Link>
 
-            <ul className="mt-6 space-y-2">
+            <ul className="mt-8 space-y-2">
               {phoneNumbers.map((number) => (
                 <li key={number}>
                   <a
@@ -212,8 +206,8 @@ export function SiteFooter() {
             </ul>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 }
 

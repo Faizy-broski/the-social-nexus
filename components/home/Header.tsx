@@ -1,15 +1,16 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useHeaderTheme } from "@/contexts/header-theme-contexts";
 
 const navLinks = [
   { label: "About Us", href: "/about-us" },
   { label: "Services", href: "/services" },
-  { label: "Portfolio", href: "/portfolio-page" },
+  { label: "Portfolio", href: "/portfolio" },
   { label: "FAQs", href: "/faqs" },
   { label: "Contact Us", href: "/contact-us" },
 ];
@@ -44,7 +45,6 @@ const railTheme: Record<RailTheme, {
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [theme, setTheme] = useState<RailTheme>("dark");
 
   // lock body scroll while the offcanvas is open
   useEffect(() => {
@@ -63,33 +63,9 @@ const Header = () => {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  // watch which section is behind the rail and flip the theme to match.
-  // pages mark their sections with data-header-theme="dark" | "light".
-  useEffect(() => {
-    const sections = document.querySelectorAll<HTMLElement>("[data-header-theme]");
-    if (sections.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const value = entry.target.getAttribute("data-header-theme");
-          if (value === "dark" || value === "light") setTheme(value);
-        });
-      },
-      {
-        // thin detection line at the vertical center of the viewport —
-        // whichever section straddles it "owns" the rail's theme
-        rootMargin: "-50% 0px -50% 0px",
-        threshold: 0,
-      }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
-
-  const t = railTheme[theme];
+  const theme = useHeaderTheme();
+const t = railTheme[theme];
 
   return (
     <>

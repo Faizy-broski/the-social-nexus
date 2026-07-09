@@ -32,9 +32,9 @@ export default function HeroSection() {
       <div className="absolute inset-0 opacity-80 bg-linear-to-r from-[#d9b85c]/75 via-[#79b990]/70 to-[#20b8c7]/80" />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-[1760px] items-center justify-between gap-10 pl-[80px] pr-6 pt-8 sm:pl-[100px]">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-[1760px] items-center justify-between gap-10 pl-20 pr-6 pt-8 sm:pl-25">
         {/* Left copy */}
-        <div className="max-w-[700px] py-8">
+        <div className="max-w-175 py-8">
           <div className="mb-5 inline-flex rounded-full border border-white/40 bg-white/10 px-5 py-1.5 text-[12px] font-medium tracking-[0.26em] backdrop-blur-sm">
             The Social Nexus
           </div>
@@ -60,7 +60,7 @@ export default function HeroSection() {
             </span>
           </h1>
 
-          <p className="mt-6 max-w-[480px] text-[14px] font-medium leading-[1.6] text-white/90 sm:text-[15px]">
+          <p className="mt-6 max-w-120 text-[14px] font-medium leading-[1.6] text-white/90 sm:text-[15px]">
             We combine software engineering, artificial intelligence, design,
             and performance marketing to create powerful digital ecosystems
             that drive measurable business growth worldwide.
@@ -88,7 +88,7 @@ export default function HeroSection() {
 
               <Button
                 type="submit"
-                className="h-[46px] w-full rounded-full bg-[#36b9c5] text-[14px] font-bold text-white hover:bg-[#2caab5]"
+                className="h-11.5 w-full rounded-full bg-[#36b9c5] text-[14px] font-bold text-white hover:bg-[#2caab5]"
               >
                 Send Message
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -114,7 +114,7 @@ function FormField({
       <label className="mb-1.5 block text-[13px] font-bold">{label}</label>
       <input
         placeholder={placeholder}
-        className="h-[42px] w-full rounded-full border border-white/20 bg-white/30 px-5 text-[13px] font-medium text-white placeholder:text-white/70 outline-none backdrop-blur-md focus:ring-2 focus:ring-white/40"
+        className="h-10.5 w-full rounded-full border border-white/20 bg-white/30 px-5 text-[13px] font-medium text-white placeholder:text-white/70 outline-none backdrop-blur-md focus:ring-2 focus:ring-white/40"
       />
     </div>
   );
