@@ -1,7 +1,7 @@
-import { Check } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
-import type { CSSProperties } from 'react'
+import { Check } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import type { CSSProperties } from "react";
 
 const GRADIENT_TEXT =
   "bg-gradient-to-r from-[#0B91A4] via-[#4F9F75] to-[#B3B430] bg-clip-text text-transparent";
@@ -25,7 +25,7 @@ const ProductCard = ({ product }: { product: Product }) => {
   const shift = product.previewScrollPercent ?? 65;
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm hover:border-brand-cyan-accent ease-in-out duration-300 transition-all">
+    <div className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-2 hover:border-brand-cyan-accent hover:shadow-xl">
       {/* Browser-chrome preview */}
       <div className="relative overflow-hidden rounded-t-2xl bg-[#0B0E13]">
         {/* Chrome bar sits outside the hover/scroll zone on purpose —
@@ -34,13 +34,13 @@ const ProductCard = ({ product }: { product: Product }) => {
           <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
           <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
           <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
-          <span className="ml-3 h-4 w-40 rounded-sm bg-white/10" />
+          <span className="ml-3 h-4 w-32 rounded-sm bg-white/10 sm:w-40" />
         </div>
 
         {/* Fixed-height viewport that clips the tall screenshot.
             `group/image` scopes the hover trigger to just this box —
             hovering the card body/button won't trigger the pan. */}
-        <div className="group/image relative h-56 overflow-hidden sm:h-64">
+        <div className="group/image relative h-48 overflow-hidden sm:h-56 lg:h-64">
           <Image
             src={product.previewImage}
             alt={`${product.eyebrowTitle} product preview`}
@@ -53,8 +53,8 @@ const ProductCard = ({ product }: { product: Product }) => {
       </div>
 
       {/* Body */}
-      <div className="flex flex-1 flex-col p-6">
-        <h3 className="text-lg font-extrabold uppercase tracking-tight text-[#121212]">
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
+        <h3 className="text-base font-extrabold uppercase tracking-tight text-[#121212] sm:text-lg">
           {product.eyebrowTitle}{" "}
           <span className={GRADIENT_TEXT}>{product.highlight}</span>
         </h3>
@@ -72,10 +72,10 @@ const ProductCard = ({ product }: { product: Product }) => {
           ))}
         </ul>
 
-        <div className="flex flex-1 items-end pt-4">
+        <div className="flex flex-1 items-end  pt-6 sm:justify-start">
           <Link
             href={product.href}
-            className="inline-flex h-30 w-30 flex-col items-center justify-center rounded-full bg-[#3AB5C0] text-center text-md font-semibold leading-tight text-white transition-transform hover:scale-105"
+            className="inline-flex h-24 w-24 flex-col items-center justify-center rounded-full bg-[#3AB5C0] text-center text-sm font-semibold leading-tight text-white transition-transform hover:scale-105 sm:h-28 sm:w-28 sm:text-base lg:h-30 lg:w-30 lg:text-md"
           >
             {product.ctaLabel[0]}
             <br />
@@ -84,7 +84,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductCard
+export default ProductCard;

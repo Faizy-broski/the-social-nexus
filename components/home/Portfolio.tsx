@@ -5,28 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, MoveVertical } from "lucide-react";
 
-/**
- * PortfolioSection ("Our Work")
- * ------------------------------------------------------------------
- * Two horizontally-scrolling rows of project cards. The chevron
- * buttons at the bottom move BOTH rows at once, in opposite
- * directions — mirroring your Elementor sync script (ltrSwiper
- * .slideNext() + rtlSwiper.slidePrev() on the same click). Built
- * here with native scroll containers + scrollBy instead of Swiper,
- * so no extra dependency.
- *
- * Each card also reproduces your "scrolling screenshot" hover effect:
- * the image is a background-position tween from top → bottom over 8s
- * on hover (same timing as your ucaddon_scrolling_screenshot widget
- * CSS), with a floating scroll-hint icon that fades out on hover.
- *
- * Gradient sampled from your screenshot: #C7CE72 (yellow-green, left)
- * → #71C0A2 (teal-green, right).
- *
- * Screenshots you'll need in /public/portfolio/ — placeholders below,
- * paths mirror the project slugs from your HTML.
- */
-
 type PortfolioItem = {
   slug: string;
   title: string;
@@ -52,33 +30,46 @@ const items: PortfolioItem[] = [
 const rowA = items.slice(0, 6);
 const rowB = items.slice(6, 12);
 
-const CARD_WIDTH = 340; // px, keep in sync with the card's w-[340px] below
-
 export function PortfolioSection() {
   const rowARef = useRef<HTMLDivElement>(null);
   const rowBRef = useRef<HTMLDivElement>(null);
 
+  // Measure the actual rendered card width (+ gap) at click time, since
+  // card size now varies per breakpoint (w-64 → sm:w-72 → md:w-80 →
+  // lg:w-85). A hardcoded CARD_WIDTH would desync the scroll amount
+  // from the real card size on mobile/tablet.
+  const getStep = (row: HTMLDivElement | null) => {
+    if (!row) return 0;
+    const firstCard = row.firstElementChild as HTMLElement | null;
+    if (!firstCard) return 0;
+    const styles = getComputedStyle(row);
+    const gap = parseFloat(styles.columnGap || styles.gap || "0");
+    return firstCard.getBoundingClientRect().width + gap;
+  };
+
   const scrollBoth = (direction: 1 | -1) => {
-    rowARef.current?.scrollBy({ left: direction * CARD_WIDTH, behavior: "smooth" });
+    const stepA = getStep(rowARef.current);
+    const stepB = getStep(rowBRef.current);
+    rowARef.current?.scrollBy({ left: direction * stepA, behavior: "smooth" });
     // Row B moves opposite to Row A, same as your RTL/LTR sync script.
-    rowBRef.current?.scrollBy({ left: -direction * CARD_WIDTH, behavior: "smooth" });
+    rowBRef.current?.scrollBy({ left: -direction * stepB, behavior: "smooth" });
   };
 
   return (
-    <section className="bg-linear-to-r from-[#C7CE72] to-[#71C0A2] py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-6 lg:px-8">
+    <section className="bg-linear-to-r from-[#C7CE72] to-[#71C0A2] py-14 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
         {/* Header row */}
-        <div className="flex items-start justify-between">
+        <div className="flex items-center justify-between gap-4 sm:items-start">
           <div>
-            <p className="text-sm font-semibold text-white">Portfolio</p>
-            <h2 className="mt-2 text-4xl font-extrabold uppercase tracking-tight text-white sm:text-5xl">
+            <p className="text-xs font-semibold text-white sm:text-sm">Portfolio</p>
+            <h2 className="mt-2 text-3xl font-extrabold uppercase tracking-tight text-white sm:text-4xl lg:text-5xl">
               Our Work
             </h2>
           </div>
 
           <Link
             href="/portfolio-page"
-            className="hidden h-24 w-24 shrink-0 items-center justify-center rounded-full border border-white/70 text-center text-sm font-semibold text-white transition-colors hover:bg-white/10 sm:flex"
+            className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-white/70 text-center text-xs font-semibold text-white transition-colors hover:bg-white/10 sm:h-24 sm:w-24 sm:text-sm"
           >
             View All
           </Link>
@@ -87,7 +78,7 @@ export function PortfolioSection() {
         {/* Row A */}
         <div
           ref={rowARef}
-          className="tsn-row-scroll mt-14 flex gap-4 overflow-x-auto scroll-smooth"
+          className="tsn-row-scroll mt-8 flex gap-3 overflow-x-auto scroll-smooth sm:mt-14 sm:gap-4"
         >
           {rowA.map((item) => (
             <PortfolioCard key={item.slug} item={item} />
@@ -97,7 +88,7 @@ export function PortfolioSection() {
         {/* Row B */}
         <div
           ref={rowBRef}
-          className="tsn-row-scroll mt-4 flex gap-4 overflow-x-auto scroll-smooth"
+          className="tsn-row-scroll mt-3 flex gap-3 overflow-x-auto scroll-smooth sm:mt-4 sm:gap-4"
         >
           {rowB.map((item) => (
             <PortfolioCard key={item.slug} item={item} />
@@ -105,12 +96,12 @@ export function PortfolioSection() {
         </div>
 
         {/* Chevron controls — move both rows at once, opposite directions */}
-        <div className="mt-12 flex items-center justify-center gap-4">
+        <div className="mt-8 flex items-center justify-center gap-4 sm:mt-12">
           <button
             type="button"
             aria-label="Previous projects"
             onClick={() => scrollBoth(-1)}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/70 text-white transition-colors hover:bg-white/10"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/70 text-white transition-colors hover:bg-white/10 sm:h-11 sm:w-11"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -118,7 +109,7 @@ export function PortfolioSection() {
             type="button"
             aria-label="Next projects"
             onClick={() => scrollBoth(1)}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/70 text-white transition-colors hover:bg-white/10"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/70 text-white transition-colors hover:bg-white/10 sm:h-11 sm:w-11"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -150,7 +141,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
   return (
     <Link
       href={item.href}
-      className="group relative block w-85 shrink-0 overflow-hidden rounded-xl bg-white shadow-md"
+      className="group relative block w-64 shrink-0 overflow-hidden rounded-xl bg-white shadow-md sm:w-72 md:w-80 lg:w-85"
     >
       <div
         className="relative aspect-4/3 w-full overflow-hidden bg-cover bg-top transition-[background-position] duration-8000 ease-linear group-hover:bg-bottom"
@@ -167,8 +158,8 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
         />
 
         {/* Floating scroll-hint icon, fades out on hover */}
-        <div className="absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#121212] opacity-100 shadow transition-opacity duration-300 ease-out group-hover:opacity-0">
-          <MoveVertical className="tsn-float h-5 w-5 animate-[tsn-float_2s_ease-in-out_infinite]" />
+        <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#121212] opacity-100 shadow transition-opacity duration-300 ease-out group-hover:opacity-0 sm:h-11 sm:w-11">
+          <MoveVertical className="tsn-float h-4 w-4 animate-[tsn-float_2s_ease-in-out_infinite] sm:h-5 sm:w-5" />
         </div>
       </div>
     </Link>

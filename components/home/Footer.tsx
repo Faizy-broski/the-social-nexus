@@ -57,13 +57,14 @@ export function SiteFooter() {
 
   return (
     <>
-      {/* Parallax banner, faded into the panel below */}
+      {/* Parallax banner, faded into the panel below — desktop only,
+          already correctly hidden on mobile/tablet */}
       <div
         ref={containerRef}
-        className="pointer-events-none absolute inset-x-0 top-10 h-[420px] hidden md:block"
+        className="pointer-events-none absolute inset-x-0 top-10 hidden h-105 lg:block"
       >
         <div
-          className="absolute inset-x-0 -top-[30%] left-29 -right-29 h-[158%] will-change-transform"
+          className="absolute inset-x-0 top-[-30%] left-6 -right-6 h-[158%] will-change-transform lg:left-29 lg:-right-29"
           style={{ transform: `translate3d(0, ${offset}px, 0)` }}
         >
           <Image
@@ -75,22 +76,23 @@ export function SiteFooter() {
           />
         </div>
       </div>
-      <footer className="relative overflow-hidden max-w-6xl  bg-[#0B0E13] text-white">
-        <div className="relative flex justify-center mx-auto max-w-5xl px-6 pt-20 pb-10 lg:px-8">
+
+      <footer className="relative max-w-6xl overflow-hidden bg-[#0B0E13] text-white">
+        <div className="relative mx-auto flex max-w-5xl flex-col gap-12 px-5 pb-8 pt-14 sm:px-6 sm:pb-10 sm:pt-20 lg:flex-row lg:items-start lg:justify-between lg:gap-16 lg:px-8">
           {/* Brand / nav grid */}
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-12 lg:grid-cols-12 lg:flex-1">
             {/* Brand + tagline + socials */}
-            <div className="lg:col-span-4">
+            <div className="sm:col-span-2 lg:col-span-4">
               <Link href="/" className="inline-block">
                 <Image
                   src="/footer/tsn-logo-white.svg"
                   alt="The Social Nexus"
                   width={160}
                   height={54}
-                  className="h-10 w-auto"
+                  className="h-9 w-auto sm:h-10"
                 />
               </Link>
-              <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/60">
+              <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/60 sm:mt-5">
                 Crafting premium digital experiences that define the future.
                 Where creativity meets cutting-edge technology.
               </p>
@@ -119,7 +121,7 @@ export function SiteFooter() {
               <h4 className="text-sm font-semibold uppercase tracking-wide text-white">
                 Information
               </h4>
-              <ul className="mt-5 space-y-3">
+              <ul className="mt-4 space-y-3 sm:mt-5">
                 {infoLinks.map((link) => (
                   <li key={link.label}>
                     <Link
@@ -138,7 +140,7 @@ export function SiteFooter() {
               <h4 className="text-sm font-semibold uppercase tracking-wide text-white">
                 Office Locations
               </h4>
-              <ul className="mt-5 space-y-3">
+              <ul className="mt-4 space-y-3 sm:mt-5">
                 {offices.map((office) => (
                   <li key={office.label} className="flex items-center gap-3">
                     <span className="relative h-4 w-6 overflow-hidden rounded-[2px] ring-1 ring-white/10">
@@ -157,9 +159,9 @@ export function SiteFooter() {
               </ul>
             </div>
 
-            <div className="col-span-12">
+            <div className="sm:col-span-2 lg:col-span-12 hidden lg:block">
               {/* Divider */}
-              <div className="my-12 h-px w-full bg-white/10" />
+              <div className="my-8 h-px w-full bg-white/10 sm:my-12" />
 
               {/* Copyright */}
               <p className="text-xs text-white/40">
@@ -168,21 +170,22 @@ export function SiteFooter() {
               </p>
             </div>
           </div>
-          {/* "Have a project" CTA — its own grid column, everything centered
-              to match the reference screenshot exactly. */}
-          <div className="flex flex-col items-center text-center">
-            <h2 className="text-2xl font-semibold leading-tight text-white sm:text-3xl">
+
+          {/* "Have a project" CTA — stacks below the grid on mobile/
+              tablet, sits as its own column on the right from lg: up */}
+          <div className="flex flex-col items-start lg:items-center border-t border-white/10 pt-10 text-center lg:w-72 lg:shrink-0 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
+            <h2 className="text-xl font-semibold leading-tight text-white sm:text-2xl lg:text-3xl">
               Have a project in your mind?
             </h2>
 
             <Link
               href="/contact-us"
-              className="mt-8 flex h-32 w-32 items-center justify-center rounded-full border border-white/25 text-sm font-medium text-white transition-colors hover:border-[#2FD4C9] hover:text-[#2FD4C9]"
+              className="mt-6 flex h-24 w-24 items-center justify-center rounded-full border border-white/25 text-xs font-medium text-white transition-colors hover:border-[#2FD4C9] hover:text-[#2FD4C9] sm:mt-8 sm:h-28 sm:w-28 sm:text-sm lg:h-32 lg:w-32"
             >
               Contact Us
             </Link>
 
-            <ul className="mt-8 space-y-2">
+            <ul className="mt-6 space-y-2 sm:mt-8">
               {phoneNumbers.map((number) => (
                 <li key={number}>
                   <a
@@ -205,6 +208,16 @@ export function SiteFooter() {
               </li>
             </ul>
           </div>
+        <div className="block lg:hidden">
+              {/* Divider */}
+              <div className="my-8 h-px w-full bg-white/10" />
+
+              {/* Copyright */}
+              <p className="text-xs text-white/40">
+                &copy; <span className="font-semibold text-white/60">TSN</span>{" "}
+                {new Date().getFullYear()}. All rights reserved
+              </p>
+            </div>
         </div>
       </footer>
     </>

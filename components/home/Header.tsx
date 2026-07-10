@@ -1,11 +1,20 @@
 "use client";
 
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useHeaderTheme } from "@/contexts/header-theme-contexts";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 const navLinks = [
   { label: "About Us", href: "/about-us" },
@@ -44,63 +53,158 @@ const railTheme: Record<RailTheme, {
 };
 
 const Header = () => {
+  // desktop two-panel offcanvas
   const [isOpen, setIsOpen] = useState(false);
-
-  // lock body scroll while the offcanvas is open
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
-
-  // close on Escape
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsOpen(false);
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
-
+  // mobile/tablet side sheet
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const theme = useHeaderTheme();
-const t = railTheme[theme];
+  const t = railTheme[theme];
 
   return (
     <>
-      {/* Fixed vertical rail — logo (rotated), 9-dot trigger, contact info */}
+      {/*
+        Mobile / tablet (< lg): fixed slim TOP bar — logo left, hamburger right.
+        Desktop (lg+): original fixed vertical rail with dot-grid trigger.
+      */}
       <header
         className={cn(
-          "fixed left-0 top-0 z-40 flex h-screen w-16 flex-col items-center justify-between border-r bg-transparent py-12 transition-colors duration-300 lg:w-18",
+          "fixed inset-x-0 top-0 z-40 flex h-16 w-full items-center justify-between border-b lg:bg-transparent bg-brand-navy px-4 transition-colors duration-300",
+          "sm:h-20 sm:px-6",
+          "lg:inset-x-auto lg:left-0 lg:top-0 lg:h-screen lg:w-16 lg:flex-col lg:justify-between lg:border-b-0 lg:border-r lg:px-0 lg:py-12 lg:w-18",
           t.border
         )}
       >
-        {/* Logo, rotated so it reads bottom-to-top */}
+        {/* Logo — normal orientation on mobile, rotated bottom-to-top on desktop */}
         <Link
           href="/"
           aria-label="The Social Nexus home"
           className="flex items-center justify-center"
         >
-          <span className="block origin-center -rotate-90 scale-125">
+          <span className="block lg:origin-center lg:-rotate-90 lg:scale-125">
             <Image
               src={t.logo}
               alt="The Social Nexus"
               width={140}
               height={46}
               priority
-              className="h-8 w-auto transition-opacity duration-300"
+              className="h-7 w-auto transition-opacity duration-300 sm:h-8 lg:h-8"
             />
           </span>
         </Link>
 
-        {/* 9-dot grid trigger — opens the offcanvas menu */}
+        {/* Mobile / tablet: hamburger trigger for Sheet */}
+        <div className="lg:hidden">
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetTrigger>
+              <button
+                type="button"
+                aria-label="Open menu"
+                className={cn(
+                  "flex h-9 w-9 cursor-pointer items-center justify-center rounded-md transition-colors duration-300",
+                  t.text
+                )}
+              >
+                <Menu className="h-6 w-6" />
+              </button>
+            </SheetTrigger>
+
+            <SheetContent
+              side="right"
+              className="w-[85vw] max-w-sm border-none bg-brand-navy p-0 text-white sm:max-w-sm"
+            >
+              <VisuallyHidden>
+                <SheetTitle>Navigation menu</SheetTitle>
+                <SheetDescription>The Social Nexus site navigation</SheetDescription>
+              </VisuallyHidden>
+
+              <div className="flex h-full flex-col justify-between p-6 sm:p-8">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <Link href="/" onClick={() => setIsSheetOpen(false)}>
+                      <Image
+                        src="/TSN-White-Logo.webp"
+                        alt="The Social Nexus"
+                        width={140}
+                        height={40}
+                        className="h-8 w-auto"
+                      />
+                    </Link>
+                    <SheetClose>
+                      <button
+                        type="button"
+                        aria-label="Close menu"
+                        className="flex h-9 w-9 md:hidden cursor-pointer items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+                      >
+                        <X className="h-5 w-5" />
+                      </button>
+                    </SheetClose>
+                  </div>
+
+                  <nav className="mt-10">
+                    <ul className="space-y-1">
+                      {navLinks.map((link) => (
+                        <li key={link.href}>
+                          <Link
+                            href={link.href}
+                            onClick={() => setIsSheetOpen(false)}
+                            className="group flex items-center py-2.5 text-2xl font-extrabold uppercase text-white/60 transition-colors hover:text-white sm:text-3xl"
+                          >
+                            <span className="h-2 w-0 shrink-0 bg-white opacity-0 transition-all duration-300 ease-out group-hover:mr-3 group-hover:w-6 group-hover:opacity-100" />
+                            {link.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                </div>
+
+                <div>
+                  <ul className="space-y-5 border-t border-white/10 pt-6">
+                    <li>
+                      <p className="mb-1 text-xs font-bold text-white/50">Email</p>
+                      <a
+                        href="mailto:connect@thesocialnexus.co.uk"
+                        className="break-all text-sm text-white transition-colors hover:text-brand-teal-light"
+                      >
+                        connect@thesocialnexus.co.uk
+                      </a>
+                    </li>
+                    <li>
+                      <p className="mb-1 text-xs font-bold text-white/50">Phone</p>
+                      <a
+                        href="tel:+447462254013"
+                        className="text-sm text-white transition-colors hover:text-brand-teal-light"
+                      >
+                        +447462254013
+                      </a>
+                    </li>
+                    <li>
+                      <p className="mb-1 text-xs font-bold text-white/50">Location</p>
+                      <span className="text-sm text-white">Pakistan UK USA</span>
+                    </li>
+                  </ul>
+
+                  <p className="mt-6 text-xs text-white/40">
+                    ©{" "}
+                    <a href="https://thesocialnexus.co.uk" className="hover:text-brand-teal-light">
+                      TSN
+                    </a>{" "}
+                    {new Date().getFullYear()}. All rights reserved
+                  </p>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+
+        {/* Desktop: 9-dot grid trigger — opens the full two-panel offcanvas */}
         <button
           type="button"
           onClick={() => setIsOpen(true)}
           aria-label="Open menu"
           aria-expanded={isOpen}
-          className="mt-8 grid cursor-pointer grid-cols-3 gap-1.5 rounded-md transition-opacity hover:opacity-70"
+          className="hidden cursor-pointer grid-cols-3 gap-1.5 rounded-md transition-opacity hover:opacity-70 lg:mt-8 lg:grid"
         >
           {Array.from({ length: 9 }).map((_, i) => (
             <span
@@ -110,10 +214,8 @@ const t = railTheme[theme];
           ))}
         </button>
 
-        {/* Contact us + phone — each rotated independently so both read
-            bottom-to-top, in the same direction as the logo, while still
-            sitting side by side left-to-right in a normal flex row. */}
-        <a href="tel:+447462254013" className="flex items-center">
+        {/* Contact us + phone, rotated — desktop rail only */}
+        <a href="tel:+447462254013" className="hidden items-center lg:flex">
           <span
             className={cn(
               "[writing-mode:vertical-rl] rotate-180 whitespace-nowrap text-[16px] font-semibold tracking-wide transition-colors duration-300",
@@ -134,18 +236,18 @@ const t = railTheme[theme];
         </a>
       </header>
 
-      {/* Offcanvas overlay — always dark, unaffected by rail theme */}
+      {/* Desktop-only: original two-panel offcanvas overlay */}
       <div
-        className={`fixed inset-0 z-50 transition-opacity duration-300 ${
+        className={`fixed inset-0 z-50 hidden transition-opacity duration-300 lg:block ${
           isOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
         role="dialog"
         aria-modal="true"
       >
-        <div className="flex h-full w-full flex-col lg:flex-row">
+        <div className="flex h-full w-full flex-row overflow-hidden">
           {/* Left panel — logo, contact info, footer */}
           <div
-            className={`flex w-full flex-col justify-between bg-brand-navy-light p-8 transition-transform duration-500 ease-out sm:p-12 lg:w-1/3 ${
+            className={`flex w-1/3 shrink-0 flex-col justify-between bg-brand-navy-light p-12 transition-transform duration-500 ease-out ${
               isOpen ? "translate-x-0" : "-translate-x-full"
             }`}
           >
@@ -199,7 +301,7 @@ const t = railTheme[theme];
 
           {/* Right panel — nav menu, stacked vertically per menu-item */}
           <div
-            className={`relative flex flex-1 flex-col justify-center bg-brand-navy px-8 py-16 transition-opacity delay-150 duration-500 sm:px-16 lg:px-24 ${
+            className={`relative flex flex-1 flex-col justify-center bg-brand-navy px-24 py-16 transition-opacity delay-150 duration-500 ${
               isOpen ? "opacity-100" : "opacity-0"
             }`}
           >
@@ -207,7 +309,7 @@ const t = railTheme[theme];
               type="button"
               onClick={() => setIsOpen(false)}
               aria-label="Close menu"
-              className="absolute right-8 top-8 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:right-14 sm:top-10"
+              className="absolute right-14 top-10 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
             >
               <X className="h-5 w-5" />
             </button>
@@ -219,7 +321,7 @@ const t = railTheme[theme];
                     <Link
                       href={link.href}
                       onClick={() => setIsOpen(false)}
-                      className="group flex items-center text-4xl font-extrabold uppercase text-white/50 transition-colors hover:text-white sm:text-5xl lg:text-4xl"
+                      className="group flex items-center text-4xl font-extrabold uppercase text-white/50 transition-colors hover:text-white lg:text-4xl"
                     >
                       <span className="h-2 w-0 shrink-0 bg-white opacity-0 transition-all duration-400 ease-out group-hover:mr-4 group-hover:w-10 group-hover:opacity-100 sm:group-hover:w-12" />
                       {link.label}
