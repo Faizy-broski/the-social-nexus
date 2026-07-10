@@ -1,10 +1,7 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
-
 const stats = [
   { value: "1,500+", label: "Project completed" },
   { value: "100%", label: "Client Retention" },
@@ -154,7 +151,6 @@ const locations = [
 ];
 
 export default function Page() {
-  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <>
       <section className="relative min-h-screen overflow-hidden bg-[#111111] w-full text-white">
