@@ -4,6 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, MoveVertical } from "lucide-react";
+import NetworkLines from "../contact/network-lines";
 
 type PortfolioItem = {
   slug: string;
@@ -56,20 +57,27 @@ export function PortfolioSection() {
   };
 
   return (
-    <section className="bg-linear-to-r from-[#C7CE72] to-[#71C0A2] py-14 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-brand-navy py-14 sm:py-20 lg:py-24">
+      {/* ambient network glow — nods to "Nexus" without being a literal icon */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-brand-teal/20 blur-[120px]" />
+        <div className="absolute right-0 top-1/3 h-72 w-72 rounded-full bg-brand-gold/10 blur-[110px]" />
+        <NetworkLines />
+      </div>
+
+      <div className="relative mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
         {/* Header row */}
         <div className="flex items-center justify-between gap-4 sm:items-start">
           <div>
-            <p className="text-xs font-semibold text-white sm:text-sm">Portfolio</p>
+            <p className="text-xs font-semibold text-brand-gold sm:text-sm">Portfolio</p>
             <h2 className="mt-2 text-3xl font-extrabold uppercase tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Our Work
+              Our <span className="gradient-text">Work</span>
             </h2>
           </div>
 
           <Link
             href="/portfolio-page"
-            className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-white/70 text-center text-xs font-semibold text-white transition-colors hover:bg-white/10 sm:h-24 sm:w-24 sm:text-sm"
+            className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-white/30 text-center text-xs font-semibold text-white transition-colors hover:border-brand-teal hover:bg-brand-teal/10 sm:h-24 sm:w-24 sm:text-sm"
           >
             View All
           </Link>
@@ -101,7 +109,7 @@ export function PortfolioSection() {
             type="button"
             aria-label="Previous projects"
             onClick={() => scrollBoth(-1)}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/70 text-white transition-colors hover:bg-white/10 sm:h-11 sm:w-11"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-brand-teal hover:bg-brand-teal/10 sm:h-11 sm:w-11"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -109,7 +117,7 @@ export function PortfolioSection() {
             type="button"
             aria-label="Next projects"
             onClick={() => scrollBoth(1)}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/70 text-white transition-colors hover:bg-white/10 sm:h-11 sm:w-11"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-brand-teal hover:bg-brand-teal/10 sm:h-11 sm:w-11"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -158,7 +166,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
         />
 
         {/* Floating scroll-hint icon, fades out on hover */}
-        <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#121212] opacity-100 shadow transition-opacity duration-300 ease-out group-hover:opacity-0 sm:h-11 sm:w-11">
+        <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-brand-navy opacity-100 shadow transition-opacity duration-300 ease-out group-hover:opacity-0 sm:h-11 sm:w-11">
           <MoveVertical className="tsn-float h-4 w-4 animate-[tsn-float_2s_ease-in-out_infinite] sm:h-5 sm:w-5" />
         </div>
       </div>

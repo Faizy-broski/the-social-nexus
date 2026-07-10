@@ -3,9 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 
-const GRADIENT_TEXT =
-  "bg-gradient-to-r from-[#0B91A4] via-[#4F9F75] to-[#B3B430] bg-clip-text text-transparent";
-
 type Product = {
   slug: string;
   eyebrowTitle: string;
@@ -56,7 +53,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       <div className="flex flex-1 flex-col p-5 sm:p-6">
         <h3 className="text-base font-extrabold uppercase tracking-tight text-[#121212] sm:text-lg">
           {product.eyebrowTitle}{" "}
-          <span className={GRADIENT_TEXT}>{product.highlight}</span>
+          <span className="gradient-text">{product.highlight}</span>
         </h3>
 
         <p className="mt-3 text-sm leading-relaxed text-[#3a3a3a]">

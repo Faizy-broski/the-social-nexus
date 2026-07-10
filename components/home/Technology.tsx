@@ -149,9 +149,14 @@ export function TechnologiesSection() {
   return (
     <section className="bg-white py-16 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
-        <h2 className="text-center text-3xl font-extrabold uppercase tracking-tight text-[#121212] sm:text-4xl lg:text-5xl">
-          Technologies we use
-        </h2>
+        <div className="text-center">
+          <p className="text-sm font-semibold text-brand-teal-dark">
+            Technologies
+          </p>
+          <h2 className="mt-3 text-3xl font-extrabold uppercase tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+           <span className="gradient-text">Technologies</span> we use
+          </h2>
+        </div>
 
         {/* Pill tab bar — horizontally scrollable on mobile so labels
             like "Mobile App Platform" never wrap or get squeezed;
@@ -160,7 +165,7 @@ export function TechnologiesSection() {
           ref={tabListRef}
           role="tablist"
           aria-label="Technology categories"
-          className="scrollbar-none mx-auto mt-8 flex max-w-4xl items-center gap-1 overflow-x-auto rounded-full bg-linear-to-br from-[#3AB5C0] to-[#2a9faa] p-1.5 sm:mt-10 sm:flex-nowrap sm:overflow-visible"
+          className="scrollbar-none mx-auto mt-8 flex max-w-4xl items-center gap-1 overflow-x-auto rounded-full bg-linear-to-br from-brand-teal to-brand-teal-dark p-1.5 sm:mt-10 sm:flex-nowrap sm:overflow-visible"
         >
           {tabs.map((tab, index) => {
             const isActive = index === activeIndex;
@@ -175,7 +180,7 @@ export function TechnologiesSection() {
                 onClick={() => handleManualSelect(index)}
                 className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-xs font-medium transition-colors duration-200 sm:flex-1 sm:px-4 sm:py-2.5 sm:text-sm ${
                   isActive
-                    ? "bg-white font-semibold text-[#3AB5C0] shadow"
+                    ? "bg-white font-semibold text-brand-teal shadow"
                     : "text-white hover:bg-white/15"
                 }`}
               >
@@ -191,7 +196,7 @@ export function TechnologiesSection() {
             {active.items.map((tech) => (
               <div key={tech.slug} className="flex flex-col items-center gap-2 sm:gap-3">
                 <div
-                  className="flex h-16 w-18 items-center justify-center bg-white ring-1 ring-neutral-200 sm:h-20 sm:w-22"
+                  className="flex h-16 w-18 items-center justify-center bg-white ring-1 ring-border sm:h-20 sm:w-22"
                   style={{
                     clipPath:
                       "polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0% 50%)",
@@ -205,7 +210,7 @@ export function TechnologiesSection() {
                     className="h-7 w-7 object-contain sm:h-9 sm:w-9"
                   />
                 </div>
-                <p className="text-center text-xs font-medium text-[#121212] sm:text-sm">
+                <p className="text-center text-xs font-medium text-foreground sm:text-sm">
                   {tech.name}
                 </p>
               </div>

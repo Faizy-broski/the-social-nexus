@@ -22,13 +22,13 @@ export default function HeroSection() {
       {/* Static fallback for reduced-motion users */}
       <div className="absolute inset-0 hidden bg-[url('/images/hero-bg.jpg')] bg-cover bg-center motion-reduce:block" />
 
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 opacity-80 bg-linear-to-r from-[#d9b85c]/75 via-[#79b990]/70 to-[#20b8c7]/80" />
+      {/* Gradient overlay — teal → navy, driven by globals.css hero tokens */}
+      <div className="hero-teal-overlay absolute inset-0" />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center gap-8 px-6 py-20 sm:gap-10 sm:px-10 sm:py-24 md:px-12 lg:flex-row lg:items-center lg:justify-center lg:gap-16 lg:px-16 lg:py-8 xl:justify-between xl:gap-10 xl:pl-25 xl:pr-6">
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col items-center justify-center gap-10 px-6 py-20 sm:gap-12 sm:px-10 sm:py-24 md:px-12 lg:flex-row lg:items-center lg:justify-center lg:gap-16 lg:px-16 lg:py-8 xl:justify-between xl:gap-12 xl:pl-25 xl:pr-6">
         {/* Left copy */}
-        <div className="w-full max-w-md pt-16 text-center sm:max-w-lg sm:pt-20 lg:max-w-2xl lg:py-8 lg:pt-0 lg:text-left xl:max-w-175">
+        <div className="w-full max-w-md pt-16 text-center sm:max-w-lg sm:pt-20 lg:max-w-xl lg:py-8 lg:pt-0 lg:text-left xl:max-w-175">
           <div className="mb-4 inline-flex rounded-full border border-white/40 bg-white/10 px-4 py-1.5 text-[10px] font-medium tracking-[0.18em] backdrop-blur-sm sm:mb-5 sm:px-5 sm:text-[12px] sm:tracking-[0.26em]">
             The Social Nexus
           </div>
@@ -49,40 +49,49 @@ export default function HeroSection() {
               </span>
             </span>
 
-            <span className="block text-[26px] xs:text-[30px] sm:text-[40px] lg:text-[46px] xl:text-[66px]">
+            <span className="block text-[26px] xs:text-[30px] sm:text-[40px] lg:text-[46px] xl:text-[66px] gradient-text">
               Digital Impact
             </span>
           </h1>
 
-          <p className="mx-auto mt-5 max-w-90 text-[12px] font-medium leading-[1.6] text-white/90 sm:mt-6 sm:max-w-110 sm:text-[14px] lg:mx-0 lg:max-w-120 lg:text-[15px]">
+          <p className="mx-auto mt-5 max-w-90 text-[12px] font-medium leading-[1.6] text-white/90 sm:mt-6 sm:max-w-110 sm:text-[14px] lg:mx-0 lg:max-w-120 lg:text-[15px] text-justify">
             We combine software engineering, artificial intelligence, design,
             and performance marketing to create powerful digital ecosystems
             that drive measurable business growth worldwide.
           </p>
         </div>
 
-        {/* Right form */}
-        <div className="relative w-full max-w-90 shrink-0 sm:max-w-105 lg:max-w-100 xl:max-w-90">
-          <div className="rounded-2xl border border-white/35 bg-white/10 p-4 shadow-2xl backdrop-blur-md sm:p-6">
-            <form className="space-y-2">
+        {/* Right form — enlarged glass panel, all colors from globals.css */}
+        <div className="relative w-full max-w-md shrink-0 sm:max-w-xl lg:max-w-lg xl:max-w-md">
+          <div className="glass-panel rounded-3xl p-6 shadow-lg sm:p-8 lg:p-9">
+            <div className="mb-5 sm:mb-6">
+              <h2 className="text-lg font-bold text-white sm:text-xl">
+                Let&apos;s Build Something Great
+              </h2>
+              <p className="mt-1 text-[12px] font-medium text-white/80 sm:text-[13px]">
+                Tell us about your project and we&apos;ll get back to you.
+              </p>
+            </div>
+
+            <form className="space-y-4 sm:space-y-3">
               <FormField label="Full Name" placeholder="Full Name" />
               <FormField label="Phone Number" placeholder="07XXX XXXXXX" />
               <FormField label="Email" placeholder="socialnexus@gmail.com" />
 
               <div>
-                <label className="mb-1.5 block text-[12px] font-bold sm:text-[13px]">
+                <label className="mb-2 block text-[13px] font-bold sm:text-[14px]">
                   Additional Information
                 </label>
                 <textarea
                   placeholder="Tell us about your needs..."
-                  rows={3}
-                  className="w-full resize-none rounded-2xl border border-white/20 bg-white/30 px-3.5 py-2.5 text-[12px] font-medium text-white placeholder:text-white/70 outline-none backdrop-blur-md focus:ring-2 focus:ring-white/40 sm:px-4 sm:py-3 sm:text-[13px]"
+                  rows={5}
+                  className="glass-input w-full resize-none rounded-2xl px-4 py-3.5 text-[13px] font-medium text-white placeholder:text-white/70 outline-none focus:ring-2 focus:ring-primary sm:px-5 sm:py-4 sm:text-[14px]"
                 />
               </div>
 
               <Button
                 type="submit"
-                className="h-10 w-full rounded-full bg-[#36b9c5] text-[13px] font-bold text-white hover:bg-[#2caab5] sm:h-11.5 sm:text-[14px]"
+                className="brand-cta h-12 w-full rounded-full text-[14px] font-bold sm:h-13 sm:text-[15px]"
               >
                 Send Message
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -106,10 +115,10 @@ function FormField({
 }) {
   return (
     <div>
-      <label className="mb-1.5 block text-[12px] font-bold sm:text-[13px]">{label}</label>
+      <label className="mb-2 block text-[13px] font-bold sm:text-[14px]">{label}</label>
       <input
         placeholder={placeholder}
-        className="h-9.5 w-full rounded-full border border-white/20 bg-white/30 px-4 text-[12px] font-medium text-white placeholder:text-white/70 outline-none backdrop-blur-md focus:ring-2 focus:ring-white/40 sm:h-10.5 sm:px-5 sm:text-[13px]"
+        className="glass-input h-12 w-full rounded-full px-5 text-[13px] font-medium text-white placeholder:text-white/70 outline-none focus:ring-2 focus:ring-primary sm:h-13 sm:px-6 sm:text-[14px]"
       />
     </div>
   );

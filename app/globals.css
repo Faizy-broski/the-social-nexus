@@ -14,46 +14,52 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
 
-  /* Primary = teal/cyan from the CTA button + side tab */
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  /* Primary = brand teal, the dominant (~80%) color across the site */
+  --primary: oklch(0.646 0.101 205.5); /* ≈ #3BB3C2 */
+  --primary-foreground: oklch(0.99 0 0);
 
   /* Secondary = deep navy from the icon rail / dark bg */
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.145 0.03 265); /* ≈ #0B1020 */
+  --secondary-foreground: oklch(0.99 0 0);
 
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
 
-  /* Accent = warm gold from the logo mark */
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  /* Accent = brand gold, the minority (~20%) color used for emphasis */
+  --accent: oklch(0.845 0.163 90); /* ≈ #F8C300 */
+  --accent-foreground: oklch(0.145 0.03 265); /* navy text on gold */
 
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: 0 0% 100%;
 
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --ring: oklch(0.646 0.101 205.5); /* teal focus ring */
 
   --radius: 0.625rem;
 
-  /* --- brand tokens (match reference image) --- */
+  /* --- brand tokens --- */
 
-  --brand-teal: #2fb6c9;
-  --brand-teal-dark: #24a0b1;
-  --brand-teal-light: #6fd4e1;
+  /* Teal — primary, ~80% of surface area (buttons, links, active states) */
+  --brand-teal: #3bb3c2;
+  --brand-teal-dark: #2e8f9b;
+  --brand-teal-light: #6fd0dc;
 
+  /* Gold — accent, ~20% of surface area (highlights, CTAs, emphasis) */
+  --brand-gold: #f8c300;
+  --brand-gold-dark: #daad09;
+  --brand-gold-light: #ffd93d;
+
+  /* Navy — background / dark-section base, and gradient anchor */
   --brand-navy: #0b1020;
   --brand-navy-light: #131a30;
 
-  --brand-gold: #e8c468;
   --brand-cyan-accent: #6fe3f0;
 
-  /* hero overlay tint — teal/blue over the skyline photo */
-  --hero-overlay-from: rgb(137 188 201 / 0.55);
-  --hero-overlay-via: rgb(95 167 182 / 0.5);
-  --hero-overlay-to: rgb(46 143 163 / 0.7);
+  /* hero overlay tint — teal/navy over the skyline photo */
+  --hero-overlay-from: rgb(59 179 194 / 0.55);
+  --hero-overlay-via: rgb(43 130 141 / 0.5);
+  --hero-overlay-to: rgb(11 16 32 / 0.75);
 
   /* glass panel (form card) */
   --glass-bg: rgb(255 255 255 / 0.1);
@@ -62,84 +68,80 @@
   --glass-blur: 12px;
 
   --shadow-sm:
-    0 2px 10px rgb(0 0 0 / 0.05);
+    0 2px 10px rgb(11 16 32 / 0.06);
 
   --shadow-md:
-    0 10px 25px rgb(0 0 0 / 0.08);
+    0 10px 25px rgb(11 16 32 / 0.1);
 
   --shadow-lg:
-    0 20px 50px rgb(0 0 0 / 0.12);
+    0 20px 50px rgb(11 16 32 / 0.16);
 
   --background: oklch(1 0 0);
 
-  --foreground: oklch(0.145 0 0);
+  --foreground: oklch(0.145 0.03 265); /* navy-tinted near-black for body text */
 
-  --chart-1: oklch(0.87 0 0);
-
-  --chart-2: oklch(0.556 0 0);
-
-  --chart-3: oklch(0.439 0 0);
-
-  --chart-4: oklch(0.371 0 0);
-
-  --chart-5: oklch(0.269 0 0);
+  --chart-1: oklch(0.646 0.101 205.5); /* teal */
+  --chart-2: oklch(0.845 0.163 90);    /* gold */
+  --chart-3: oklch(0.145 0.03 265);    /* navy */
+  --chart-4: oklch(0.556 0 0);
+  --chart-5: oklch(0.371 0 0);
 
   --sidebar: oklch(0.985 0 0);
 
   --sidebar-foreground: oklch(0.145 0 0);
 
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary: oklch(0.646 0.101 205.5);
 
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
 
-  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent: oklch(0.845 0.163 90);
 
-  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-accent-foreground: oklch(0.145 0.03 265);
 
   --sidebar-border: oklch(0.922 0 0);
 
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-ring: oklch(0.646 0.101 205.5);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(0.145 0.03 265); /* navy */
   --foreground: oklch(0.985 0 0);
 
-  --card: oklch(0.205 0 0);
+  --card: oklch(0.185 0.03 265);
   --card-foreground: oklch(0.985 0 0);
 
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.185 0.03 265);
   --popover-foreground: oklch(0.985 0 0);
 
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary: oklch(0.646 0.101 205.5); /* teal stays primary in dark mode */
+  --primary-foreground: oklch(0.145 0.03 265);
 
-  --secondary: oklch(0.269 0 0);
+  --secondary: oklch(0.24 0.02 265);
   --secondary-foreground: oklch(0.985 0 0);
 
-  --muted: oklch(0.269 0 0);
+  --muted: oklch(0.24 0.02 265);
   --muted-foreground: oklch(0.708 0 0);
 
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --accent: oklch(0.845 0.163 90); /* gold stays accent in dark mode */
+  --accent-foreground: oklch(0.145 0.03 265);
 
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --ring: oklch(0.646 0.101 205.5);
   --destructive: oklch(0.704 0.191 22.216);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
+  --chart-1: oklch(0.646 0.101 205.5);
+  --chart-2: oklch(0.845 0.163 90);
+  --chart-3: oklch(0.556 0 0);
+  --chart-4: oklch(0.439 0 0);
   --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
+  --sidebar: oklch(0.185 0.03 265);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.646 0.101 205.5);
+  --sidebar-primary-foreground: oklch(0.145 0.03 265);
+  --sidebar-accent: oklch(0.845 0.163 90);
+  --sidebar-accent-foreground: oklch(0.145 0.03 265);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-ring: oklch(0.646 0.101 205.5);
 }
 
 @theme inline {
@@ -172,9 +174,11 @@
   --color-brand-teal: var(--brand-teal);
   --color-brand-teal-dark: var(--brand-teal-dark);
   --color-brand-teal-light: var(--brand-teal-light);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-gold-dark: var(--brand-gold-dark);
+  --color-brand-gold-light: var(--brand-gold-light);
   --color-brand-navy: var(--brand-navy);
   --color-brand-navy-light: var(--brand-navy-light);
-  --color-brand-gold: var(--brand-gold);
   --color-brand-cyan-accent: var(--brand-cyan-accent);
 
   --radius-sm: calc(var(--radius) - 6px);
@@ -266,6 +270,11 @@
   p {
     @apply text-muted-foreground leading-8;
   }
+
+  ::selection {
+    background-color: var(--brand-teal);
+    color: white;
+  }
 }
 
 @layer utilities {
@@ -273,12 +282,32 @@
     @apply container mx-auto max-w-7xl px-6;
   }
 
+  /* Primary gradient — teal → navy, the site's main dark/brand gradient */
   .gradient-primary {
-    @apply bg-linear-to-r from-primary to-secondary;
+    background: linear-gradient(135deg, var(--brand-teal), var(--brand-navy));
+  }
+
+  /* Accent gradient — teal → gold, for highlights and hero overlays */
+  .gradient-accent {
+    background: linear-gradient(
+      135deg,
+      var(--brand-teal),
+      var(--brand-gold)
+    );
+  }
+
+  /* Gold-only gradient — for badges, small accent surfaces */
+  .gradient-gold {
+    background: linear-gradient(135deg, var(--brand-gold), var(--brand-gold-dark));
   }
 
   .gradient-text {
-    @apply bg-linear-to-r from-primary to-cyan-400 bg-clip-text text-transparent;
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      90deg,
+      var(--brand-teal),
+      var(--brand-gold)
+    );
   }
 
   .card-hover {
@@ -290,14 +319,21 @@
   }
 
   .section-dark {
-    @apply bg-[#0B1020] text-white;
+    background-color: var(--brand-navy);
+    @apply text-white;
   }
 
   .hero-overlay {
-    @apply absolute inset-0 bg-linear-to-r from-[#0B1020]/90 via-[#0B1020]/70 to-transparent;
+    background: linear-gradient(
+      90deg,
+      rgb(11 16 32 / 0.9),
+      rgb(11 16 32 / 0.7),
+      transparent
+    );
+    @apply absolute inset-0;
   }
 
-  /* --- new: hero-specific utilities matching the reference image --- */
+  /* --- hero-specific utilities, teal/navy tint over a photo/video --- */
 
   .hero-teal-overlay {
     background: linear-gradient(
@@ -322,8 +358,20 @@
     -webkit-backdrop-filter: blur(var(--glass-blur));
   }
 
+  /* Primary CTA — teal, the dominant call-to-action color (~80% usage) */
   .brand-cta {
     @apply bg-brand-teal text-white transition-colors hover:bg-brand-teal-dark;
+  }
+
+  /* Accent CTA — gold, reserved for the ~20% "pop" moments: a single
+     hero highlight, a featured badge, a key metric — not every button */
+  .brand-cta-accent {
+    background-color: var(--brand-gold);
+    color: var(--brand-navy);
+    @apply transition-colors;
+  }
+  .brand-cta-accent:hover {
+    background-color: var(--brand-gold-dark);
   }
 
   .brand-rail {

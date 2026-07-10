@@ -35,13 +35,15 @@ const ProcessSection = () => {
       <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold uppercase tracking-tight text-[#121212] sm:text-4xl md:text-5xl lg:text-6xl">
+          <p className="text-sm font-semibold text-brand-teal-dark">Process</p>
+
+          <h2 className="mt-3 text-3xl font-extrabold uppercase tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
             Your Project, Delivered
             <br />
             In 3 Steps.
           </h2>
 
-          <p className="mx-auto mt-4 max-w-2xl text-sm text-gray-600 sm:mt-5 sm:text-base">
+          <p className="mx-auto mt-4 max-w-2xl text-sm text-muted-foreground sm:mt-5 sm:text-base">
             No long contracts, no confusing process—just a clear path from idea
             to launch.
           </p>
@@ -51,7 +53,9 @@ const ProcessSection = () => {
         <div className="relative mt-12 grid gap-10 sm:mt-16 sm:gap-12 md:mt-20 md:grid-cols-3 md:gap-8 lg:gap-14">
           {steps.map((step, index) => (
             <div key={step.number} className="relative text-center md:text-left">
-              <p className="text-2xl font-bold text-gray-300 sm:text-3xl">{step.number}</p>
+              <p className="text-2xl font-bold text-muted-foreground/40 sm:text-3xl">
+                {step.number}
+              </p>
 
               <img
                 src={step.image}
@@ -61,18 +65,18 @@ const ProcessSection = () => {
                 className="mx-auto mt-5 h-20 w-auto object-contain sm:mt-6 sm:h-24 md:mx-0 lg:h-32 xl:h-38"
               />
 
-              <h3 className="mt-6 text-lg font-bold uppercase text-[#121212] sm:mt-8 sm:text-xl">
+              <h3 className="mt-6 text-lg font-bold uppercase text-foreground sm:mt-8 sm:text-xl">
                 {step.title}
               </h3>
 
-              <p className="mt-3 text-sm leading-6 text-gray-600 sm:mt-4 sm:leading-7">
+              <p className="mt-3 text-sm text-justify max-w-67.5 leading-6 text-muted-foreground sm:mt-4 sm:leading-7">
                 {step.description}
               </p>
 
               {/* Connector arrow — one graphic per slot, explicitly
                   sized so it can't blow out the layout at native res */}
               {index < 2 && (
-                <div className="absolute -right-9 top-14 hidden w-20 lg:block xl:-right-12 xl:top-16 xl:w-38">
+                <div className="absolute -right-9 top-14 hidden w-20 lg:block xl:-right-12 xl:top-16 xl:w-28">
                   <img
                     src={arrowByIndex[index]}
                     alt=""
@@ -91,7 +95,7 @@ const ProcessSection = () => {
         <div className="mt-14 flex justify-center sm:mt-16 md:mt-20">
           <Link
             href="/contact-us"
-            className="flex h-32 w-32 flex-col items-center justify-center rounded-full bg-[#39B7C4] text-center text-sm font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl sm:h-36 sm:w-36 sm:text-base md:h-40 md:w-40"
+            className="brand-cta flex h-32 w-32 flex-col items-center justify-center rounded-full text-center text-sm font-semibold shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl sm:h-36 sm:w-36 sm:text-base md:h-40 md:w-40"
           >
             Discuss Your
             <br />

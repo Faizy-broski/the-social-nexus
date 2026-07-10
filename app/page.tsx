@@ -6,7 +6,6 @@ import WebPresenceSection from "@/components/home/WebPresence";
 import WhyChooseUsHorizontal from "@/components/home/WhyChooseUs";
 import TechnologySection from "@/components/home/Technology";
 import ThreeSteps from "@/components/home/ThreeSteps";
-import Image from "next/image";
 import PortfolioSection from "@/components/home/Portfolio";
 
 export default function Home() {

@@ -24,9 +24,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const GRADIENT_TEXT =
-  "bg-gradient-to-r from-[#0B91A4] via-[#4F9F75] to-[#B3B430] bg-clip-text text-transparent";
-
 type StatItem = {
   value: number;
   suffix: string;
@@ -128,26 +125,26 @@ export function WhyChooseUsHorizontal() {
       >
         {/* Panel 1 — section title */}
         <Panel widthClass="w-full lg:w-[1100px]" center>
-          <h2 className="text-5xl font-extrabold leading-[0.95] tracking-tight text-[#121212] sm:text-6xl lg:text-7xl xl:text-8xl">
+          <h2 className="text-5xl font-extrabold leading-[0.95] tracking-tight text-brand-navy sm:text-6xl lg:text-7xl xl:text-[160px]">
             Why <br className="hidden sm:block" />
-            <span className={GRADIENT_TEXT}>Choose</span> us
+            <span className="gradient-text">Choose</span> us
           </h2>
         </Panel>
 
         {/* Panel 2 — About us */}
         <Panel widthClass="w-full sm:max-w-xl lg:w-[560px] lg:max-w-none">
           <h3 className="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
-            <span className={GRADIENT_TEXT}>About</span>{" "}
-            <span className="text-[#121212]">us</span>
+            <span className="gradient-text">About</span>{" "}
+            <span className="text-brand-navy">us</span>
           </h3>
-          <p className="mt-6 text-base leading-relaxed text-[#121212] sm:mt-8 sm:text-lg">
+          <p className="mt-6 text-base text-justify leading-relaxed text-[#121212] sm:mt-8 sm:text-lg">
             With over 8 years experience in local business intelligence, we
             know your time is precious, that&rsquo;s why we provide the
             fastest turnaround. Providing local SEO services to take your
             business to the top, boosting your online presence and driving
             sales, with innovation and cost effective techniques.
           </p>
-          <p className="mt-5 text-base leading-relaxed text-[#121212] sm:mt-6 sm:text-lg">
+          <p className="mt-5 text-base text-justify leading-relaxed text-[#121212] sm:mt-6 sm:text-lg">
             Every pixel we place, every line of code we write, is a step
             towards perfection. We don&rsquo;t just build websites—we
             architect digital universes.
@@ -159,10 +156,10 @@ export function WhyChooseUsHorizontal() {
           <div className="flex gap-5 sm:gap-6">
             <Users className="h-10 w-10 shrink-0 text-[#3AB5C0] sm:h-12 sm:w-12" strokeWidth={1.5} />
             <div>
-              <h4 className="text-xl font-extrabold tracking-tight text-[#121212] sm:text-2xl">
+              <h4 className="text-xl font-extrabold tracking-tight text-brand-navy sm:text-2xl">
                 Consulting
               </h4>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-[#121212] sm:text-base">
+              <p className="mt-3 max-w-md text-justify text-sm leading-relaxed text-[#121212] sm:text-base">
                 We empower you to develop a clear digital strategy that
                 drives technology-led business success and optimizes your
                 growth.
@@ -173,10 +170,10 @@ export function WhyChooseUsHorizontal() {
           <div className="mt-10 flex gap-5 sm:mt-14 sm:gap-6">
             <Wrench className="h-10 w-10 shrink-0 text-[#3AB5C0] sm:h-12 sm:w-12" strokeWidth={1.5} />
             <div>
-              <h4 className="text-xl font-extrabold tracking-tight text-[#121212] sm:text-2xl">
+              <h4 className="text-xl font-extrabold tracking-tight text-brand-navy sm:text-2xl">
                 Managed Services
               </h4>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-[#121212] sm:text-base">
+              <p className="mt-3 max-w-md text-justify text-sm leading-relaxed text-[#121212] sm:text-base">
                 Our global Managed Services teams safeguard your digital
                 investment with 24/7 monitoring, maintenance, and
                 comprehensive support.
@@ -191,7 +188,7 @@ export function WhyChooseUsHorizontal() {
             {stats.map((stat, i) => (
               <div key={stat.label}>
                 <div
-                  className={`flex items-baseline text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl ${GRADIENT_TEXT}`}
+                  className={`flex items-baseline text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl gradient-text`}
                 >
                   <span
                     ref={(el) => {
@@ -202,7 +199,7 @@ export function WhyChooseUsHorizontal() {
                   </span>
                   <span>{stat.suffix}</span>
                 </div>
-                <p className="mt-2 text-sm text-[#121212] sm:text-base">{stat.label}</p>
+                <p className="mt-2 text-sm text-brand-navy sm:text-base">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -223,11 +220,11 @@ export function WhyChooseUsHorizontal() {
 
         {/* Panel 6 — Closing CTA */}
         <Panel widthClass="w-full lg:w-[1200px] hidden sm:block" center>
-          <p className="text-lg text-[#555555] sm:text-xl lg:text-2xl">
+          <p className="text-lg text-[#555555] sm:text-xl lg:text-5xl">
             Have you project in mind?
           </p>
-          <h2 className="mt-3 text-4xl font-extrabold leading-[1.08] tracking-tight text-[#121212] sm:text-5xl lg:text-6xl xl:text-7xl">
-            Let&rsquo;s make <span className={GRADIENT_TEXT}>something</span>
+          <h2 className="mt-8 text-4xl uppercase font-extrabold leading-[1.08] tracking-tight text-brand-navy sm:text-5xl lg:text-6xl xl:text-7xl">
+            Let&rsquo;s make <span className="gradient-text">something</span>
             <br />
             great together!
           </h2>

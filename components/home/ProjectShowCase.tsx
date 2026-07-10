@@ -44,10 +44,13 @@ export function ProductShowcaseSection() {
       <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
         {/* Intro */}
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl font-extrabold uppercase leading-tight tracking-tight text-[#121212] sm:text-3xl lg:text-4xl">
-            Software built to run your business.
+          <p className="text-sm font-semibold text-brand-teal-dark">
+            Products
+          </p>
+          <h2 className="mt-3 text-2xl font-extrabold uppercase leading-tight tracking-tight text-foreground sm:text-3xl lg:text-4xl">
+            Software built to <br /> run your <span className="gradient-text">business</span>.
           </h2>
-          <p className="mt-4 text-sm leading-relaxed text-[#555555] sm:text-base">
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
             Beyond websites and apps, we build the everyday tools your team
             actually uses — ready to deploy, easy to manage.
           </p>

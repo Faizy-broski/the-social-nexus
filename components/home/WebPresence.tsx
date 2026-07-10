@@ -2,8 +2,24 @@
 
 import Image from "next/image";
 
-const GRADIENT_TEXT =
-  "bg-linear-to-r from-brand-teal via-[#5FAE6E] to-[#C2B93A] bg-clip-text text-transparent";
+/**
+ * Theming: no raw hex in this file — colors come from classes defined
+ * in global.css. Reuses the same `.gradient-text` class already used
+ * elsewhere on the site (see WhyChooseUsHorizontal) instead of a
+ * one-off local gradient, so the accent gradient stays consistent
+ * across sections.
+ *
+ * If these don't already exist in global.css, add:
+ *
+ *   .text-brand-body        { color: #121212; }
+ *   .text-brand-body-muted  { color: rgb(18 18 18 / 0.8); }
+ *   .gradient-text          {
+ *     background-image: linear-gradient(to right, #0B91A4, #4F9F75, #B3B430);
+ *     background-clip: text;
+ *     -webkit-background-clip: text;
+ *     color: transparent;
+ *   }
+ */
 
 export function WebPresenceSection() {
   return (
@@ -13,10 +29,10 @@ export function WebPresenceSection() {
           {/* Left — heading + copy + tagline */}
           <div className="flex flex-col justify-between gap-8 sm:gap-10">
             <div>
-              <h2 className="text-2xl font-extrabold uppercase leading-[1.2] tracking-tight text-[#121212] sm:text-4xl sm:leading-[1.15] lg:text-[44px] lg:leading-[1.1]">
-                Big business web presence at small business prices.
+              <h2 className="text-2xl font-extrabold uppercase leading-[1.2] tracking-tight text-brand-body sm:text-4xl sm:leading-[1.15] lg:text-[44px] lg:leading-[1.1]">
+                Big business web <span className="gradient-text">presence</span> at small business prices.
               </h2>
-              <p className="mt-5 max-w-xl text-sm leading-relaxed text-[#121212]/80 sm:mt-8 sm:text-lg">
+              <p className="mt-5 max-w-xl text-justify text-sm leading-relaxed text-brand-body-muted sm:mt-8 sm:text-lg">
                 With over 8 years experience in local business intelligence,
                 we know your time is precious, that&rsquo;s why we provide
                 the fastest turnaround. Providing local SEO services to take
@@ -26,8 +42,8 @@ export function WebPresenceSection() {
             </div>
 
             <p className="text-lg font-bold sm:text-2xl">
-              <span className={GRADIENT_TEXT}>Dedicated to</span>{" "}
-              <span className="text-[#121212]">helping</span>
+              <span className="gradient-text">Dedicated to</span>{" "}
+              <span className="text-brand-body">helping</span>
             </p>
           </div>
 
@@ -36,9 +52,9 @@ export function WebPresenceSection() {
             <LaptopMockup />
 
             <p className="text-lg font-bold sm:text-2xl">
-              <span className="text-[#121212]">Giving you</span>{" "}
-              <span className={GRADIENT_TEXT}>more time</span>{" "}
-              <span className="text-[#121212]">to concentrate on</span>
+              <span className="text-brand-body">Giving you</span>{" "}
+              <span className="gradient-text">more time</span>{" "}
+              <span className="text-brand-body">to concentrate on</span>
             </p>
           </div>
         </div>
