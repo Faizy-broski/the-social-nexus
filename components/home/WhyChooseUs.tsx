@@ -1,23 +1,40 @@
 "use client";
 
-import { forwardRef, useLayoutEffect, useRef, type ForwardedRef, type ReactNode } from "react";
+import {
+  forwardRef,
+  useLayoutEffect,
+  useRef,
+  type ForwardedRef,
+  type ReactNode,
+} from "react";
 import Link from "next/link";
 import { Users, Wrench } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { MagneticButton } from "@/components/home/MagneticButton";
 
 /**
  * WhyChooseUsHorizontal
  * ------------------------------------------------------------------
  * Desktop (lg+): horizontal scroll-jack — section pins, vertical
  * scroll drives horizontal translateX on the track, pin releases once
- * the track is exhausted.
+ * the track is exhausted. Each panel also fades/scales in as it
+ * crosses into view, driven off the SAME horizontal tween via GSAP's
+ * `containerAnimation` — this is what lets a normal-looking
+ * ScrollTrigger ("start: left 88%") react correctly to horizontal
+ * motion instead of vertical scroll position.
  *
  * Mobile / tablet (< lg): the pin + horizontal-drag mechanic is
  * disabled entirely (gsap.matchMedia scopes it to lg+) and panels
- * render as a normal stacked vertical flow instead. This avoids
- * fighting native touch scroll and the iOS Safari viewport-resize
- * jank that horizontal pinning causes on small screens.
+ * render as a normal stacked vertical flow instead, each fading up
+ * on a plain vertical ScrollTrigger. This avoids fighting native
+ * touch scroll and the iOS Safari viewport-resize jank that
+ * horizontal pinning causes on small screens.
+ *
+ * Every panel is centered both horizontally and vertically as a box
+ * (via the track's `items-center` + Panel's own `justify-center`),
+ * independent of whatever internal text-alignment (left/justify/
+ * center) each panel's content uses.
  *
  * Install once: `npm install gsap`
  */
@@ -58,7 +75,7 @@ export function WhyChooseUsHorizontal() {
         const proxy = { val: 0 };
         gsap.to(proxy, {
           val: target,
-          duration: 1.4,
+          duration: 3,
           ease: "power4.inOut",
           onUpdate: () => {
             el.textContent = Math.round(proxy.val).toLocaleString();
@@ -99,11 +116,40 @@ export function WhyChooseUsHorizontal() {
         },
       });
 
-      return () => trigger.kill();
+      // Panel entrance — fade + slide-up + slight scale, scrubbed against
+      // the SAME horizontal tween (containerAnimation) so each panel
+      // animates in as it's horizontally scrolled into view, not based
+      // on vertical page position (which never really changes while pinned).
+      const panels = gsap.utils.toArray<HTMLElement>(".why-panel", track);
+      const panelTweens = panels.map((panel) =>
+        gsap.fromTo(
+          panel,
+          { autoAlpha: 0, y: 50, scale: 0.94 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: panel,
+              containerAnimation: tween,
+              start: "left 88%",
+              end: "left 45%",
+              scrub: true,
+            },
+          },
+        ),
+      );
+
+      return () => {
+        trigger.kill();
+        panelTweens.forEach((tw) => tw.scrollTrigger?.kill());
+      };
     });
 
-    // Mobile / tablet: no pin, no horizontal drag — just fire the
-    // counter once the stats panel scrolls into view normally.
+    // Mobile / tablet: no pin, no horizontal drag — panels fade up as
+    // they enter the normal vertical scroll, and the counter fires once
+    // the stats panel scrolls into view.
     mm.add("(max-width: 1023px)", () => {
       const trigger = ScrollTrigger.create({
         trigger: statsPanelRef.current ?? section,
@@ -111,7 +157,29 @@ export function WhyChooseUsHorizontal() {
         onEnter: animateStats,
       });
 
-      return () => trigger.kill();
+      const panels = gsap.utils.toArray<HTMLElement>(".why-panel", section);
+      const panelTweens = panels.map((panel) =>
+        gsap.fromTo(
+          panel,
+          { autoAlpha: 0, y: 40 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: panel,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          },
+        ),
+      );
+
+      return () => {
+        trigger.kill();
+        panelTweens.forEach((tw) => tw.scrollTrigger?.kill());
+      };
     });
 
     return () => mm.revert();
@@ -121,75 +189,83 @@ export function WhyChooseUsHorizontal() {
     <section ref={sectionRef} className="relative overflow-hidden bg-white">
       <div
         ref={trackRef}
-        className="flex flex-col gap-20 px-6 py-16 will-change-transform sm:px-10 sm:py-20 lg:h-screen lg:w-max lg:flex-row lg:items-center lg:gap-24 lg:px-0 lg:py-20 lg:pl-[8vw] lg:pr-[12vw]"
+        className="flex flex-col items-center gap-16 px-4 py-16 will-change-transform sm:gap-20 sm:px-10 sm:py-20 xxl:h-screen lg:w-max lg:flex-row lg:items-center lg:gap-24 lg:px-0 lg:py-20 lg:pl-[8vw] lg:pr-[12vw]"
       >
         {/* Panel 1 — section title */}
-        <Panel widthClass="w-full lg:w-[1100px]" center>
-          <h2 className="text-5xl font-extrabold leading-[0.95] tracking-tight text-brand-navy sm:text-6xl lg:text-7xl xl:text-[160px]">
+        <Panel widthClass="w-full lg:w-[min(1100px,88vw)]" align="center">
+          <h2 className="text-4xl font-extrabold leading-[0.95] tracking-tight text-brand-navy sm:text-6xl lg:text-7xl xl:text-[160px]">
             Why <br className="hidden sm:block" />
-            <span className="gradient-text">Choose</span> us
+            <span className="gradient-text-animated">Choose</span> us
           </h2>
         </Panel>
 
         {/* Panel 2 — About us */}
-        <Panel widthClass="w-full sm:max-w-xl lg:w-[560px] lg:max-w-none">
+        <Panel widthClass="w-full max-w-xl lg:w-[min(620px,88vw)] lg:max-w-none">
           <h3 className="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
             <span className="gradient-text">About</span>{" "}
             <span className="text-brand-navy">us</span>
           </h3>
-          <p className="mt-6 text-base text-justify leading-relaxed text-[#121212] sm:mt-8 sm:text-lg">
-            With over 8 years experience in local business intelligence, we
-            know your time is precious, that&rsquo;s why we provide the
-            fastest turnaround. Providing local SEO services to take your
-            business to the top, boosting your online presence and driving
-            sales, with innovation and cost effective techniques.
-          </p>
-          <p className="mt-5 text-base text-justify leading-relaxed text-[#121212] sm:mt-6 sm:text-lg">
-            Every pixel we place, every line of code we write, is a step
-            towards perfection. We don&rsquo;t just build websites—we
-            architect digital universes.
-          </p>
+          <div className="max-w-127">
+            <p className="mt-6 text-base text-justify leading-relaxed text-[#121212] sm:mt-8 sm:text-lg">
+              With over 8 years experience in local business intelligence, we know
+              your time is precious, that&rsquo;s why we provide the fastest
+              turnaround. Providing local SEO services to take your business to
+              the top, boosting your online presence and driving sales, with
+              innovation and cost effective techniques.
+            </p>
+            <p className="mt-5 text-base text-justify leading-relaxed text-[#121212] sm:mt-6 sm:text-lg">
+              Every pixel we place, every line of code we write, is a step towards
+              perfection. We don&rsquo;t just build websites—we architect digital
+              universes.
+            </p>
+          </div>
         </Panel>
 
         {/* Panel 3 — Consulting + Managed Services (stacked) */}
-        <Panel widthClass="w-full sm:max-w-xl lg:w-[620px] lg:max-w-none">
-          <div className="flex gap-5 sm:gap-6">
-            <Users className="h-10 w-10 shrink-0 text-[#3AB5C0] sm:h-12 sm:w-12" strokeWidth={1.5} />
-            <div>
+        <Panel widthClass="w-full max-w-xl lg:w-[min(620px,88vw)] lg:max-w-none">
+          <div className="group flex gap-5 sm:gap-6">
+            <Users
+              className="h-10 w-10 shrink-0 text-[#3AB5C0] transition-transform duration-300 ease-out group-hover:-rotate-6 group-hover:scale-110 sm:h-12 sm:w-12"
+              strokeWidth={1.5}
+            />
+            <div className="max-w-90">
               <h4 className="text-xl font-extrabold tracking-tight text-brand-navy sm:text-2xl">
                 Consulting
               </h4>
               <p className="mt-3 max-w-md text-justify text-sm leading-relaxed text-[#121212] sm:text-base">
-                We empower you to develop a clear digital strategy that
-                drives technology-led business success and optimizes your
-                growth.
+                We empower you to develop a clear digital strategy that drives
+                technology-led business success and optimizes your growth.
               </p>
             </div>
           </div>
 
-          <div className="mt-10 flex gap-5 sm:mt-14 sm:gap-6">
-            <Wrench className="h-10 w-10 shrink-0 text-[#3AB5C0] sm:h-12 sm:w-12" strokeWidth={1.5} />
-            <div>
+          <div className="group mt-10 flex gap-5 sm:mt-14 sm:gap-6">
+            <Wrench
+              className="h-10 w-10 shrink-0 text-[#3AB5C0] transition-transform duration-300 ease-out group-hover:rotate-12 group-hover:scale-110 sm:h-12 sm:w-12"
+              strokeWidth={1.5}
+            />
+            <div className="max-w-90">
               <h4 className="text-xl font-extrabold tracking-tight text-brand-navy sm:text-2xl">
                 Managed Services
               </h4>
               <p className="mt-3 max-w-md text-justify text-sm leading-relaxed text-[#121212] sm:text-base">
                 Our global Managed Services teams safeguard your digital
-                investment with 24/7 monitoring, maintenance, and
-                comprehensive support.
+                investment with 24/7 monitoring, maintenance, and comprehensive
+                support.
               </p>
             </div>
           </div>
         </Panel>
 
         {/* Panel 4 — Stats */}
-        <Panel ref={statsPanelRef} widthClass="w-full sm:max-w-xl lg:w-[620px] lg:max-w-none">
-          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:gap-x-16 sm:gap-y-12">
+        <Panel
+          ref={statsPanelRef}
+          widthClass="w-full max-w-xl lg:w-[min(680px,88vw)] lg:max-w-none"
+        >
+          <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:gap-x-16 sm:gap-y-12">
             {stats.map((stat, i) => (
               <div key={stat.label}>
-                <div
-                  className={`flex items-baseline text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl gradient-text`}
-                >
+                <div className="flex items-baseline text-3xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl gradient-text">
                   <span
                     ref={(el) => {
                       statRefs.current[i] = el;
@@ -199,15 +275,17 @@ export function WhyChooseUsHorizontal() {
                   </span>
                   <span>{stat.suffix}</span>
                 </div>
-                <p className="mt-2 text-sm text-brand-navy sm:text-base">{stat.label}</p>
+                <p className="mt-2 text-sm text-brand-navy sm:text-base">
+                  {stat.label}
+                </p>
               </div>
             ))}
           </div>
         </Panel>
 
         {/* Panel 5 — Video */}
-        <Panel widthClass="w-full sm:max-w-xl lg:w-[720px] lg:max-w-none">
-          <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-xl ring-1 ring-black/10">
+        <Panel widthClass="w-full max-w-xl lg:w-[min(720px,88vw)] lg:max-w-none">
+          <div className="relative aspect-video w-full max-w-[92vw] overflow-hidden rounded-2xl shadow-xl ring-1 ring-black/10 sm:max-w-xl lg:max-w-none">
             <iframe
               className="h-full w-full"
               src="https://www.youtube.com/embed/27Hgqi7S6uc?controls=1&rel=0&playsinline=1&cc_load_policy=0&mute=1"
@@ -218,47 +296,58 @@ export function WhyChooseUsHorizontal() {
           </div>
         </Panel>
 
-        {/* Panel 6 — Closing CTA */}
-        <Panel widthClass="w-full lg:w-[1200px] hidden sm:block" center>
-          <p className="text-lg text-[#555555] sm:text-xl lg:text-5xl">
+        {/* Panel 6 — Closing CTA (now visible on every breakpoint, not just sm+) */}
+        <Panel widthClass="w-full lg:w-[min(1260px,180vw)]" align="center">
+          <p className="text-base text-[#555555] sm:text-xl lg:text-5xl">
             Have you project in mind?
           </p>
-          <h2 className="mt-8 text-4xl uppercase font-extrabold leading-[1.08] tracking-tight text-brand-navy sm:text-5xl lg:text-6xl xl:text-7xl">
+          <h2 className="mt-5 text-3xl uppercase font-extrabold leading-[1.08] tracking-tight text-brand-navy sm:mt-8 sm:text-5xl lg:text-6xl xl:text-7xl">
             Let&rsquo;s make <span className="gradient-text">something</span>
             <br />
             great together!
           </h2>
 
-          <Link
+          <MagneticButton
             href="/contact-us"
-            className="mt-10 inline-flex h-32 w-32 flex-col items-center justify-center rounded-full bg-[#3AB5C0] text-center text-base font-semibold leading-tight text-white transition-transform hover:scale-105 sm:mt-12 sm:h-40 sm:w-40 sm:text-lg"
+            fillClassName="bg-brand-gold"
+            className="mt-8 h-24 w-24 flex-col rounded-full bg-brand-teal text-center text-sm font-semibold leading-tight text-white sm:mt-12 sm:h-40 sm:w-40 sm:text-lg"
           >
             Connect
             <br />
             With Us
-          </Link>
+          </MagneticButton>
         </Panel>
       </div>
     </section>
   );
 }
 
-/** Shared panel shell so every slide gets consistent spacing/alignment. */
+/** Shared panel shell so every slide gets consistent spacing/alignment.
+ *  `why-panel` is the hook GSAP queries to attach entrance animations —
+ *  keep it on every instance, desktop and mobile both rely on it.
+ *
+ *  The panel BOX itself is always centered horizontally (`mx-auto`,
+ *  inherited `items-center` from the track) and vertically
+ *  (`justify-center` + `lg:h-full`) regardless of breakpoint.
+ *  `align` only controls the internal TEXT alignment, so left/justified
+ *  copy still sits inside a centered box instead of being pinned to
+ *  one edge of the viewport. */
 type PanelProps = {
   children: ReactNode;
   widthClass: string;
-  center?: boolean;
+  /** Text alignment inside the box — box centering is independent of this. */
+  align?: "left" | "center";
 };
 
 const Panel = forwardRef<HTMLDivElement, PanelProps>(function Panel(
-  { children, widthClass, center },
+  { children, widthClass, align = "left" },
   ref,
 ) {
   return (
     <div
       ref={ref}
-      className={`flex h-auto shrink-0 flex-col justify-center lg:h-full mx-auto ${
-        center ? "items-center text-center" : ""
+      className={`why-panel mx-auto flex h-auto w-full shrink-0 flex-col justify-center lg:h-full ${
+        align === "center" ? "items-center text-center" : "items-start text-left"
       } ${widthClass}`}
     >
       {children}
