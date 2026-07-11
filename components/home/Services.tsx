@@ -49,7 +49,7 @@ const services: Service[] = [
     description:
       "We are a leading software development agency delivering custom solutions.",
     href: "/service/software-development",
-    image: "/services/software-development.jpg",
+    image: "/services/1.jpg",
   },
   {
     number: "02",
@@ -57,7 +57,7 @@ const services: Service[] = [
     description:
       "We provide end-to-end custom web development solutions designed for growth.",
     href: "/service/web-development-design-services",
-    image: "/services/web-development.jpg",
+    image: "/services/2.jpg",
   },
   {
     number: "03",
@@ -65,7 +65,7 @@ const services: Service[] = [
     description:
       "We are a leading mobile app development agency delivering native and cross-platform apps.",
     href: "/service/mobile-app-development",
-    image: "/services/mobile-app-development.jpg",
+    image: "/services/3.jpg",
   },
   {
     number: "04",
@@ -73,7 +73,7 @@ const services: Service[] = [
     description:
       "A forward-thinking AI development agency delivering intelligent, production-ready systems.",
     href: "/service/ai-development",
-    image: "/services/generative-ai.jpg",
+    image: "/services/4.jpg",
   },
   {
     number: "05",
@@ -81,7 +81,7 @@ const services: Service[] = [
     description:
       "Powerful digital marketing and SEO services that turn visibility into revenue.",
     href: "/service/digital-marketing-seo",
-    image: "/services/digital-marketing.jpg",
+    image: "/services/5.jpg",
   },
   {
     number: "06",
@@ -89,7 +89,7 @@ const services: Service[] = [
     description:
       "Stunning social media visuals, branded templates, and scroll-stopping content.",
     href: "/service/social-media-design",
-    image: "/services/social-media-design.jpg",
+    image: "/services/6.jpg",
   },
 ];
 

@@ -1,26 +1,124 @@
+'use client'
+
+import { useEffect, useRef } from "react";
+
+type Point = { x: number; y: number; vx: number; vy: number; radius: number };
+
 export default function NetworkLines() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext("2d");
+    if (!canvas || !context) return;
+
+    let frame = 0;
+    let points: Point[] = [];
+    let width = 0;
+    let height = 0;
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    const resize = () => {
+      const bounds = canvas.getBoundingClientRect();
+      width = bounds.width;
+      height = bounds.height;
+
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * ratio);
+      canvas.height = Math.round(height * ratio);
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+      // More nodes
+      const count = Math.max(
+        65,
+        Math.min(140, Math.floor((width * height) / 12000)),
+      );
+
+      points = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+
+        // Faster motion
+        vx: (Math.random() - 0.5) * 2,
+        vy: (Math.random() - 0.5) * 2,
+
+        radius: Math.random() * 1.35 + 0.75,
+      }));
+    };
+
+    const draw = () => {
+      context.clearRect(0, 0, width, height);
+
+      for (const point of points) {
+        if (!reducedMotion) {
+          point.x += point.vx;
+          point.y += point.vy;
+
+          if (point.x < -20) point.x = width + 20;
+          if (point.x > width + 20) point.x = -20;
+
+          if (point.y < -20) point.y = height + 20;
+          if (point.y > height + 20) point.y = -20;
+        }
+      }
+
+      for (let i = 0; i < points.length; i++) {
+        for (let j = i + 1; j < points.length; j++) {
+          const distance = Math.hypot(
+            points[i].x - points[j].x,
+            points[i].y - points[j].y,
+          );
+
+          // More visible connections
+          const maxDistance = width < 700 ? 145 : 210;
+
+          if (distance < maxDistance) {
+            context.beginPath();
+            context.moveTo(points[i].x, points[i].y);
+            context.lineTo(points[j].x, points[j].y);
+
+            // brand-teal-light tint instead of neutral gray
+            context.strokeStyle = `rgba(111,208,220,${
+              0.22 * (1 - distance / maxDistance)
+            })`;
+
+            context.lineWidth = 1;
+            context.stroke();
+          }
+        }
+
+        // ~80% of nodes teal, ~20% gold — same ratio as the rest of the brand system
+        const isGold = i % 5 === 0;
+        context.beginPath();
+        context.arc(points[i].x, points[i].y, points[i].radius, 0, Math.PI * 2);
+        context.fillStyle = isGold
+          ? "rgba(248,195,0,.6)" // brand-gold
+          : "rgba(111,208,220,.65)"; // brand-teal-light
+        context.fill();
+      }
+
+      if (!reducedMotion) frame = requestAnimationFrame(draw);
+    };
+
+    resize();
+    draw();
+
+    window.addEventListener("resize", resize);
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
   return (
-    <svg
-      className="absolute inset-0 h-full w-full opacity-[0.15]"
-      viewBox="0 0 800 600"
-      fill="none"
+    <canvas
+      ref={canvasRef}
+      className="pointer-events-none absolute inset-0 h-full w-full"
       aria-hidden="true"
-    >
-      <line x1="60" y1="120" x2="240" y2="60" stroke="#2fb6c9" strokeWidth="1" />
-      <line x1="240" y1="60" x2="420" y2="140" stroke="#2fb6c9" strokeWidth="1" />
-      <line x1="420" y1="140" x2="600" y2="70" stroke="#e8c468" strokeWidth="1" />
-      <line x1="60" y1="120" x2="180" y2="260" stroke="#2fb6c9" strokeWidth="1" />
-      <line x1="600" y1="70" x2="740" y2="200" stroke="#2fb6c9" strokeWidth="1" />
-      {[
-        [60, 120],
-        [240, 60],
-        [420, 140],
-        [600, 70],
-        [180, 260],
-        [740, 200],
-      ].map(([cx, cy]) => (
-        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="3.5" fill="#6fd4e1" />
-      ))}
-    </svg>
+    />
   );
 }

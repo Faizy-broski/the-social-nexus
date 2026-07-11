@@ -18,9 +18,29 @@ type TechTab = {
 };
 
 const slugify = (name: string) =>
-  name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 
-const item = (name: string): TechItem => ({ name, slug: slugify(name) });
+/**
+ * Second argument overrides the auto-generated slug for items whose
+ * display name doesn't match the actual filename in /public/tech —
+ * e.g. "Adobe XD" displays that way but the file is just xd.png.
+ * Confirmed against the actual /public/tech folder contents:
+ *   Three Js         -> threejs      (file has no dash)
+ *   Unreal Engine     -> unreal       (file drops "Engine")
+ *   PostgreSQL        -> postgre-sql  (file has a dash mid-word)
+ *   MySql             -> my-sql       (file has a dash mid-word)
+ *   Adobe XD          -> xd           (file drops "Adobe")
+ *   Adobe Photoshop   -> photoshop    (file drops "Adobe")
+ *   Adobe Illustrator -> illustrator  (file drops "Adobe")
+ *   Sketch            -> sketch-svgrepo-com (file keeps the download suffix)
+ */
+const item = (name: string, iconOverride?: string): TechItem => ({
+  name,
+  slug: iconOverride ?? slugify(name),
+});
 
 const tabs: TechTab[] = [
   {
@@ -31,7 +51,7 @@ const tabs: TechTab[] = [
       item("Express"),
       item("Laravel"),
       item("WordPress"),
-      item("Three Js"),
+      item("Three Js", "threejs"),
     ],
   },
   {
@@ -43,16 +63,16 @@ const tabs: TechTab[] = [
       item("Swift"),
       item("Kotlin"),
       item("Unity"),
-      item("Unreal Engine"),
+      item("Unreal Engine", "unreal"),
     ],
   },
   {
     label: "Database",
     items: [
       item("MongoDB"),
-      item("PostgreSQL"),
+      item("PostgreSQL", "postgre-sql"),
       item("Supabase"),
-      item("MySql"),
+      item("MySql", "my-sql"),
       item("SqLite"),
       item("Vector Database"),
       item("Pinecone"),
@@ -79,14 +99,14 @@ const tabs: TechTab[] = [
     label: "Design",
     items: [
       item("Figma"),
-      item("Adobe XD"),
-      item("Adobe Photoshop"),
-      item("Adobe Illustrator"),
-      item("Canva"),
-      item("Framer"),
-      item("Blender"),
+      item("Adobe XD", "xd"),
+      item("Adobe Photoshop", "photoshop"),
+      item("Adobe Illustrator", "illustrator"),
+      // item("Canva"),
+      // item("Framer"),
+      // item("Blender"),
       item("Invision"),
-      item("Sketch"),
+      // item("Sketch", "sketch-svgrepo-com"),
     ],
   },
 ];
@@ -132,8 +152,7 @@ export function TechnologiesSection() {
     const tabLeft = activeTab.offsetLeft;
     const tabWidth = activeTab.offsetWidth;
 
-    const targetScrollLeft =
-      tabLeft - containerWidth / 2 + tabWidth / 2;
+    const targetScrollLeft = tabLeft - containerWidth / 2 + tabWidth / 2;
 
     container.scrollTo({
       left: Math.max(0, targetScrollLeft),
@@ -156,7 +175,7 @@ export function TechnologiesSection() {
 
   return (
     <section className="bg-white py-16 sm:py-24 lg:py-28">
-      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl px-5 sm:px-6 lg:px-8">
         <div ref={introRef} className="reveal text-center">
           <p className="text-sm font-semibold text-brand-teal-dark">
             Technologies
@@ -218,29 +237,26 @@ export function TechnologiesSection() {
         {/* Icon grid — remounts on tab change so each tile replays its
             entrance via `.stagger-children` (globals.css), cascading in
             one tile at a time instead of the whole grid fading as a block. */}
-        <div key={activeIndex} className="stagger-children mt-10 grid grid-cols-3 gap-x-4 gap-y-7 sm:mt-16 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 md:grid-cols-6">
+        <div
+          key={activeIndex}
+          className="stagger-children mt-10 grid grid-cols-3 gap-x-4 gap-y-7 sm:mt-16 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 md:grid-cols-6"
+        >
           {active.items.map((tech) => (
             <div
               key={tech.slug}
               className="group flex flex-col items-center gap-2 sm:gap-3"
             >
               <div className="relative">
-                {/* teal glow bloom behind the hex on hover */}
-                <span className="pointer-events-none absolute inset-0 scale-50 rounded-full bg-brand-teal/25 opacity-0 blur-md transition-all duration-300 ease-out group-hover:scale-150 group-hover:opacity-100" />
+                {/* teal glow bloom behind the tile on hover */}
+                <span className="pointer-events-none cursor-pointer absolute inset-0 scale-50 rounded-2xl opacity-0 transition-all duration-300 ease-out" />
 
-                <div
-                  className="relative flex h-16 w-18 items-center justify-center bg-white ring-1 ring-border transition-all duration-300 ease-out group-hover:-translate-y-1 group-hover:ring-brand-teal sm:h-20 sm:w-22"
-                  style={{
-                    clipPath:
-                      "polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0% 50%)",
-                  }}
-                >
+                <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl transition-all duration-300 ease-out group-hover:-translate-y-1 sm:h-20 sm:w-20">
                   <Image
-                    src={`/logos/${tech.slug}-logo.png`}
+                    src={`/tech/${tech.slug}.png`}
                     alt={tech.name}
                     width={36}
                     height={36}
-                    className="h-7 w-7 object-contain transition-transform duration-300 ease-out group-hover:scale-110 sm:h-9 sm:w-9"
+                    className="h-7 w-7 object-contain transition-transform duration-300 ease-out group-hover:scale-110 sm:h-16 sm:w-16"
                   />
                 </div>
               </div>

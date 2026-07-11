@@ -46,9 +46,9 @@ const ProductCard = ({ product }: { product: Product }) => {
               hovering pans the screenshot. Fades out once hovered so it
               doesn't sit on top of the panned content. */}
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-100 transition-opacity duration-300 group-hover/image:opacity-0">
-            <div className="flex h-11 w-11 animate-bounce items-center justify-center rounded-full sm:h-12 sm:w-12">
+            <div className="flex h-11 w-11 animate-float items-center justify-center rounded-full sm:h-12 sm:w-12">
               <Mouse
-                className="h-5 w-5 text-white sm:h-9 sm:w-9"
+                className="h-5 w-5 text-brand-teal sm:h-9 sm:w-9"
                 strokeWidth={1.5}
               />
             </div>
