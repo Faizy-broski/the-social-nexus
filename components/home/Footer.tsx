@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Mail, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { useParallax } from "@/hooks/use-parallax";
+import { useReveal } from "@/hooks/use-reveal";
+import MagneticButton from "@/components/home/MagneticButton";
 
 const socialLinks = [
   {
@@ -54,6 +55,8 @@ const phoneNumbers = ["+44 7402 843322", "+44 7462 254013"];
 
 export function SiteFooter() {
   const { containerRef, offset } = useParallax(0.25);
+  const gridRef = useReveal<HTMLDivElement>();
+  const ctaRef = useReveal<HTMLDivElement>();
 
   return (
     <>
@@ -78,9 +81,23 @@ export function SiteFooter() {
       </div>
 
       <footer className="relative max-w-6xl overflow-hidden bg-[#0B0E13] text-white">
+        {/* ambient network glow — same "Nexus" motif used on the other
+            dark sections (Services/Portfolio), so the footer doesn't
+            feel like a flat, unrelated dark panel at the end of the page */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="animate-float absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-brand-teal/15 blur-[110px]" />
+          <div
+            className="animate-float absolute right-0 top-0 h-64 w-64 rounded-full bg-brand-gold/10 blur-[100px]"
+            style={{ animationDelay: "1s", animationDuration: "5.5s" }}
+          />
+        </div>
+
         <div className="relative mx-auto flex max-w-5xl flex-col gap-12 px-5 pb-8 pt-14 sm:px-6 sm:pb-10 sm:pt-20 lg:flex-row lg:items-start lg:justify-between lg:gap-16 lg:px-8">
           {/* Brand / nav grid */}
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-12 lg:grid-cols-12 lg:flex-1">
+          <div
+            ref={gridRef}
+            className="reveal stagger-children grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-12 lg:grid-cols-12 lg:flex-1"
+          >
             {/* Brand + tagline + socials */}
             <div className="sm:col-span-2 lg:col-span-4">
               <Link href="/" className="inline-block">
@@ -106,7 +123,7 @@ export function SiteFooter() {
                       rel="noreferrer"
                       className={cn(
                         "flex h-9 w-9 items-center justify-center rounded-full border border-white/15",
-                        "text-white/70 transition-colors hover:border-[#2FD4C9] hover:text-[#2FD4C9]",
+                        "text-white/70 transition-all duration-300 ease-out hover:-translate-y-1 hover:rotate-6 hover:scale-110 hover:border-[#2FD4C9] hover:text-[#2FD4C9]",
                       )}
                     >
                       {social.icon}
@@ -126,8 +143,9 @@ export function SiteFooter() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-white/60 transition-colors hover:text-[#2FD4C9]"
+                      className="group inline-flex items-center text-sm text-white/60 transition-colors hover:text-[#2FD4C9]"
                     >
+                      <span className="h-1.5 w-0 shrink-0 bg-[#2FD4C9] opacity-0 transition-all duration-300 ease-out group-hover:mr-2 group-hover:w-2.5 group-hover:opacity-100" />
                       {link.label}
                     </Link>
                   </li>
@@ -142,8 +160,8 @@ export function SiteFooter() {
               </h4>
               <ul className="mt-4 space-y-3 sm:mt-5">
                 {offices.map((office) => (
-                  <li key={office.label} className="flex items-center gap-3">
-                    <span className="relative h-4 w-6 overflow-hidden rounded-[2px] ring-1 ring-white/10">
+                  <li key={office.label} className="group flex items-center gap-3">
+                    <span className="relative h-4 w-6 overflow-hidden rounded-[2px] ring-1 ring-white/10 transition-transform duration-300 ease-out group-hover:scale-110">
                       <Image
                         src={office.flag}
                         alt=""
@@ -151,7 +169,7 @@ export function SiteFooter() {
                         className="object-cover"
                       />
                     </span>
-                    <span className="text-sm text-white/70">
+                    <span className="text-sm text-white/70 transition-colors duration-300 group-hover:text-white">
                       {office.label}
                     </span>
                   </li>
@@ -173,17 +191,22 @@ export function SiteFooter() {
 
           {/* "Have a project" CTA — stacks below the grid on mobile/
               tablet, sits as its own column on the right from lg: up */}
-          <div className="flex flex-col items-start lg:items-center border-t border-white/10 pt-10 text-center lg:w-72 lg:shrink-0 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
+          <div
+            ref={ctaRef}
+            className="reveal-left flex flex-col items-start border-t border-white/10 pt-10 text-center lg:w-72 lg:shrink-0 lg:items-center lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0"
+          >
             <h2 className="text-xl font-semibold leading-tight text-white sm:text-2xl lg:text-3xl">
               Have a project in your mind?
             </h2>
 
-            <Link
+            <MagneticButton
               href="/contact-us"
+              fillClassName="bg-[#2FD4C9]/15"
+              magneticStrength={0.2}
               className="mt-6 flex h-24 w-24 items-center justify-center rounded-full border border-white/25 text-xs font-medium text-white transition-colors hover:border-[#2FD4C9] hover:text-[#2FD4C9] sm:mt-8 sm:h-28 sm:w-28 sm:text-sm lg:h-32 lg:w-32"
             >
               Contact Us
-            </Link>
+            </MagneticButton>
 
             <ul className="mt-6 space-y-2 sm:mt-8">
               {phoneNumbers.map((number) => (

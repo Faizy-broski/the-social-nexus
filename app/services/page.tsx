@@ -270,40 +270,6 @@ export default function Page() {
           ))}
         </div>
       </section>
-
-      <section className="bg-[#111111] pl-20 pr-6 sm:pl-25 mt-20 py-10 text-white">
-        <div className="mx-auto flex max-w-[1500px] flex-col items-center text-center">
-          <p className="text-[30px] font-normal leading-none tracking-[-0.03em] sm:text-[40px] lg:text-5xl">
-            Have you project in mind?
-          </p>
-
-          <h2 className="mt-6 max-w-[1200px] text-[52px] font-bold uppercase leading-[0.9] tracking-[-0.055em] sm:text-[76px] lg:text-8xl">
-            <span className="block">Let&apos;s make</span>
-
-            <span className="mt-4 block">
-              <span className="bg-gradient-to-r from-[#079CC7] via-[#58A676] to-[#C5C51A] bg-clip-text text-transparent">
-                Something
-              </span>{" "}
-              great
-            </span>
-
-            <span className="mt-4 block">Together!</span>
-          </h2>
-
-          <Link
-            href="/contact"
-            className="group mt-7 sm:w-40 sm:h-40 flex size-[190px] items-center justify-center rounded-full bg-[#3FB2C0] transition duration-300 hover:scale-105 hover:bg-[#52C0CC]"
-          >
-            <span className="flex items-center gap-3 text-[18px] font-semibold leading-[1.45] sm:text-[20px]">
-              <span>
-                Connect
-                <br />
-                With Us
-              </span>
-            </span>
-          </Link>
-        </div>
-      </section>
     </main>
   );
 }

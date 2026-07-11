@@ -517,7 +517,7 @@ function LogoGrid({ images }: { images: LogoImage[] }) {
   const resolved = resolveLogoImages(images);
 
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 [grid-auto-flow:dense] [grid-auto-rows:140px] sm:[grid-auto-rows:160px]">
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 grid-flow-defence auto-rows-35 sm:auto-rows-40">
       {resolved.map(({ src, span }, i) => (
         <a
           key={`${src}-${i}`}

@@ -19,6 +19,6 @@ export default function Home() {
     <TechnologySection />
     <PortfolioSection />
     <ThreeSteps />
-    <LetsMake />
+    {/* <LetsMake /> */}
   </>
 )}

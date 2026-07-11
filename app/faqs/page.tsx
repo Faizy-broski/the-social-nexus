@@ -4,6 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { Minus, Plus } from "lucide-react";
 import LetsMake from "@/components/home/LetsMake";
+import NetworkLines from "@/components/contact/network-lines";
+import { useReveal } from "@/hooks/use-reveal";
+import MagneticButton from "@/components/home/MagneticButton";
 
 /**
  * FaqSection
@@ -13,10 +16,11 @@ import LetsMake from "@/components/home/LetsMake";
  * the right — first question expanded by default, matching your
  * screenshot. All 13 Q&As pulled from your Elementor markup.
  *
- * Brand tokens (same as the rest of the site):
- *   bg      #0B0E13
- *   teal    #2FD4C9  (hover states)
- *   muted   white/60 for answers, white/40 for dividers
+ * Background/tokens now match the rest of the site instead of the
+ * local #0B0E13 / #2FD4C9 hex pair this file used before: bg-brand-navy
+ * + the same ambient network glow (NetworkLines + teal/gold blobs)
+ * used in ServicesSection and PortfolioSection, so this reads as the
+ * same "Nexus" dark theme rather than a slightly different dark panel.
  */
 
 const faqs = [
@@ -91,54 +95,84 @@ const faqs = [
 export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
+  const headingRef = useReveal<HTMLHeadingElement>();
+  const introRef = useReveal<HTMLDivElement>();
+  const accordionRef = useReveal<HTMLDivElement>();
+
   return (
     <>
-      <section className="bg-[#0B0E13] py-20 sm:py-24">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
-          <h2 className="text-center text-4xl font-extrabold tracking-tight text-white sm:text-7xl">
+      <section className="relative overflow-hidden bg-brand-navy py-20 sm:py-24">
+        {/* ambient network glow — same "Nexus" treatment as Services/Portfolio */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="animate-float absolute -left-32 top-0 h-96 w-96 rounded-full bg-brand-teal/20 blur-[120px]" />
+          <div
+            className="animate-float absolute right-0 bottom-1/4 h-72 w-72 rounded-full bg-brand-gold/10 blur-[110px]"
+            style={{ animationDelay: "1.2s", animationDuration: "5.5s" }}
+          />
+          <NetworkLines />
+        </div>
+
+        <div className="relative mx-auto max-w-6xl px-6 lg:px-8">
+          <h2
+            ref={headingRef}
+            className="reveal text-center text-4xl font-extrabold tracking-tight gradient-text sm:text-7xl"
+          >
             FAQ
           </h2>
 
           <div className="mt-16 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
             {/* Left intro column */}
-            <div className="lg:col-span-3">
+            <div ref={introRef} className="reveal-right lg:col-span-3">
               <h3 className="text-2xl font-bold leading-tight text-white">
                 Explore Frequently Asked Questions
               </h3>
 
-              <Link
+              <MagneticButton
                 href="/contact-us"
-                className="mt-8 flex h-28 w-28 items-center justify-center rounded-full border border-white/25 text-center text-sm font-medium text-white transition-colors hover:border-[#2FD4C9] hover:text-[#2FD4C9]"
+                fillClassName="bg-brand-teal/15"
+                magneticStrength={0.2}
+                className="mt-8 flex h-28 w-28 items-center justify-center rounded-full border border-white/25 text-center text-sm font-medium text-white transition-colors hover:border-brand-teal hover:text-brand-teal-light"
               >
                 Contact Us
-              </Link>
+              </MagneticButton>
             </div>
 
             {/* Accordion */}
-            <div className="lg:col-span-9">
-              <div className="border-t border-white/15">
+            <div ref={accordionRef} className="reveal-left lg:col-span-9">
+              <div className="stagger-children border-t border-white/15">
                 {faqs.map((faq, index) => {
                   const isOpen = openIndex === index;
                   return (
                     <div
                       key={faq.question}
-                      className="border-b border-white/15"
+                      className="group relative border-b border-white/15 pl-6"
                     >
+                      {/* left-to-right highlight sweep on hover */}
+                      <span className="pointer-events-none absolute inset-y-0 left-0 -z-10 w-0 bg-gradient-to-r from-brand-teal/10 to-transparent transition-all duration-500 ease-out group-hover:w-full" />
+
                       <button
                         type="button"
                         onClick={() => setOpenIndex(isOpen ? null : index)}
                         aria-expanded={isOpen}
                         className="flex w-full items-center justify-between gap-6 py-5 text-left"
                       >
-                        <span className="text-sm font-semibold text-white sm:text-base">
+                        <span className="text-sm font-semibold text-white transition-colors duration-300 group-hover:text-brand-teal-light sm:text-base">
                           {faq.question}
                         </span>
-                        <span className="shrink-0 text-white/70">
-                          {isOpen ? (
-                            <Minus className="h-4 w-4" />
-                          ) : (
-                            <Plus className="h-4 w-4" />
-                          )}
+
+                        {/* Plus/Minus morph — rotates + cross-fades instead
+                            of an instant icon swap */}
+                        <span className="relative h-4 w-4 shrink-0 text-white/70">
+                          <Plus
+                            className={`absolute inset-0 h-4 w-4 transition-all duration-300 ease-out ${
+                              isOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
+                            }`}
+                          />
+                          <Minus
+                            className={`absolute inset-0 h-4 w-4 transition-all duration-300 ease-out ${
+                              isOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
+                            }`}
+                          />
                         </span>
                       </button>
 
@@ -163,7 +197,7 @@ export function FaqSection() {
           </div>
         </div>
       </section>
-      <LetsMake />
+      {/* <LetsMake /> */}
     </>
   );
 }

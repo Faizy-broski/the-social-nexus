@@ -101,6 +101,15 @@
   --sidebar-border: oklch(0.922 0 0);
 
   --sidebar-ring: oklch(0.646 0.101 205.5);
+
+  /* --- motion tokens --- */
+  --ease-out-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 200ms;
+  --duration-base: 400ms;
+  --duration-slow: 700ms;
+  --duration-slower: 1000ms;
 }
 
 .dark {
@@ -230,6 +239,23 @@
       "calt" 1;
   }
 
+  /* Global smoothness — every color/shadow/transform transition eases the
+     same way by default, so nothing in the site feels abrupt or mismatched.
+     Components can still override with their own `transition-*` utilities. */
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  [role="button"],
+  .card-hover,
+  .brand-cta,
+  .brand-cta-accent {
+    transition-property: color, background-color, border-color, box-shadow, transform, opacity, filter;
+    transition-timing-function: var(--ease-out-smooth);
+    transition-duration: var(--duration-fast);
+  }
+
   /* Chrome, Edge, Safari */
   ::-webkit-scrollbar {
     width: 10px;
@@ -275,6 +301,19 @@
     background-color: var(--brand-teal);
     color: white;
   }
+
+  /* Respect OS-level reduced motion — kills all custom animation/transition
+     for anyone who's asked for it, without touching component logic */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer utilities {
@@ -308,6 +347,20 @@
       var(--brand-teal),
       var(--brand-gold)
     );
+  }
+
+  /* Animated version of gradient-text — slowly pans the gradient for
+     headline moments (hero title, section eyebrows) */
+  .gradient-text-animated {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      90deg,
+      var(--brand-teal),
+      var(--brand-gold),
+      var(--brand-teal)
+    );
+    background-size: 200% auto;
+    animation: gradient-pan 6s linear infinite;
   }
 
   .card-hover {
@@ -376,5 +429,224 @@
 
   .brand-rail {
     @apply bg-brand-navy/35 text-white;
+  }
+
+  /* =========================================================
+     GLOBAL ANIMATION SYSTEM
+     - keyframes below
+     - .animate-* one-shot entrance classes
+     - .reveal (paired with the useReveal hook / IntersectionObserver
+       in scroll-reveal.tsx) for scroll-triggered entrances
+     - .delay-* / .stagger-* for sequencing groups of children
+     ========================================================= */
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fade-in-down {
+    from { opacity: 0; transform: translateY(-24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slide-in-left {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes slide-in-right {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes scale-in {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgb(59 179 194 / 0.4); }
+    50% { box-shadow: 0 0 0 12px rgb(59 179 194 / 0); }
+  }
+
+  @keyframes gradient-pan {
+    to { background-position: 200% center; }
+  }
+
+  @keyframes shimmer {
+    from { background-position: -200% 0; }
+    to { background-position: 200% 0; }
+  }
+
+  @keyframes text-reveal-mask {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+
+  /* --- one-shot entrance classes, animate immediately on mount --- */
+  .animate-fade-in { animation: fade-in var(--duration-slow) var(--ease-out-smooth) both; }
+  .animate-fade-in-up { animation: fade-in-up var(--duration-slow) var(--ease-out-smooth) both; }
+  .animate-fade-in-down { animation: fade-in-down var(--duration-slow) var(--ease-out-smooth) both; }
+  .animate-slide-in-left { animation: slide-in-left var(--duration-slow) var(--ease-out-smooth) both; }
+  .animate-slide-in-right { animation: slide-in-right var(--duration-slow) var(--ease-out-smooth) both; }
+  .animate-scale-in { animation: scale-in var(--duration-base) var(--ease-spring) both; }
+  .animate-float { animation: float 4s var(--ease-in-out-smooth) infinite; }
+  .animate-pulse-glow { animation: pulse-glow 2.4s var(--ease-in-out-smooth) infinite; }
+
+  /* Headline text-reveal: wrap a heading/eyebrow in this class for a
+     left-to-right mask wipe on mount */
+  .animate-text-reveal {
+    animation: text-reveal-mask var(--duration-slower) var(--ease-out-smooth) both;
+  }
+
+  /* Shimmer sweep — for gold badges, loading skeletons, "featured" chips */
+  .animate-shimmer {
+    background-image: linear-gradient(
+      100deg,
+      transparent 30%,
+      rgb(255 255 255 / 0.5) 50%,
+      transparent 70%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2.2s linear infinite;
+  }
+
+  /* --- scroll-reveal: starts hidden, animates in once `.is-visible` is
+     toggled by the useReveal hook (IntersectionObserver) --- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity var(--duration-slow) var(--ease-out-smooth),
+      transform var(--duration-slow) var(--ease-out-smooth);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.94);
+    transition: opacity var(--duration-base) var(--ease-spring),
+      transform var(--duration-base) var(--ease-spring);
+  }
+  .reveal-scale.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity var(--duration-slow) var(--ease-out-smooth),
+      transform var(--duration-slow) var(--ease-out-smooth);
+  }
+  .reveal-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity var(--duration-slow) var(--ease-out-smooth),
+      transform var(--duration-slow) var(--ease-out-smooth);
+  }
+  .reveal-right.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* --- stagger delays, apply alongside any .animate-* or .reveal class
+     to sequence a row/grid of cards or list items --- */
+  .delay-75 { animation-delay: 75ms; transition-delay: 75ms; }
+  .delay-150 { animation-delay: 150ms; transition-delay: 150ms; }
+  .delay-300 { animation-delay: 300ms; transition-delay: 300ms; }
+  .delay-500 { animation-delay: 500ms; transition-delay: 500ms; }
+  .delay-700 { animation-delay: 700ms; transition-delay: 700ms; }
+
+  /* Auto-stagger direct children (e.g. a services grid) without hand-writing
+     delay classes on every card — just add `.stagger-children` to the parent */
+  .stagger-children > * {
+    animation: fade-in-up var(--duration-slow) var(--ease-out-smooth) both;
+  }
+  .stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger-children > *:nth-child(2) { animation-delay: 90ms; }
+  .stagger-children > *:nth-child(3) { animation-delay: 180ms; }
+  .stagger-children > *:nth-child(4) { animation-delay: 270ms; }
+  .stagger-children > *:nth-child(5) { animation-delay: 360ms; }
+  .stagger-children > *:nth-child(6) { animation-delay: 450ms; }
+  .stagger-children > *:nth-child(7) { animation-delay: 540ms; }
+  .stagger-children > *:nth-child(8) { animation-delay: 630ms; }
+
+  /* =========================================================
+     SCROLL-DRIVEN (JS-FREE) REVEAL
+     For Server Components that intentionally avoid client JS —
+     uses native CSS `animation-timeline: view()` so each element
+     animates in as IT individually scrolls into view, no
+     IntersectionObserver / useReveal hook required.
+
+     Fallback: browsers without scroll-timeline support just run
+     the animation once at a fixed 1s duration on page load, which
+     finishes long before an off-screen element is scrolled to —
+     so unsupported browsers simply see the final, fully-visible
+     state. Nothing is ever stuck hidden.
+     ========================================================= */
+  @keyframes scroll-reveal-up {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .scroll-reveal-row {
+    animation: scroll-reveal-up 1s var(--ease-out-smooth) both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+
+  @keyframes tab-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  .animate-tab-progress {
+    animation-name: tab-progress;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes gradient-bg-pan {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  .gradient-bg-pan {
+    background-size: 200% 200%;
+    animation: gradient-bg-pan 10s ease-in-out infinite;
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Smooth-scale utility for buttons/icons that just need a light "press" */
+  .press-scale {
+    @apply transition-transform duration-200;
+  }
+  .press-scale:active {
+    transform: scale(0.96);
   }
 }

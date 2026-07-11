@@ -1,4 +1,4 @@
-import Link from "next/link";
+import MagneticButton from "@/components/home/MagneticButton";
 
 const ProcessSection = () => {
   const steps = [
@@ -26,21 +26,20 @@ const ProcessSection = () => {
   ];
 
   // One distinct arrow graphic per connector slot: arrow-1 bridges
-  // step 1 → 2, arrow-2 bridges step 2 → 3. Previously both images
-  // rendered, stacked, in both slots — this maps index → its own arrow.
+  // step 1 → 2, arrow-2 bridges step 2 → 3.
   const arrowByIndex = ["/arrow-1.png", "/arrow-2.png"];
 
   return (
     <section className="bg-white py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
         {/* Heading */}
-        <div className="text-center">
+        <div className="scroll-reveal-row text-center">
           <p className="text-sm font-semibold text-brand-teal-dark">Process</p>
 
           <h2 className="mt-3 text-3xl font-extrabold uppercase tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
-            Your Project, Delivered
+            Your Project, <span className="gradient-text">Delivered</span>
             <br />
-            In 3 Steps.
+            <span className="gradient-text">In</span> 3 Steps.
           </h2>
 
           <p className="mx-auto mt-4 max-w-2xl text-sm text-muted-foreground sm:mt-5 sm:text-base">
@@ -50,9 +49,13 @@ const ProcessSection = () => {
         </div>
 
         {/* Steps */}
-        <div className="relative mt-12 grid gap-10 sm:mt-16 sm:gap-12 md:mt-20 md:grid-cols-3 md:gap-8 lg:gap-14">
+        <div className="relative mt-12 grid gap-10 sm:mt-16 sm:gap-12 md:mt-20 md:grid-cols-3 md:gap-6 lg:gap-14">
           {steps.map((step, index) => (
-            <div key={step.number} className="relative text-center md:text-left">
+            <div
+              key={step.number}
+              className="scroll-reveal-row group relative text-center md:text-left"
+              style={{ animationDelay: `${index * 120}ms` }}
+            >
               <p className="text-2xl font-bold text-muted-foreground/40 sm:text-3xl">
                 {step.number}
               </p>
@@ -62,21 +65,31 @@ const ProcessSection = () => {
                 alt={step.title}
                 width={200}
                 height={200}
-                className="mx-auto mt-5 h-20 w-auto object-contain sm:mt-6 sm:h-24 md:mx-0 lg:h-32 xl:h-38"
+                className="mx-auto mt-5 h-16 w-auto object-contain transition-transform duration-300 ease-out group-hover:-translate-y-1 group-hover:scale-105 sm:mt-6 sm:h-24 md:mx-0 md:h-20 lg:h-32 xl:h-38"
               />
 
               <h3 className="mt-6 text-lg font-bold uppercase text-foreground sm:mt-8 sm:text-xl">
                 {step.title}
               </h3>
 
-              <p className="mt-3 text-sm text-justify max-w-67.5 leading-6 text-muted-foreground sm:mt-4 sm:leading-7">
+              {/* Fixed: max-w block needs mx-auto to actually center on
+                  mobile/tablet (text-center on the parent only centers
+                  inline content, not a width-constrained block). Reverts
+                  to mx-0 at md where the column itself goes left-aligned.
+                  Width also now scales up gradually instead of jumping
+                  straight to a fixed 270px on every screen ≥0px. */}
+              <p className="mx-auto mt-3 max-w-xs text-sm text-justify leading-6 text-muted-foreground sm:mt-4 sm:max-w-sm sm:leading-7 md:mx-0 md:max-w-67.5">
                 {step.description}
               </p>
 
-              {/* Connector arrow — one graphic per slot, explicitly
-                  sized so it can't blow out the layout at native res */}
+              {/* Connector arrow — one graphic per slot. Only shown from
+                  lg up, since at md the 3-column grid is already tight
+                  and an arrow there tends to collide with the text. */}
               {index < 2 && (
-                <div className="absolute -right-9 top-14 hidden w-20 lg:block xl:-right-12 xl:top-16 xl:w-28">
+                <div
+                  className="scroll-reveal-row absolute -right-9 top-14 hidden w-20 origin-left lg:block xl:-right-12 xl:top-16 xl:w-28"
+                  style={{ animationDelay: `${index * 120 + 220}ms` }}
+                >
                   <img
                     src={arrowByIndex[index]}
                     alt=""
@@ -92,15 +105,17 @@ const ProcessSection = () => {
         </div>
 
         {/* CTA */}
-        <div className="mt-14 flex justify-center sm:mt-16 md:mt-20">
-          <Link
+        <div className="scroll-reveal-row mt-14 flex justify-center sm:mt-16 md:mt-20">
+          <MagneticButton
             href="/contact-us"
-            className="brand-cta flex h-32 w-32 flex-col items-center justify-center rounded-full text-center text-sm font-semibold shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl sm:h-36 sm:w-36 sm:text-base md:h-40 md:w-40"
+            fillClassName="bg-brand-gold"
+            magneticStrength={0.2}
+            className="h-28 w-28 flex-col rounded-full bg-brand-teal text-center text-sm font-semibold text-white shadow-xl transition-shadow duration-300 hover:shadow-2xl sm:h-36 sm:w-36 sm:text-base md:h-40 md:w-40"
           >
             Discuss Your
             <br />
             Website
-          </Link>
+          </MagneticButton>
         </div>
       </div>
     </section>

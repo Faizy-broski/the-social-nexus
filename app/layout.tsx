@@ -7,6 +7,7 @@ import Footer from "@/components/home/Footer";
 import LetsTalkBadge from "@/components/home/LetsTalkBadge";
 import {HeaderThemeProvider} from "@/contexts/header-theme-contexts";
 import WhatsappButton from "@/components/home/WhatsappButton";
+import LetsMake from "@/components/home/LetsMake";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -38,13 +39,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang="en" className={cn("font-sans", geist.variable)} data-scroll-behavior="smooth">
       <body>
         <HeaderThemeProvider>
         <Header />
         <LetsTalkBadge/>
         {children}
-        <div className="relative pt-30 mt-20 overflow-hidden">
+        <LetsMake />
+        <div className="relative pt-30 mt-6 overflow-hidden">
         <Footer />
         </div>
         <WhatsappButton />
