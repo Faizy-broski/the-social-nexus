@@ -1,7 +1,13 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import gsap from "gsap";
+import { useReveal } from "@/hooks/use-reveal";
+import MagneticButton from "@/components/home/MagneticButton";
+import NetworkLines from "@/components/contact/network-lines";
+
 const stats = [
   { value: "1,500+", label: "Project completed" },
   { value: "100%", label: "Client Retention" },
@@ -150,33 +156,116 @@ const locations = [
   },
 ];
 
-export default function Page() {
+/**
+ * AnimatedStat
+ * ------------------------------------------------------------------
+ * Count-up animation for the stats band — same gsap-proxy-tween
+ * pattern already used for the counters in WhyChooseUsHorizontal.
+ * Parses a raw display string like "1,500+" or "100%" into a numeric
+ * target plus whatever non-numeric suffix follows it (+, %, etc.),
+ * animates the number from 0 to that target once the element scrolls
+ * into view, and re-appends the original suffix/comma formatting on
+ * every frame so "1,500+" counts up as "0 → 1,200 → 1,500+" rather
+ * than losing its punctuation mid-animation.
+ */
+function AnimatedStat({ value }: { value: string }) {
+  const ref = useRef<HTMLHeadingElement>(null);
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const match = value.match(/^([\d,]+)(.*)$/);
+    const target = match ? parseInt(match[1].replace(/,/g, ""), 10) : 0;
+    const suffix = match ? match[2] : "";
+
+    if (
+      !match ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      el.textContent = value;
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || hasAnimated.current) return;
+        hasAnimated.current = true;
+
+        const proxy = { val: 0 };
+        gsap.to(proxy, {
+          val: target,
+          duration: 1.6,
+          ease: "power4.out",
+          onUpdate: () => {
+            el.textContent = Math.round(proxy.val).toLocaleString() + suffix;
+          },
+        });
+        observer.unobserve(el);
+      },
+      { threshold: 0.4 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [value]);
+
+  return (
+    <h2
+      ref={ref}
+      className="gradient-text-animated text-5xl font-semibold tracking-tight sm:text-6xl md:text-7xl lg:text-7xl"
+    >
+      0
+    </h2>
+  );
+}
+
+export default function AboutUsPage() {
+  const heroRef = useReveal<HTMLDivElement>();
+  const storyHeadingRef = useReveal<HTMLDivElement>();
+  const storyBodyRef = useReveal<HTMLDivElement>();
+
   return (
     <>
-      <section className="relative min-h-screen overflow-hidden bg-[#111111] w-full text-white">
-        {/* Main content */}
-        <div className="mx-auto flex min-h-screen flex-col justify-center pl-20 pr-6 pt-8 sm:pl-25">
+      {/* ================= HERO ================= */}
+      <section className="relative min-h-screen w-full overflow-hidden bg-brand-navy text-white">
+        {/* ambient network glow — nods to "Nexus" without being a literal icon */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="animate-float absolute -left-32 top-0 h-96 w-96 rounded-full bg-brand-teal/20 blur-[120px]" />
+          <div
+            className="animate-float absolute right-0 top-1/3 h-72 w-72 rounded-full bg-brand-gold/10 blur-[110px]"
+            style={{ animationDelay: "1.2s", animationDuration: "5.5s" }}
+          />
+          <NetworkLines />
+        </div>
+
+        <div className="relative mx-auto flex min-h-screen flex-col justify-center px-5 pt-8 sm:px-8 md:px-12 lg:pl-20 lg:pr-10 xl:pl-25 xl:pr-12">
           {/* Heading */}
-          <div className="max-w-6xl">
-            <h1 className="text-[52px] font-medium uppercase leading-[0.95] tracking-[-0.05em] sm:text-[80px] md:text-[110px] lg:text-[130px] xl:text-[90px]">
+          <div ref={heroRef} className="reveal-right max-w-6xl">
+            <h1 className="text-[38px] font-medium uppercase leading-[0.95] tracking-[-0.05em] sm:text-[56px] md:text-[80px] lg:text-[110px] xl:text-[90px]">
               We turn ideas{" "}
-              <span className="inline-block align-middle text-[26px] leading-[0.95] tracking-[-0.05em] sm:text-[34px] md:text-[42px] lg:text-[40px]">
+              <span className="inline-block align-middle text-[19px] leading-[0.95] tracking-[-0.05em] sm:text-[26px] md:text-[34px] lg:text-[42px] xl:text-[40px]">
                 Into Digital <br /> Infrastructure
               </span>
               <br />
-              That businesses run on.
+              <span className="gradient-text-animated">That businesses</span> run on.
             </h1>
           </div>
 
           {/* Bottom row */}
-          <div className="mt-20 grid items-center gap-12 lg:grid-cols-[300px_1fr_100px_250px] lg:gap-10">
+          <div className="mt-14 grid items-center gap-8 sm:mt-16 sm:gap-10 lg:mt-20 lg:grid-cols-[300px_1fr_100px_250px] lg:gap-10">
             {/* Contact Circle */}
-            <button className="flex h-20 w-20 md:ml-16 items-center justify-center rounded-full border border-white/80 text-xl font-semibold transition hover:bg-white hover:text-black md:h-40 md:w-40">
+            <MagneticButton
+              href="/contact-us"
+              fillClassName="bg-brand-teal-dark"
+              className="flex h-20 w-20 items-center justify-center rounded-full border border-white/30 text-lg font-semibold transition-colors hover:border-brand-teal sm:h-24 sm:w-24 md:ml-2 md:h-28 md:w-28 lg:h-40 lg:w-40 lg:text-xl"
+            >
               Contact Us
-            </button>
+            </MagneticButton>
 
             {/* Description */}
-            <p className="max-w-xl text-[20px] font-medium leading-[1.55] tracking-[-0.03em] text-white/50 md:text-lg">
+            <p className="max-w-xl text-base font-medium leading-[1.55] tracking-[-0.03em] text-white/50 sm:text-lg md:text-xl">
               Social Nexus is a full-service software, design and growth partner
               working with brands across Pakistan, the UK and the USA combining
               engineering, AI, design and performance marketing under one roof.
@@ -186,28 +275,27 @@ export default function Page() {
             <div className="hidden h-px bg-white/15 lg:block md:-mr-16" />
 
             {/* Logo */}
-            <div className="flex justify-start lg:justify-end">
+            <div className="animate-float flex justify-start lg:justify-end">
               <Image
                 src="https://thesocialnexus.co.uk/wp-content/uploads/2026/05/TSN-LOGO-2-1536x457.png"
                 alt="The Social Nexus"
                 width={220}
                 height={60}
-                className="h-auto w-56 object-contain md:w-50"
+                className="h-auto w-40 object-contain sm:w-48 md:w-56 lg:w-50"
               />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-[#121212] py-16 pl-20 pr-6 pt-8 sm:pl-25">
-        <div className="mx-auto grid max-w-[1700px] grid-cols-1 gap-12 text-center sm:grid-cols-2 lg:grid-cols-4">
+      {/* ================= STATS ================= */}
+      <section className="scroll-reveal-row bg-brand-navy-light py-14 px-5 sm:px-8 sm:py-16 md:px-12 lg:pl-20 lg:pr-10 xl:pl-25 xl:pr-12">
+        <div className="stagger-children mx-auto grid max-w-[1700px] grid-cols-1 gap-10 text-center sm:grid-cols-2 sm:gap-12 lg:grid-cols-4">
           {stats.map((item) => (
             <div key={item.label} className="flex flex-col items-center">
-              <h2 className="bg-gradient-to-r from-[#0798ad] via-[#55b882] to-[#b7c93a] bg-clip-text text-7xl font-semibold tracking-tight text-transparent md:text-8xl lg:text-7xl">
-                {item.value}
-              </h2>
+              <AnimatedStat value={item.value} />
 
-              <p className="mt-6 text-xl font-medium text-white md:text-lg">
+              <p className="mt-5 text-base font-medium text-white sm:mt-6 sm:text-lg">
                 {item.label}
               </p>
             </div>
@@ -215,16 +303,11 @@ export default function Page() {
         </div>
       </section>
 
-      <section
-        className="
-    relative ml-16 flex h-screen
-    w-[calc(100%-4rem)]
-    items-center justify-center
-    overflow-hidden bg-black
-    lg:ml-[72px] lg:w-[calc(100%-72px)]
-  "
+      {/* ================= VIDEO ================= */}
+      <section className="relative flex h-[60vh] justify-end overflow-hidden
+    rounded-2xl bg-brand-navy sm:h-[75vh] lg:h-screen lg:rounded-none"
       >
-        <div className="relative aspect-video w-full max-w-[calc(100vh*16/9)]">
+        <div className="relative aspect-video w-full max-w-5xl">
           <iframe
             className="absolute inset-0 h-full w-full border-0"
             src="https://www.youtube-nocookie.com/embed/27Hgqi7S6uc?autoplay=1&mute=1&loop=1&playlist=27Hgqi7S6uc&controls=0&rel=0&modestbranding=1&playsinline=1&disablekb=1"
@@ -235,28 +318,35 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="relative border-t border-white/10 bg-[#111111] text-white pl-20 pr-6 sm:pl-25">
+      {/* ================= OUR STORY ================= */}
+      <section className="relative border-t border-white/10 bg-brand-navy px-5 text-white sm:px-8 md:px-12 lg:pl-20 lg:pr-10 xl:pl-25 xl:pr-12">
         <div className="relative mx-auto min-h-[470px] max-w-[1920px] lg:grid lg:grid-cols-[41%_59%]">
-          <div className="px-5 pb-16 pt-28 sm:px-10 lg:px-5 lg:pt-[220px]">
-            <h2 className="text-[clamp(2.75rem,3.4vw,3.75rem)] font-medium uppercase leading-none tracking-[-0.045em]">
-              Our Story
+          <div
+            ref={storyHeadingRef}
+            className="reveal-right px-0 pb-10 pt-20 sm:pt-24 lg:px-5 lg:pt-[220px]"
+          >
+            <h2 className="text-[clamp(2.25rem,3.4vw,3.75rem)] font-medium uppercase leading-none tracking-[-0.045em]">
+              Our <span className="gradient-text-animated">Story</span>
             </h2>
           </div>
 
-          <div className="relative px-5 pb-20 pt-24 sm:px-10 lg:flex lg:items-center lg:px-0 lg:pb-5 lg:pt-28">
-            <div className="absolute right-5 top-0  bg-[#40B3C1] px-11 py-7 sm:right-10 lg:right-[10.5%]">
-              <p className="text-2xl font-semibold leading-none">from</p>
-              <p className="mt-4 text-4xl font-bold leading-none">2019</p>
+          <div
+            ref={storyBodyRef}
+            className="reveal-left relative pb-16 pt-16 sm:pt-20 lg:flex lg:items-center lg:px-0 lg:pb-5 lg:pt-28"
+          >
+            <div className="bg-brand-teal px-8 py-6 sm:px-11 sm:py-7 lg:absolute lg:right-0 lg:top-0">
+              <p className="text-xl font-semibold leading-none sm:text-2xl">from</p>
+              <p className="mt-4 text-3xl font-bold leading-none sm:text-4xl">2019</p>
             </div>
 
-            <div className="max-w-[1000px] lg:pr-6">
-              <div className="space-y-3 leading-snug font-medium text-[#939393]">
+            <div className="mt-8 max-w-[1000px] lg:mt-0 lg:pr-6">
+              <div className="space-y-3 font-medium leading-snug text-white/60">
                 <p>
                   Social Nexus started with a simple frustration: most agencies
                   sell a website and disappear. We wanted to build the opposite
                   a team that stays close to a business long after launch,
                   fixing what breaks, improving what works, and treating every
-                  client’s growth as our own scoreboard.
+                  client&rsquo;s growth as our own scoreboard.
                 </p>
 
                 <p>
@@ -271,22 +361,23 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="bg-[#111111] text-white pl-20 pr-6 sm:pl-25 pb-10">
-        <div className="mx-auto grid max-w-[1760px] grid-cols-1 gap-5 lg:grid-cols-3">
+      {/* ================= VALUES ================= */}
+      <section className="bg-brand-navy px-5 pb-16 text-white sm:px-8 md:px-12 lg:pl-20 lg:pr-10 xl:pl-25 xl:pr-12">
+        <div className="stagger-children mx-auto grid max-w-[1760px] grid-cols-1 gap-5 lg:grid-cols-3">
           {values.map((item) => (
             <article
               key={item.eyebrow}
-              className=" rounded-2xl border border-white/50 bg-[#303030] px-7 py-8 sm:px-8 lg:p-5"
+              className="rounded-2xl border border-white/10 bg-white/5 px-7 py-8 backdrop-blur-sm transition-colors duration-300 hover:border-brand-teal/40 sm:px-8 lg:p-6"
             >
-              <p className="text-[18px] font-semibold uppercase leading-none text-[#41b4c3] sm:text-[20px] lg:text-lg">
+              <p className="text-base font-semibold uppercase leading-none text-brand-teal-light sm:text-lg">
                 {item.eyebrow}
               </p>
 
-              <h3 className="my-4 max-w-[520px] text-[28px] font-semibold leading-[1.12] tracking-[-0.035em] text-white sm:text-[32px] lg:text-2xl">
+              <h3 className="my-4 max-w-[520px] text-2xl font-semibold leading-[1.12] tracking-[-0.035em] text-white sm:text-[28px] lg:text-2xl">
                 {item.title}
               </h3>
 
-              <p className="pb-5 max-w-[500px] text-[20px] font-medium leading-[1.48] tracking-[-0.015em] text-[#d2d2d2] sm:text-[22px] lg:text-lg">
+              <p className="max-w-[500px] pb-2 text-base font-medium leading-[1.48] tracking-[-0.015em] text-white/60 sm:text-lg lg:text-base">
                 {item.description}
               </p>
             </article>
@@ -294,43 +385,54 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="overflow-hidden bg-[#111111] pl-20 pr-6 sm:pl-25 py-10 text-white">
-        <div className="mx-auto max-w-[1760px]">
+      {/* ================= SERVICES ================= */}
+      <section className="relative overflow-hidden bg-brand-navy px-5 py-14 text-white sm:px-8 sm:py-16 md:px-12 lg:pl-20 lg:pr-10 xl:pl-25 xl:pr-12">
+        {/* ambient network glow — same "Nexus" treatment as the hero */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="animate-float absolute -right-32 top-1/4 h-96 w-96 rounded-full bg-brand-teal/20 blur-[120px]" />
+          <div
+            className="animate-float absolute left-0 bottom-0 h-72 w-72 rounded-full bg-brand-gold/10 blur-[110px]"
+            style={{ animationDelay: "0.8s", animationDuration: "6s" }}
+          />
+          <NetworkLines />
+        </div>
+
+        <div className="relative mx-auto max-w-[1760px]">
           {/* Header */}
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr_auto] lg:items-start">
+          <div className="scroll-reveal-row grid gap-10 lg:grid-cols-[1fr_1.5fr_auto] lg:items-start">
             <div>
-              <p className="text-[20px] font-semibold leading-none text-white sm:text-lg">
+              <p className="text-base font-semibold leading-none text-brand-teal sm:text-lg">
                 Services
               </p>
 
-              <h2 className="mt-10 max-w-[430px] text-[42px] font-medium uppercase leading-[1.02] tracking-[-0.04em] sm:text-[52px] lg:text-[46px] xl:text-3xl">
+              <h2 className="mt-8 max-w-[430px] text-[32px] font-medium uppercase leading-[1.05] tracking-[-0.04em] sm:mt-10 sm:text-[42px] lg:text-[46px] xl:text-3xl">
                 Digital services
                 <br />
-                that define
-                <br />
-                tomorrow.
+                that define{" "}
+                <span className="gradient-text-animated">tomorrow.</span>
               </h2>
             </div>
 
-            <p className="max-w-[760px] pt-1 text-[22px] font-semibold leading-[1.45] text-[#929292] sm:text-[26px] lg:pt-12 lg:text-lg">
+            <p className="max-w-[760px] pt-1 text-lg font-semibold leading-[1.45] text-white/60 sm:text-xl lg:pt-12 lg:text-lg">
               Comprehensive solutions crafted with precision and powered by
               innovation.
             </p>
 
-            <Link
+            <MagneticButton
               href="/services"
-              className="w-20 h-20 sm:h-50 sm:w-50 group flex items-center justify-center justify-self-start rounded-full border border-white/80 transition duration-300 hover:bg-white hover:text-black lg:justify-self-end"
+              fillClassName="bg-brand-teal-dark"
+              className="h-20 w-20 justify-self-start rounded-full border border-white/30 transition-colors hover:border-brand-teal sm:h-32 sm:w-32 lg:h-40 lg:w-40 lg:justify-self-end"
             >
-              <span className="flex items-center gap-3 text-center text-[18px] font-semibold leading-[1.4] lg:text-[21px]">
+              <span className="flex items-center gap-2 text-center text-sm font-semibold leading-[1.4] sm:text-base lg:text-[19px]">
                 View
                 <br />
                 All Services
               </span>
-            </Link>
+            </MagneticButton>
           </div>
 
           {/* Cards */}
-          <div className="mt-12 grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-3">
+          <div className="stagger-children mt-12 grid grid-cols-1 gap-6 sm:gap-7 md:grid-cols-2 xl:grid-cols-3">
             {services.map((service, index) => (
               <ServiceCard
                 key={service.title}
@@ -342,79 +444,46 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="bg-[#111111] text-white pl-20 pr-6 sm:pl-25 py-10">
+      {/* ================= GLOBAL PRESENCE ================= */}
+      <section className="bg-brand-navy px-5 py-14 text-white sm:px-8 sm:py-16 md:px-12 lg:pl-20 lg:pr-10 xl:pl-25 xl:pr-12">
         <div className="mx-auto max-w-[1500px]">
           {/* Heading */}
-          <div className="text-center">
-            <h2 className="text-[34px] font-medium uppercase leading-none tracking-[-0.035em] sm:text-[42px] lg:text-4xl">
-              Our Global Presence
+          <div className="scroll-reveal-row text-center">
+            <h2 className="text-[28px] font-medium uppercase leading-none tracking-[-0.035em] sm:text-[36px] lg:text-4xl">
+              Our <span className="gradient-text-animated">Global Presence</span>
             </h2>
 
-            <p className="mx-auto mt-8 max-w-[1000px] text-[17px] font-medium leading-[1.35] text-[#929292] sm:text-[20px] lg:text-lg">
+            <p className="mx-auto mt-6 max-w-[1000px] text-sm font-medium leading-[1.4] text-white/60 sm:mt-8 sm:text-lg lg:text-lg">
               We support clients globally and drive continued growth through
               innovation and transformation.
             </p>
           </div>
 
           {/* Locations */}
-          <div className="mt-20 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+          <div className="stagger-children mt-14 grid grid-cols-1 gap-10 sm:mt-20 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
             {locations.map((location) => (
               <article
                 key={location.name}
-                className={`flex flex-col ${location.articleClass}`}
+                className={`group flex flex-col ${location.articleClass}`}
               >
                 <div
-                  className={`relative h-[500px] overflow-hidden bg-[#222222] sm:h-[580px] ${location.imageClass}`}
+                  className={`relative h-[340px] overflow-hidden rounded-2xl bg-brand-navy-light transition-transform duration-500 ease-out group-hover:-translate-y-1 sm:h-[420px] ${location.imageClass}`}
                 >
                   <Image
                     src={location.image}
                     alt={`${location.name} office location`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className={`object-cover ${location.imagePosition}`}
+                    className={`object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${location.imagePosition}`}
                   />
                 </div>
 
-                <h3 className="mt-7 text-center text-[22px] font-semibold leading-[1.1] tracking-[-0.025em] sm:text-[24px] lg:text-[29px]">
+                <h3 className="mt-6 text-center text-lg font-semibold leading-[1.1] tracking-[-0.025em] text-white transition-colors duration-300 group-hover:text-brand-teal-light sm:mt-7 sm:text-xl lg:text-[26px]">
                   {location.name}
                 </h3>
               </article>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="bg-[#111111] pl-20 pr-6 sm:pl-25 py-10 text-white">
-        <div className="mx-auto flex max-w-[1500px] flex-col items-center text-center">
-          <p className="text-[30px] font-normal leading-none tracking-[-0.03em] sm:text-[40px] lg:text-5xl">
-            Have you project in mind?
-          </p>
-
-          <h2 className="mt-6 max-w-[1200px] text-[52px] font-bold uppercase leading-[0.9] tracking-[-0.055em] sm:text-[76px] lg:text-8xl">
-            <span className="block">Let&apos;s make</span>
-
-            <span className="mt-4 block">
-              <span className="bg-gradient-to-r from-[#079CC7] via-[#58A676] to-[#C5C51A] bg-clip-text text-transparent">
-                Something
-              </span>{" "}
-              great
-            </span>
-
-            <span className="mt-4 block">Together!</span>
-          </h2>
-
-          <Link
-            href="/contact"
-            className="group mt-7 sm:w-40 sm:h-40 flex size-[190px] items-center justify-center rounded-full bg-[#3FB2C0] transition duration-300 hover:scale-105 hover:bg-[#52C0CC]"
-          >
-            <span className="flex items-center gap-3 text-[18px] font-semibold leading-[1.45] sm:text-[20px]">
-              <span>
-                Connect
-                <br />
-                With Us
-              </span>
-            </span>
-          </Link>
         </div>
       </section>
     </>
@@ -430,7 +499,7 @@ function ServiceCard({ service, priority = false }: ServiceCardProps) {
   return (
     <Link
       href={service.href}
-      className="group relative block h-[360px] overflow-hidden rounded-2xl border border-white/50 bg-[#262626] sm:h-[410px] lg:h-70"
+      className="group relative block h-[300px] overflow-hidden rounded-2xl border border-white/10 bg-brand-navy-light shadow-lg transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-brand-teal/40 hover:shadow-xl sm:h-[360px] lg:h-70"
     >
       <Image
         src={service.image}
@@ -442,10 +511,10 @@ function ServiceCard({ service, priority = false }: ServiceCardProps) {
       />
 
       {/* Dark overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/5" />
+      <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/20 to-brand-navy/5" />
 
-      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-5 p-7 sm:p-8">
-        <h3 className="max-w-[90%] text-[27px] font-semibold leading-[1.12] tracking-[-0.035em] text-white sm:text-[31px] lg:text-[36px]">
+      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-5 p-6 sm:p-7">
+        <h3 className="max-w-[90%] text-xl font-semibold leading-[1.12] tracking-[-0.035em] text-white sm:text-2xl lg:text-[28px]">
           {service.title}
         </h3>
       </div>

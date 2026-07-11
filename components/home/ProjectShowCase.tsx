@@ -16,7 +16,7 @@ const products = [
       "Sales reports in real time",
     ],
     ctaLabel: ["Explore", "POS"],
-    href: "/products/pos",
+    href: "https://repairbooking.co.uk/",
     previewImage: "/repairbooking-co-uk.png",
     previewHeadline: "The All-in-One POS for repair shops & retail",
   },

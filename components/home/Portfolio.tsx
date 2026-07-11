@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Mouse } from "lucide-react";
-import NetworkLines from "../contact/network-lines";
+import NetworkLines from "@/components/contact/network-lines";
 import { useReveal } from "@/hooks/use-reveal";
 
 type PortfolioItem = {
@@ -15,18 +15,78 @@ type PortfolioItem = {
 };
 
 const items: PortfolioItem[] = [
-  { slug: "matlock", title: "Matlock Phones & Vapes", href: "/portfolio/matlock", image: "/portfolio/matlock.jpg" },
-  { slug: "oww", title: "Outside Walla Walla", href: "/portfolio/oww", image: "/portfolio/oww.jpg" },
-  { slug: "islamic-wall-arts", title: "Islamic Wall Arts", href: "/portfolio/islamic-wall-arts", image: "/portfolio/islamic-wall-arts.jpg" },
-  { slug: "al-quran-islamic-education", title: "Al Quran Islamic Education", href: "/portfolio/al-quran-islamic-education", image: "/portfolio/al-quran-education.jpg" },
-  { slug: "zummunta", title: "Zummunta", href: "/portfolio/zummunta", image: "/portfolio/zummunta.jpg" },
-  { slug: "mobifix", title: "MobiFix", href: "/portfolio/mobifix", image: "/portfolio/mobifix.jpg" },
-  { slug: "gadgetsrepairltd", title: "Gadgets Repair Ltd", href: "/portfolio/gadgetsrepairltd", image: "/portfolio/gadgetsrepairltd.jpg" },
-  { slug: "four-minds", title: "Four Minds", href: "/portfolio/four-minds", image: "/portfolio/four-minds.jpg" },
-  { slug: "mobiledoctor", title: "Mobile Doctor", href: "/portfolio/mobiledoctor", image: "/portfolio/mobiledoctor.jpg" },
-  { slug: "hotspotayr", title: "Hotspot Ayr", href: "/portfolio/hotspotayr", image: "/portfolio/hotspotayr.jpg" },
-  { slug: "phone-doctor", title: "Phone Doctor", href: "/portfolio/phone-doctor", image: "/portfolio/phone-doctor.jpg" },
-  { slug: "mobi-fix", title: "Mobi-Fix", href: "/portfolio/mobi-fix", image: "/portfolio/mobi-fix.jpg" },
+  {
+    slug: "matlock",
+    title: "Matlock Phones & Vapes",
+    href: "/portfolio/matlock",
+    image: "/portfolio/1.png",
+  },
+  {
+    slug: "oww",
+    title: "Outside Walla Walla",
+    href: "/portfolio/oww",
+    image: "/portfolio/2.png",
+  },
+  {
+    slug: "islamic-wall-arts",
+    title: "Islamic Wall Arts",
+    href: "/portfolio/islamic-wall-arts",
+    image: "/portfolio/3.png",
+  },
+  {
+    slug: "al-quran-islamic-education",
+    title: "Al Quran Islamic Education",
+    href: "/portfolio/al-quran-islamic-education",
+    image: "/portfolio/4.png",
+  },
+  {
+    slug: "zummunta",
+    title: "Zummunta",
+    href: "/portfolio/zummunta",
+    image: "/portfolio/5.png",
+  },
+  {
+    slug: "mobifix",
+    title: "MobiFix",
+    href: "/portfolio/mobifix",
+    image: "/portfolio/6.png",
+  },
+  {
+    slug: "gadgetsrepairltd",
+    title: "Gadgets Repair Ltd",
+    href: "/portfolio/gadgetsrepairltd",
+    image: "/portfolio/7.png",
+  },
+  {
+    slug: "four-minds",
+    title: "Four Minds",
+    href: "/portfolio/four-minds",
+    image: "/portfolio/8.png",
+  },
+  {
+    slug: "mobiledoctor",
+    title: "Mobile Doctor",
+    href: "/portfolio/mobiledoctor",
+    image: "/portfolio/9.png",
+  },
+  {
+    slug: "hotspotayr",
+    title: "Hotspot Ayr",
+    href: "/portfolio/hotspotayr",
+    image: "/portfolio/10.png",
+  },
+  {
+    slug: "phone-doctor",
+    title: "Phone Doctor",
+    href: "/portfolio/phone-doctor",
+    image: "/portfolio/11.png",
+  },
+  {
+    slug: "mobi-fix",
+    title: "Mobi-Fix",
+    href: "/portfolio/mobi-fix",
+    image: "/portfolio/12.png",
+  },
 ];
 
 const rowA = items.slice(0, 6);
@@ -86,16 +146,21 @@ export function PortfolioSection() {
 
       <div className="relative mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
         {/* Header row */}
-        <div ref={headerRef} className="reveal flex items-center justify-between gap-4 sm:items-start">
+        <div
+          ref={headerRef}
+          className="reveal flex items-center justify-between gap-4 sm:items-start"
+        >
           <div>
-            <p className="text-xs font-semibold text-brand-gold sm:text-sm">Portfolio</p>
+            <p className="text-xs font-semibold text-brand-gold sm:text-sm">
+              Portfolio
+            </p>
             <h2 className="mt-2 text-3xl font-extrabold uppercase tracking-tight text-white sm:text-4xl lg:text-5xl">
               Our <span className="gradient-text-animated">Work</span>
             </h2>
           </div>
 
           <Link
-            href="/portfolio-page"
+            href="/portfolio"
             className="press-scale group relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/30 text-center text-xs font-semibold text-white transition-colors hover:border-brand-teal sm:h-24 sm:w-24 sm:text-sm"
           >
             <span className="absolute inset-0 -translate-y-full bg-brand-teal/10 transition-transform duration-500 ease-out group-hover:translate-y-0" />
@@ -170,8 +235,8 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
         {/* Floating scroll-hint icon, fades out on hover — same glass +
             bounce treatment as ProductCard's pointer hint, so the "hover
             to pan" cue reads the same across both sections. */}
-        <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-brand-navy opacity-100 transition-opacity duration-300 ease-out group-hover:opacity-0 sm:h-11 sm:w-11">
-          <Mouse className="animate-bounce h-4 w-4 sm:h-7 sm:w-7" />
+        <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-brand-teal opacity-100 transition-opacity duration-300 ease-out group-hover:opacity-0 sm:h-11 sm:w-11">
+          <Mouse className="animate-float h-4 w-4 sm:h-7 sm:w-7" />
         </div>
       </div>
     </Link>

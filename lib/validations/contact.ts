@@ -57,8 +57,14 @@ export const contactFormSchema = z.object({
     .trim()
     .min(1, "Enter your company URL.")
     .max(200, "URL is too long."),
+  // Confirmed on Zod v4 (see the resolver comment above) — v4 uses a single
+  // `error` param and dropped `required_error`/`invalid_type_error` from v3
+  // entirely, so those keys are a type error on this version, not just an
+  // unrecognized-but-harmless option.
   region: z.enum([...REGIONS] as const, { error: "Select a region." }),
-  service: z.enum([...SERVICES] as const, { error: "Select the service you're looking for." }),
+  service: z.enum([...SERVICES] as const, {
+    error: "Select the service you're looking for.",
+  }),
   message: z
     .string()
     .trim()

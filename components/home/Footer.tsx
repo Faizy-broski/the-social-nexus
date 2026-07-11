@@ -46,12 +46,12 @@ const infoLinks = [
 ];
 
 const offices = [
-  { label: "Pakistan", flag: "/footer/flags/pk.svg" },
-  { label: "USA", flag: "/footer/flags/us.svg" },
-  { label: "United Kingdom", flag: "/footer/flags/gb.svg" },
+  { label: "Pakistan", flag: "/flags/pak.webp" },
+  { label: "USA", flag: "/flags/usa.webp" },
+  { label: "United Kingdom", flag: "/flags/uk.webp" },
 ];
 
-const phoneNumbers = ["+44 7402 843322", "+44 7462 254013"];
+const phoneNumbers = ["+44 7462 254013"];
 
 export function SiteFooter() {
   const { containerRef, offset } = useParallax(0.25);

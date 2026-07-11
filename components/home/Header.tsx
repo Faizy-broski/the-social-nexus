@@ -260,13 +260,13 @@ const Header = () => {
                   </div>
 
                   <nav className="mt-10">
-                    <ul ref={mobileNavRef} className="space-y-1">
+                    <ul ref={mobileNavRef} className="">
                       {navLinks.map((link) => (
                         <li key={link.href}>
                           <Link
                             href={link.href}
                             onClick={() => setIsSheetOpen(false)}
-                            className="group flex items-center py-2.5 text-2xl font-bold uppercase text-white/60 transition-colors hover:text-white sm:text-3xl"
+                            className="group flex items-center py-2 text-2xl font-bold uppercase text-white/60 transition-colors hover:text-white sm:text-3xl"
                           >
                             <span className="h-2 w-0 shrink-0 bg-brand-teal-light opacity-0 transition-all duration-300 ease-out group-hover:mr-3 group-hover:w-6 group-hover:opacity-100" />
                             {link.label}
@@ -464,7 +464,7 @@ const Header = () => {
                     <Link
                       href={link.href}
                       onClick={() => setIsOpen(false)}
-                      className="group flex items-center text-4xl font-bold uppercase text-white/50 transition-colors hover:text-white lg:text-4xl"
+                      className="group flex items-center text-4xl max-w-xs font-bold uppercase text-white/50 transition-colors hover:text-white lg:text-4xl"
                     >
                       <span className="h-2 w-0 shrink-0 bg-brand-gold opacity-0 transition-all duration-400 ease-out group-hover:mr-4 group-hover:w-10 group-hover:opacity-100 sm:group-hover:w-12" />
                       {link.label}
