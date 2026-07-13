@@ -12,6 +12,7 @@ import { Users, Wrench } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MagneticButton } from "@/components/home/MagneticButton";
+import { YouTubeFacade } from "@/components/home/YouTubeFacade";
 
 /**
  * WhyChooseUsHorizontal
@@ -50,7 +51,7 @@ type StatItem = {
 const stats: StatItem[] = [
   { value: 1500, suffix: "+", label: "Project completed" },
   { value: 100, suffix: "%", label: "Client Retention" },
-  { value: 8, suffix: "+", label: "Years experiences" },
+  { value: 10, suffix: "+", label: "Years experiences" },
   { value: 1000, suffix: "+", label: "Satisfied Clients" },
 ];
 
@@ -286,12 +287,10 @@ export function WhyChooseUsHorizontal() {
         {/* Panel 5 — Video */}
         <Panel widthClass="w-full max-w-xl lg:w-[min(720px,88vw)] lg:max-w-none">
           <div className="relative aspect-video w-full max-w-[92vw] overflow-hidden rounded-2xl shadow-xl ring-1 ring-black/10 sm:max-w-xl lg:max-w-none">
-            <iframe
-              className="h-full w-full"
-              src="https://www.youtube.com/embed/27Hgqi7S6uc?controls=1&rel=0&playsinline=1&cc_load_policy=0&mute=1"
+            <YouTubeFacade
+              videoId="27Hgqi7S6uc"
               title="The Social Nexus — Think. Build. Launch."
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
+              className="h-full w-full"
             />
           </div>
         </Panel>

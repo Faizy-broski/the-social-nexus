@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import HeroSection from "@/components/home/Hero";
-import Loading from "./loading";
 
 // Hero renders above the fold and needs to be interactive immediately, so
 // it stays a static import. Everything below it is off-screen on load —
@@ -17,12 +16,6 @@ const ThreeSteps = dynamic(() => import("@/components/home/ThreeSteps"));
 
 
 export default function Home() {
-  const loading = false
-
-  if(loading){
-    return <Loading />
-  }
-
   return (
   <>
     <HeroSection />

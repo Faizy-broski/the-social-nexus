@@ -39,6 +39,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             alt={`${product.eyebrowTitle} product preview`}
             width={1200}
             height={3000}
+            sizes="(min-width: 768px) 50vw, 100vw"
             style={{ "--shift": shift } as CSSProperties}
             className="h-auto w-full origin-top translate-y-0 transition-transform ease-in-out will-change-transform duration-4000 group-hover/image:translate-y-[calc(var(--shift)*-1%)]"
           />

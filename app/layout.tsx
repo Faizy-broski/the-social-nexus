@@ -41,7 +41,7 @@ export default function RootLayout({
         {children}
         <LetsMake />
         <Footer />
-        {/* <WhatsappButton /> */}
+        <WhatsappButton />
         </HeaderThemeProvider>
         </body>
     </html>
