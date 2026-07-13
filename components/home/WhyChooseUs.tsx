@@ -189,7 +189,7 @@ export function WhyChooseUsHorizontal() {
     <section ref={sectionRef} className="relative overflow-hidden bg-white">
       <div
         ref={trackRef}
-        className="flex flex-col items-center gap-16 px-4 py-16 will-change-transform sm:gap-20 sm:px-10 sm:py-20 xxl:h-screen lg:w-max lg:flex-row lg:items-center lg:gap-24 lg:px-0 lg:py-20 lg:pl-[8vw] lg:pr-[12vw]"
+        className="flex flex-col items-center gap-16 px-4 py-16 will-change-transform sm:gap-20 sm:px-10 sm:py-20 2xl:h-screen lg:w-max lg:flex-row lg:items-center lg:gap-24 lg:px-0 lg:py-20 lg:pl-[8vw] lg:pr-[12vw]"
       >
         {/* Panel 1 — section title */}
         <Panel widthClass="w-full lg:w-[min(1100px,88vw)]" align="center">

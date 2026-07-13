@@ -6,6 +6,8 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight, Mouse } from "lucide-react";
 import NetworkLines from "@/components/contact/network-lines";
 import { useReveal } from "@/hooks/use-reveal";
+import { Reveal } from "@/components/motion/Reveal";
+import { TiltCard } from "@/components/motion/TiltCard";
 
 type PortfolioItem = {
   slug: string;
@@ -96,7 +98,6 @@ export function PortfolioSection() {
   const rowARef = useRef<HTMLDivElement>(null);
   const rowBRef = useRef<HTMLDivElement>(null);
 
-  const headerRef = useReveal<HTMLDivElement>();
   const revealRowA = useReveal<HTMLDivElement>();
   const revealRowB = useReveal<HTMLDivElement>();
 
@@ -146,9 +147,10 @@ export function PortfolioSection() {
 
       <div className="relative mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
         {/* Header row */}
-        <div
-          ref={headerRef}
-          className="reveal flex items-center justify-between gap-4 sm:items-start"
+        <Reveal
+          variant="up"
+          richer
+          className="flex items-center justify-between gap-4 sm:items-start"
         >
           <div>
             <p className="text-xs font-semibold text-brand-gold sm:text-sm">
@@ -166,7 +168,7 @@ export function PortfolioSection() {
             <span className="absolute inset-0 -translate-y-full bg-brand-teal/10 transition-transform duration-500 ease-out group-hover:translate-y-0" />
             <span className="relative">View All</span>
           </Link>
-        </div>
+        </Reveal>
 
         {/* Row A */}
         <div
@@ -214,32 +216,35 @@ export function PortfolioSection() {
 
 function PortfolioCard({ item }: { item: PortfolioItem }) {
   return (
-    <Link
-      href={item.href}
-      className="group relative block w-64 shrink-0 overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl sm:w-72 md:w-80 lg:w-85"
-    >
-      <div
-        className="relative aspect-4/3 w-full overflow-hidden bg-cover bg-top transition-[background-position] duration-8000 ease-linear group-hover:bg-bottom"
-        style={{ backgroundImage: `url(${item.image})` }}
+    <TiltCard className="w-64 shrink-0 sm:w-72 md:w-80 lg:w-85">
+      <Link
+        href={item.href}
+        className="group relative block overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl"
       >
-        {/* Faded fallback <img> so alt text / SEO / loading still works
-            even though the visible surface is the CSS background above. */}
-        <Image
-          src={item.image}
-          alt={item.title}
-          fill
-          className="opacity-0"
-          aria-hidden="true"
-        />
+        <div
+          className="relative aspect-4/3 w-full overflow-hidden bg-cover bg-top transition-[background-position] duration-8000 ease-linear group-hover:bg-bottom"
+          style={{ backgroundImage: `url(${item.image})` }}
+        >
+          {/* Faded fallback <img> so alt text / SEO / loading still works
+              even though the visible surface is the CSS background above. */}
+          <Image
+            src={item.image}
+            alt={item.title}
+            fill
+            sizes="(min-width: 1024px) 340px, (min-width: 640px) 288px, 256px"
+            className="opacity-0"
+            aria-hidden="true"
+          />
 
-        {/* Floating scroll-hint icon, fades out on hover — same glass +
-            bounce treatment as ProductCard's pointer hint, so the "hover
-            to pan" cue reads the same across both sections. */}
-        <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-brand-teal opacity-100 transition-opacity duration-300 ease-out group-hover:opacity-0 sm:h-11 sm:w-11">
-          <Mouse className="animate-float h-4 w-4 sm:h-7 sm:w-7" />
+          {/* Floating scroll-hint icon, fades out on hover — same glass +
+              bounce treatment as ProductCard's pointer hint, so the "hover
+              to pan" cue reads the same across both sections. */}
+          <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-brand-teal opacity-100 transition-opacity duration-300 ease-out group-hover:opacity-0 sm:h-11 sm:w-11">
+            <Mouse className="animate-float h-4 w-4 sm:h-7 sm:w-7" />
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </TiltCard>
   );
 }
 

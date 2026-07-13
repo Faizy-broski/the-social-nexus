@@ -6,6 +6,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { MagneticButton } from "@/components/home/MagneticButton";
+import { TiltCard } from "@/components/motion/TiltCard";
 
 type Product = {
   slug: string;
@@ -26,7 +27,7 @@ const ProductCard = ({ product }: { product: Product }) => {
   const shift = product.previewScrollPercent ?? 65;
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-2 hover:border-brand-cyan-accent hover:shadow-xl">
+    <TiltCard className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-2 hover:border-brand-cyan-accent hover:shadow-xl">
       {/* Browser-chrome preview */}
       <div className="relative overflow-hidden rounded-t-2xl bg-[#0B0E13]">
         {/* Fixed-height viewport that clips the tall screenshot.
@@ -94,7 +95,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           </MagneticButton>
         </div>
       </div>
-    </div>
+    </TiltCard>
   );
 };
 

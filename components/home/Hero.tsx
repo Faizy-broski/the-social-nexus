@@ -1,18 +1,59 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
+import { m, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import LogoCarousel from "./LogoCarousel";
-import { useReveal } from "@/hooks/use-reveal";
+import { useInView } from "@/hooks/use-in-view";
+
+const OUT_SMOOTH = [0.16, 1, 0.3, 1] as const; // --ease-out-smooth
+
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 24, rotateX: -10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    transition: { duration: 0.7, ease: OUT_SMOOTH },
+  },
+};
 
 export default function HeroSection() {
-  const copyRef = useReveal<HTMLDivElement>();
-  const formRef = useReveal<HTMLDivElement>();
+  const reduceMotion = useReducedMotion();
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const { ref: videoInViewRef, inView: videoInView } =
+    useInView<HTMLVideoElement>({ threshold: 0 });
+
+  const setVideoRefs = (node: HTMLVideoElement | null) => {
+    videoRef.current = node;
+    videoInViewRef.current = node;
+  };
+
+  // Once the hero scrolls out of view (it's only ever the first section)
+  // there's no reason to keep decoding a looping background video — pause
+  // it, and resume automatically if the user scrolls back up.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (videoInView) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, [videoInView]);
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden text-white">
       {/* Background video */}
       <video
+        ref={setVideoRefs}
         className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
         src="/hero-video.mp4"
         poster="/images/hero-bg.jpg"
@@ -32,15 +73,24 @@ export default function HeroSection() {
       {/* Content */}
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center gap-10 px-6 py-20 sm:gap-12 sm:px-10 sm:py-24 md:px-12 lg:flex-row lg:items-center lg:justify-center lg:gap-16 lg:px-16 lg:py-8 xl:justify-between xl:gap-12 xl:pr-6">
         {/* Left copy */}
-        <div
-          ref={copyRef}
-          className="reveal-left w-full max-w-md pt-16 text-center sm:max-w-lg sm:pt-20 lg:max-w-xl lg:py-8 lg:pt-0 lg:text-left xl:max-w-175"
+        <m.div
+          initial={reduceMotion ? false : "hidden"}
+          animate="visible"
+          variants={containerVariants}
+          style={{ perspective: 1000 }}
+          className="w-full max-w-md pt-16 text-center sm:max-w-lg sm:pt-20 lg:max-w-xl lg:py-8 lg:pt-0 lg:text-left xl:max-w-175"
         >
-          <div className="animate-fade-in-down mb-4 inline-flex rounded-full border border-white/40 bg-white/10 px-4 py-1.5 text-[10px] font-medium tracking-[0.18em] backdrop-blur-sm sm:mb-5 sm:px-5 sm:text-[12px] sm:tracking-[0.26em]">
+          <m.div
+            variants={itemVariants}
+            className="mb-4 inline-flex rounded-full border border-white/40 bg-white/10 px-4 py-1.5 text-[10px] font-medium tracking-[0.18em] backdrop-blur-sm sm:mb-5 sm:px-5 sm:text-[12px] sm:tracking-[0.26em]"
+          >
             The Social Nexus
-          </div>
+          </m.div>
 
-          <h1 className="animate-fade-in-up delay-150 font-extrabold uppercase leading-[1.08] tracking-wider sm:leading-[1.02]">
+          <m.h1
+            variants={itemVariants}
+            className="font-extrabold uppercase leading-[1.08] tracking-wider sm:leading-[1.02]"
+          >
             <span className="block text-[26px] xs:text-[30px] sm:text-[40px] lg:text-[46px] xl:text-[66px]">
               Transforming
             </span>
@@ -59,21 +109,30 @@ export default function HeroSection() {
             <span className="block text-[26px] xs:text-[30px] sm:text-[40px] lg:text-[46px] xl:text-[66px] gradient-text-animated">
               Digital Impact
             </span>
-          </h1>
+          </m.h1>
 
-          <p className="animate-fade-in-up delay-300 mx-auto mt-5 max-w-90 text-[12px] font-medium leading-[1.6] text-white/90 sm:mt-6 sm:max-w-110 sm:text-[14px] lg:mx-0 lg:max-w-120 lg:text-[15px] text-justify">
+          <m.p
+            variants={itemVariants}
+            className="mx-auto mt-5 max-w-90 text-[12px] font-medium leading-[1.6] text-white/90 sm:mt-6 sm:max-w-110 sm:text-[14px] lg:mx-0 lg:max-w-120 lg:text-[15px] text-justify"
+          >
             We combine software engineering, artificial intelligence, design,
             and performance marketing to create powerful digital ecosystems
             that drive measurable business growth worldwide.
-          </p>
-        </div>
+          </m.p>
+        </m.div>
 
         {/* Right form — smaller, tighter glass panel, all colors from globals.css */}
-        <div
-          ref={formRef}
-          className="reveal-right relative w-full max-w-sm shrink-0 sm:max-w-md lg:max-w-md xl:max-w-md"
+        <m.div
+          initial={reduceMotion ? false : "hidden"}
+          animate="visible"
+          variants={containerVariants}
+          style={{ perspective: 1000 }}
+          className="relative w-full max-w-sm shrink-0 sm:max-w-md lg:max-w-md xl:max-w-md"
         >
-          <div className="glass-panel animate-scale-in delay-150 rounded-2xl p-5 shadow-lg sm:p-6">
+          <m.div
+            variants={itemVariants}
+            className="glass-panel rounded-2xl p-5 shadow-lg sm:p-6"
+          >
             <div className="mb-4">
               <h2 className="text-base font-bold text-white sm:text-lg">
                 Let&apos;s Build Something Great
@@ -107,8 +166,8 @@ export default function HeroSection() {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </form>
-          </div>
-        </div>
+          </m.div>
+        </m.div>
       </div>
 
       <LogoCarousel />

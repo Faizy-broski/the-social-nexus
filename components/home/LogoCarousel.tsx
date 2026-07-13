@@ -1,9 +1,11 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { useReveal } from "@/hooks/use-reveal";
+import { useInView } from "@/hooks/use-in-view";
 
 type Logo = {
   name: string;
@@ -29,8 +31,14 @@ const marqueeLogos = [...logos, ...logos];
 
 export default function LogoCarousel() {
   const sectionRef = useReveal<HTMLElement>();
+  const { ref: inViewRef, inView } = useInView<HTMLElement>({ threshold: 0 });
 
-  const [emblaRef] = useEmblaCarousel(
+  const setSectionRefs = (node: HTMLElement | null) => {
+    sectionRef.current = node;
+    inViewRef.current = node;
+  };
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
       dragFree: true,
@@ -47,9 +55,18 @@ export default function LogoCarousel() {
     ]
   );
 
+  // The marquee autoscroll otherwise runs forever, even once the strip is
+  // scrolled off-screen — stop it there and resume when it's back in view.
+  useEffect(() => {
+    const autoScroll = emblaApi?.plugins()?.autoScroll;
+    if (!autoScroll) return;
+    if (inView) autoScroll.play();
+    else autoScroll.stop();
+  }, [emblaApi, inView]);
+
   return (
     <section
-      ref={sectionRef}
+      ref={setSectionRefs}
       className="reveal relative overflow-hidden bg-white/10 py-6 backdrop-blur-md sm:py-8"
     >
       {/* edge fade masks so logos scroll under a soft gradient, not a hard cut */}

@@ -1,18 +1,30 @@
 'use client'
 
 import { useEffect, useRef } from "react";
+import { useInView } from "@/hooks/use-in-view";
 
 type Point = { x: number; y: number; vx: number; vy: number; radius: number };
 
 export default function NetworkLines() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const controlsRef = useRef<{ start: () => void; stop: () => void } | null>(null);
+  const { ref: inViewRef, inView } = useInView<HTMLCanvasElement>({
+    threshold: 0,
+    rootMargin: "200px 0px",
+  });
+
+  const setRefs = (node: HTMLCanvasElement | null) => {
+    canvasRef.current = node;
+    inViewRef.current = node;
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
     if (!canvas || !context) return;
 
-    let frame = 0;
+    let rafId: number | null = null;
+    let running = false;
     let points: Point[] = [];
     let width = 0;
     let height = 0;
@@ -49,7 +61,7 @@ export default function NetworkLines() {
       }));
     };
 
-    const draw = () => {
+    const renderFrame = () => {
       context.clearRect(0, 0, width, height);
 
       for (const point of points) {
@@ -99,24 +111,66 @@ export default function NetworkLines() {
           : "rgba(111,208,220,.65)"; // brand-teal-light
         context.fill();
       }
-
-      if (!reducedMotion) frame = requestAnimationFrame(draw);
     };
 
+    const loop = () => {
+      renderFrame();
+      if (running && !reducedMotion) {
+        rafId = requestAnimationFrame(loop);
+      }
+    };
+
+    const start = () => {
+      if (running) return;
+      running = true;
+      loop();
+    };
+
+    const stop = () => {
+      running = false;
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      rafId = null;
+    };
+
+    controlsRef.current = { start, stop };
+
     resize();
-    draw();
+    renderFrame();
 
     window.addEventListener("resize", resize);
 
     return () => {
       window.removeEventListener("resize", resize);
-      cancelAnimationFrame(frame);
+      stop();
+      controlsRef.current = null;
     };
   }, []);
 
+  // This canvas backs the ambient "Nexus" glow on ~8 sections sitewide
+  // (Services, Portfolio, FAQ, loading screen, about/contact/services/
+  // portfolio pages). Each instance runs an O(n^2) point-distance pass
+  // every frame, so only animate while it's actually scrolled into view
+  // and the tab is in the foreground — otherwise it burns CPU/battery
+  // for a canvas nobody can see.
+  useEffect(() => {
+    const updateRunning = () => {
+      const controls = controlsRef.current;
+      if (!controls) return;
+      if (inView && document.visibilityState === "visible") {
+        controls.start();
+      } else {
+        controls.stop();
+      }
+    };
+
+    updateRunning();
+    document.addEventListener("visibilitychange", updateRunning);
+    return () => document.removeEventListener("visibilitychange", updateRunning);
+  }, [inView]);
+
   return (
     <canvas
-      ref={canvasRef}
+      ref={setRefs}
       className="pointer-events-none absolute inset-0 h-full w-full"
       aria-hidden="true"
     />

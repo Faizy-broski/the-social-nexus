@@ -154,6 +154,10 @@
 }
 
 @theme inline {
+  /* extra breakpoint below the default `sm` (640px), for the handful of
+     components that need one more step between smallest phones and sm */
+  --breakpoint-xs: 25rem;
+
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 
@@ -230,6 +234,18 @@
     /* Firefox */
     scrollbar-width: thin;
     scrollbar-color: var(--brand-teal) transparent;
+    /* Safety net: .reveal-left/.reveal-right (translateX ±40px in their
+       hidden pre-reveal state), the footer parallax, and GSAP's horizontal
+       scroll-jack all shift elements past their own box on purpose. Any
+       section that forgets its own `overflow-hidden` would otherwise widen
+       document.documentElement.scrollWidth and produce a horizontal
+       scrollbar — this doesn't affect intentionally horizontal-scrolling
+       containers (Portfolio rows, Technology tabs), since those set their
+       own overflow-x-auto and establish their own scroll context. Set on
+       both html and body: Chromium measures document.documentElement's
+       (<html>) own scrollWidth independently of body's overflow, so body
+       alone isn't enough to actually clip it. */
+    overflow-x: hidden;
   }
 
   body {
@@ -237,6 +253,7 @@
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
+    overflow-x: hidden;
   }
 
   /* Global smoothness — every color/shadow/transform transition eases the

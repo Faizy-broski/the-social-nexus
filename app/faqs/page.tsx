@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Minus, Plus } from "lucide-react";
 import LetsMake from "@/components/home/LetsMake";
 import NetworkLines from "@/components/contact/network-lines";
-import { useReveal } from "@/hooks/use-reveal";
+import { Reveal } from "@/components/motion/Reveal";
 import MagneticButton from "@/components/home/MagneticButton";
 
 /**
@@ -95,10 +95,6 @@ const faqs = [
 export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const headingRef = useReveal<HTMLHeadingElement>();
-  const introRef = useReveal<HTMLDivElement>();
-  const accordionRef = useReveal<HTMLDivElement>();
-
   return (
     <>
       <section className="relative overflow-hidden bg-brand-navy py-20 sm:py-24">
@@ -113,16 +109,18 @@ export function FaqSection() {
         </div>
 
         <div className="relative mx-auto max-w-6xl px-6 lg:px-8">
-          <h2
-            ref={headingRef}
-            className="reveal text-center text-4xl font-extrabold tracking-tight gradient-text sm:text-7xl"
+          <Reveal
+            as="h2"
+            variant="up"
+            richer
+            className="text-center text-4xl font-extrabold tracking-tight gradient-text sm:text-7xl"
           >
             FAQ
-          </h2>
+          </Reveal>
 
           <div className="mt-16 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
             {/* Left intro column */}
-            <div ref={introRef} className="reveal-right lg:col-span-3">
+            <Reveal variant="right" richer className="lg:col-span-3">
               <h3 className="text-2xl font-bold leading-tight text-white">
                 Explore Frequently Asked Questions
               </h3>
@@ -135,10 +133,10 @@ export function FaqSection() {
               >
                 Contact Us
               </MagneticButton>
-            </div>
+            </Reveal>
 
             {/* Accordion */}
-            <div ref={accordionRef} className="reveal-left lg:col-span-9">
+            <Reveal variant="left" className="lg:col-span-9">
               <div className="stagger-children border-t border-white/15">
                 {faqs.map((faq, index) => {
                   const isOpen = openIndex === index;
@@ -148,7 +146,7 @@ export function FaqSection() {
                       className="group relative border-b border-white/15 pl-6"
                     >
                       {/* left-to-right highlight sweep on hover */}
-                      <span className="pointer-events-none absolute inset-y-0 left-0 -z-10 w-0 bg-gradient-to-r from-brand-teal/10 to-transparent transition-all duration-500 ease-out group-hover:w-full" />
+                      <span className="pointer-events-none absolute inset-y-0 left-0 -z-10 w-0 bg-linear-to-r from-brand-teal/10 to-transparent transition-all duration-500 ease-out group-hover:w-full" />
 
                       <button
                         type="button"
@@ -193,7 +191,7 @@ export function FaqSection() {
                   );
                 })}
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>

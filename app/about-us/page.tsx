@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
-import { useReveal } from "@/hooks/use-reveal";
+import { Reveal } from "@/components/motion/Reveal";
 import MagneticButton from "@/components/home/MagneticButton";
 import NetworkLines from "@/components/contact/network-lines";
 
@@ -222,10 +222,6 @@ function AnimatedStat({ value }: { value: string }) {
 }
 
 export default function AboutUsPage() {
-  const heroRef = useReveal<HTMLDivElement>();
-  const storyHeadingRef = useReveal<HTMLDivElement>();
-  const storyBodyRef = useReveal<HTMLDivElement>();
-
   return (
     <>
       {/* ================= HERO ================= */}
@@ -242,16 +238,16 @@ export default function AboutUsPage() {
 
         <div className="relative mx-auto flex min-h-screen flex-col justify-center px-5 pt-8 sm:px-8 md:px-12 lg:pl-20 lg:pr-10 xl:pl-25 xl:pr-12">
           {/* Heading */}
-          <div ref={heroRef} className="reveal-right max-w-6xl">
-            <h1 className="text-[38px] font-medium uppercase leading-[0.95] tracking-[-0.05em] sm:text-[56px] md:text-[80px] lg:text-[110px] xl:text-[90px]">
+          <Reveal variant="right" richer className="max-w-6xl">
+            <h1 className="text-[38px] font-medium uppercase leading-[0.95] tracking-[-0.05em] sm:text-[56px] md:text-[80px] lg:text-[110px] xl:text-[130px]">
               We turn ideas{" "}
-              <span className="inline-block align-middle text-[19px] leading-[0.95] tracking-[-0.05em] sm:text-[26px] md:text-[34px] lg:text-[42px] xl:text-[40px]">
+              <span className="inline-block align-middle text-[19px] leading-[0.95] tracking-[-0.05em] sm:text-[26px] md:text-[34px] lg:text-[42px] xl:text-[46px]">
                 Into Digital <br /> Infrastructure
               </span>
               <br />
               <span className="gradient-text-animated">That businesses</span> run on.
             </h1>
-          </div>
+          </Reveal>
 
           {/* Bottom row */}
           <div className="mt-14 grid items-center gap-8 sm:mt-16 sm:gap-10 lg:mt-20 lg:grid-cols-[300px_1fr_100px_250px] lg:gap-10">
@@ -321,18 +317,19 @@ export default function AboutUsPage() {
       {/* ================= OUR STORY ================= */}
       <section className="relative border-t border-white/10 bg-brand-navy px-5 text-white sm:px-8 md:px-12 lg:pl-20 lg:pr-10 xl:pl-25 xl:pr-12">
         <div className="relative mx-auto min-h-[470px] max-w-[1920px] lg:grid lg:grid-cols-[41%_59%]">
-          <div
-            ref={storyHeadingRef}
-            className="reveal-right px-0 pb-10 pt-20 sm:pt-24 lg:px-5 lg:pt-[220px]"
+          <Reveal
+            variant="right"
+            richer
+            className="px-0 pb-10 pt-20 sm:pt-24 lg:px-5 lg:pt-[220px]"
           >
             <h2 className="text-[clamp(2.25rem,3.4vw,3.75rem)] font-medium uppercase leading-none tracking-[-0.045em]">
               Our <span className="gradient-text-animated">Story</span>
             </h2>
-          </div>
+          </Reveal>
 
-          <div
-            ref={storyBodyRef}
-            className="reveal-left relative pb-16 pt-16 sm:pt-20 lg:flex lg:items-center lg:px-0 lg:pb-5 lg:pt-28"
+          <Reveal
+            variant="left"
+            className="relative pb-16 pt-16 sm:pt-20 lg:flex lg:items-center lg:px-0 lg:pb-5 lg:pt-28"
           >
             <div className="bg-brand-teal px-8 py-6 sm:px-11 sm:py-7 lg:absolute lg:right-0 lg:top-0">
               <p className="text-xl font-semibold leading-none sm:text-2xl">from</p>
@@ -357,7 +354,7 @@ export default function AboutUsPage() {
                 </p>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -499,7 +496,7 @@ function ServiceCard({ service, priority = false }: ServiceCardProps) {
   return (
     <Link
       href={service.href}
-      className="group relative block h-[300px] overflow-hidden rounded-2xl border border-white/10 bg-brand-navy-light shadow-lg transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-brand-teal/40 hover:shadow-xl sm:h-[360px] lg:h-70"
+      className="group relative block h-[300px] overflow-hidden rounded-2xl border border-white/10 bg-brand-navy-light shadow-lg transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-brand-teal/40 hover:shadow-xl sm:h-[360px] lg:h-[380px] xl:h-[400px]"
     >
       <Image
         src={service.image}

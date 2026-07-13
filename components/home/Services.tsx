@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import NetworkLines from "../contact/network-lines";
+import { ServiceThumbnail } from "./ServiceThumbnail";
 
 /**
  * ServicesSection
@@ -167,14 +167,10 @@ export function ServicesSection() {
 
               {/* Hover-reveal thumbnail */}
               <div className="pointer-events-none absolute right-24 top-1/2 z-10 hidden h-40 w-56 -translate-y-1/2 translate-x-6 overflow-hidden rounded-2xl border border-white/10 opacity-0 shadow-lg transition-all duration-500 ease-out group-hover:translate-x-0 group-hover:opacity-100 lg:block">
-                <Image
+                <ServiceThumbnail
                   src={service.image}
                   alt={`${service.title.join(" ")} thumbnail`}
-                  fill
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 />
-                {/* thin brand-accent border wash on top of the thumbnail */}
-                <div className="absolute inset-0 gradient-accent opacity-10" />
               </div>
             </div>
           ))}

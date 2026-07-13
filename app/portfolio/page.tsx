@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, ArrowDown, X, Mouse } from "lucide-react";
 import NetworkLines from "@/components/contact/network-lines";
+import { TiltCard } from "@/components/motion/TiltCard";
 
 /**
  * Animated navy background — same technique as the Header's mobile bar:
@@ -426,7 +427,7 @@ function PortfolioCard({
   onMockupClick: (item: PortfolioItem) => void;
 }) {
   return (
-    <div className="group flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl">
+    <TiltCard className="group flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl">
       {/* Screenshot — hover-scrolls the background over 8s */}
       <div className="group/thumb relative aspect-16/10 w-full overflow-hidden bg-brand-navy">
         <div
@@ -437,6 +438,7 @@ function PortfolioCard({
           src={item.image}
           alt={item.title}
           fill
+          sizes="(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw"
           className="opacity-0"
           aria-hidden="true"
         />
@@ -480,7 +482,7 @@ function PortfolioCard({
           </button>
         </div>
       </div>
-    </div>
+    </TiltCard>
   );
 }
 

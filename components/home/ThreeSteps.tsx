@@ -1,3 +1,4 @@
+import Image from "next/image";
 import MagneticButton from "@/components/home/MagneticButton";
 
 const ProcessSection = () => {
@@ -60,12 +61,13 @@ const ProcessSection = () => {
                 {step.number}
               </p>
 
-              <img
+              <Image
                 src={step.image}
                 alt={step.title}
                 width={200}
                 height={200}
-                className="mx-auto mt-5 h-16 w-auto object-contain transition-transform duration-300 ease-out group-hover:-translate-y-1 group-hover:scale-105 sm:mt-6 sm:h-24 md:mx-0 md:h-20 lg:h-32 xl:h-38"
+                loading="lazy"
+                className="mx-auto mt-5 h-36 w-auto object-contain transition-transform duration-300 ease-out group-hover:-translate-y-1 group-hover:scale-105 sm:mt-6 sm:h-34 md:mx-0 md:h-30 lg:h-32 xl:h-38"
               />
 
               <h3 className="mt-6 text-lg font-bold uppercase text-foreground sm:mt-8 sm:text-xl">
@@ -90,12 +92,13 @@ const ProcessSection = () => {
                   className="scroll-reveal-row absolute -right-9 top-14 hidden w-20 origin-left lg:block xl:-right-12 xl:top-16 xl:w-28"
                   style={{ animationDelay: `${index * 120 + 220}ms` }}
                 >
-                  <img
+                  <Image
                     src={arrowByIndex[index]}
                     alt=""
                     aria-hidden="true"
                     width={110}
                     height={70}
+                    loading="lazy"
                     className="h-auto w-full object-contain"
                   />
                 </div>

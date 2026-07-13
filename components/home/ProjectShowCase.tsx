@@ -2,6 +2,7 @@
 
 import ProductCard from "./ProductCard";
 import { useReveal } from "@/hooks/use-reveal";
+import { Reveal } from "@/components/motion/Reveal";
 
 const products = [
   {
@@ -39,14 +40,13 @@ const products = [
 ];
 
 export function ProductShowcaseSection() {
-  const introRef = useReveal<HTMLDivElement>();
   const cardsRef = useReveal<HTMLDivElement>();
 
   return (
     <section className="bg-white py-16 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
         {/* Intro */}
-        <div ref={introRef} className="reveal mx-auto max-w-2xl text-center">
+        <Reveal variant="up" richer className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold text-brand-teal-dark">
             Products
           </p>
@@ -57,7 +57,7 @@ export function ProductShowcaseSection() {
             Beyond websites and apps, we build the everyday tools your team
             actually uses — ready to deploy, easy to manage.
           </p>
-        </div>
+        </Reveal>
 
         {/* Cards */}
         <div

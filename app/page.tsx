@@ -1,14 +1,28 @@
+import dynamic from "next/dynamic";
 import HeroSection from "@/components/home/Hero";
-import LetsMake from "@/components/home/LetsMake";
-import ProductShowcaseSection from "@/components/home/ProjectShowCase";
-import ServicesSection from "@/components/home/Services";
-import WebPresenceSection from "@/components/home/WebPresence";
-import WhyChooseUsHorizontal from "@/components/home/WhyChooseUs";
-import TechnologySection from "@/components/home/Technology";
-import ThreeSteps from "@/components/home/ThreeSteps";
-import PortfolioSection from "@/components/home/Portfolio";
+import Loading from "./loading";
+
+// Hero renders above the fold and needs to be interactive immediately, so
+// it stays a static import. Everything below it is off-screen on load —
+// splitting each into its own chunk keeps their JS (GSAP, Embla, canvas)
+// out of the initial bundle instead of blocking first paint/TTI for
+// sections the user hasn't scrolled to yet.
+const WhyChooseUsHorizontal = dynamic(() => import("@/components/home/WhyChooseUs"));
+const WebPresenceSection = dynamic(() => import("@/components/home/WebPresence"));
+const ServicesSection = dynamic(() => import("@/components/home/Services"));
+const ProductShowcaseSection = dynamic(() => import("@/components/home/ProjectShowCase"));
+const TechnologySection = dynamic(() => import("@/components/home/Technology"));
+const PortfolioSection = dynamic(() => import("@/components/home/Portfolio"));
+const ThreeSteps = dynamic(() => import("@/components/home/ThreeSteps"));
+
 
 export default function Home() {
+  const loading = false
+
+  if(loading){
+    return <Loading />
+  }
+
   return (
   <>
     <HeroSection />
@@ -19,6 +33,5 @@ export default function Home() {
     <TechnologySection />
     <PortfolioSection />
     <ThreeSteps />
-    {/* <LetsMake /> */}
   </>
 )}

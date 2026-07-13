@@ -75,6 +75,7 @@ export function SiteFooter() {
             alt=""
             fill
             priority={false}
+            sizes="(min-width: 1024px) 100vw, 0px"
             className="object-cover"
           />
         </div>
@@ -102,7 +103,7 @@ export function SiteFooter() {
             <div className="sm:col-span-2 lg:col-span-4">
               <Link href="/" className="inline-block">
                 <Image
-                  src="/footer/tsn-logo-white.svg"
+                  src="/TSN-White-Logo.webp"
                   alt="The Social Nexus"
                   width={160}
                   height={54}
@@ -166,6 +167,7 @@ export function SiteFooter() {
                         src={office.flag}
                         alt=""
                         fill
+                        sizes="24px"
                         className="object-cover"
                       />
                     </span>

@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUp } from "lucide-react";
-import { useReveal } from "@/hooks/use-reveal";
 import NetworkLines from "@/components/contact/network-lines";
+import { Reveal } from "@/components/motion/Reveal";
+import { ServiceThumbnail } from "@/components/home/ServiceThumbnail";
 
 const slugify = (title: string) =>
   title
@@ -122,8 +122,6 @@ const services = [
 ];
 
 export default function Page() {
-  const introRef = useReveal<HTMLDivElement>();
-
   const goNext = (index: number) =>
     document
       .getElementById(`service-${index}`)
@@ -134,9 +132,10 @@ export default function Page() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,transparent_0%,rgba(0,0,0,.13)_68%,rgba(0,0,0,.28)_100%)]" />
       <section className="relative z-10 mx-auto px-5 sm:px-8 md:px-12 lg:pl-20 lg:pr-10 xl:pl-25 xl:pr-12 pb-24">
         <NetworkLines />
-        <div
-          ref={introRef}
-          className="reveal grid items-center gap-10 py-14 sm:py-16 lg:grid-cols-[.9fr_1.4fr] lg:gap-24 lg:py-24"
+        <Reveal
+          variant="up"
+          richer
+          className="grid items-center gap-10 py-14 sm:py-16 lg:grid-cols-[.9fr_1.4fr] lg:gap-24 lg:py-24"
         >
           <div className="uppercase">
             <p className="mb-4 text-lg font-semibold sm:mb-5 sm:text-xl">
@@ -156,7 +155,7 @@ export default function Page() {
             </strong>{" "}
             forward thinking brands boundaries
           </p>
-        </div>
+        </Reveal>
 
         <div className="border-t border-white/15">
           {services.map((service, index) => (
@@ -186,7 +185,7 @@ export default function Page() {
                 <h2 className="whitespace-pre-line text-2xl font-semibold leading-tight tracking-[-.03em] transition-colors duration-300 group-hover:text-brand-teal-light sm:text-3xl">
                   {service.title}
                 </h2>
-                <p className="col-start-2 mt-5 max-w-[690px] text-base font-medium leading-relaxed text-white/50 sm:mt-6 sm:text-lg lg:col-start-auto lg:mt-0 lg:text-md">
+                <p className="col-start-2 mt-5 max-w-[690px] text-base font-medium leading-relaxed text-white/50 sm:mt-6 sm:text-lg lg:col-start-auto lg:mt-0 lg:text-base">
                   {service.description}
                 </p>
               </Link>
@@ -196,14 +195,10 @@ export default function Page() {
                   clicks (the row Link handles navigation), floats in from the
                   right on group-hover, desktop only. */}
               <div className="pointer-events-none absolute right-24 top-1/2 z-10 hidden h-40 w-56 -translate-y-1/2 translate-x-6 overflow-hidden rounded-2xl border border-white/10 opacity-0 shadow-lg transition-all duration-500 ease-out group-hover:translate-x-0 group-hover:opacity-100 lg:block">
-                <Image
+                <ServiceThumbnail
                   src={service.image}
                   alt={`${service.title.replace("\n", " ")} thumbnail`}
-                  fill
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 />
-                {/* thin brand-accent border wash on top of the thumbnail */}
-                <div className="absolute inset-0 gradient-accent opacity-10" />
               </div>
             </article>
           ))}

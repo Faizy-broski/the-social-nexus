@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 type RailTheme = "dark" | "light";
 
@@ -50,6 +51,7 @@ function detectThemeAt(el: Element | null): RailTheme {
 export function HeaderThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<RailTheme>("dark");
   const frame = useRef<number | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     function detect() {
@@ -73,7 +75,10 @@ export function HeaderThemeProvider({ children }: { children: React.ReactNode })
       window.removeEventListener("resize", onScrollOrResize);
       if (frame.current) cancelAnimationFrame(frame.current);
     };
-  }, []);
+    // Re-detect on route change too — if the user navigates while already
+    // scrolled to the top, no scroll event fires and the header theme
+    // would otherwise go stale until they manually scroll.
+  }, [pathname]);
 
   return (
     <HeaderThemeContext.Provider value={theme}>{children}</HeaderThemeContext.Provider>

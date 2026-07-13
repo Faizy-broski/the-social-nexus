@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { useReveal } from "@/hooks/use-reveal";
+import { Reveal } from "@/components/motion/Reveal";
 
 const AUTO_INTERVAL_MS = 3000;
 const PAUSE_AFTER_CLICK_MS = 4000;
@@ -119,7 +119,6 @@ export function TechnologiesSection() {
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const tabListRef = useRef<HTMLDivElement | null>(null);
 
-  const introRef = useReveal<HTMLDivElement>();
 
   const startAuto = useCallback(() => {
     if (autoTimer.current) clearInterval(autoTimer.current);
@@ -176,14 +175,14 @@ export function TechnologiesSection() {
   return (
     <section className="bg-white py-16 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-5xl px-5 sm:px-6 lg:px-8">
-        <div ref={introRef} className="reveal text-center">
+        <Reveal variant="up" richer className="text-center">
           <p className="text-sm font-semibold text-brand-teal-dark">
             Technologies
           </p>
           <h2 className="mt-3 text-3xl font-extrabold uppercase tracking-tight text-foreground sm:text-4xl lg:text-5xl">
             <span className="gradient-text-animated">Technologies</span> we use
           </h2>
-        </div>
+        </Reveal>
 
         {/* Pill tab bar — horizontally scrollable on mobile so labels
             like "Mobile App Platform" never wrap or get squeezed;
@@ -256,7 +255,7 @@ export function TechnologiesSection() {
                     alt={tech.name}
                     width={36}
                     height={36}
-                    className="h-7 w-7 object-contain transition-transform duration-300 ease-out group-hover:scale-110 sm:h-16 sm:w-16"
+                    className="h-12 w-12 object-contain transition-transform duration-300 ease-out group-hover:scale-110 sm:h-16 sm:w-16"
                   />
                 </div>
               </div>

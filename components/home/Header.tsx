@@ -242,7 +242,7 @@ const Header = () => {
                 </SheetDescription>
               </VisuallyHidden>
 
-              <div className="relative flex h-full flex-col justify-between p-6 sm:p-8">
+              <div className="relative flex h-full flex-col justify-between overflow-y-auto p-6 sm:p-8">
                 <div>
                   <div className="flex items-center justify-between">
                     <Link href="/" onClick={() => setIsSheetOpen(false)}>
@@ -259,16 +259,16 @@ const Header = () => {
                     </SheetClose>
                   </div>
 
-                  <nav className="mt-10">
+                  <nav className="my-10">
                     <ul ref={mobileNavRef} className="">
                       {navLinks.map((link) => (
                         <li key={link.href}>
                           <Link
                             href={link.href}
                             onClick={() => setIsSheetOpen(false)}
-                            className="group flex items-center py-2 text-2xl font-bold uppercase text-white/60 transition-colors hover:text-white sm:text-3xl"
+                            className="group flex items-center text-2xl font-semibold text-white/60 transition-colors hover:text-white sm:text-3xl"
                           >
-                            <span className="h-2 w-0 shrink-0 bg-brand-teal-light opacity-0 transition-all duration-300 ease-out group-hover:mr-3 group-hover:w-6 group-hover:opacity-100" />
+                            
                             {link.label}
                           </Link>
                         </li>
@@ -346,7 +346,7 @@ const Header = () => {
           </span>
           <span
             className={cn(
-              "[writing-mode:vertical-rl] rotate-180 whitespace-nowrap text-md font-extrabold tracking-wide transition-colors duration-300",
+              "[writing-mode:vertical-rl] rotate-180 whitespace-nowrap text-base font-extrabold tracking-wide transition-colors duration-300",
               t.text,
               t.hover,
             )}
