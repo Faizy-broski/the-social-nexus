@@ -200,7 +200,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WordPress"],
     previewHref: "https://thesocialnexus.co.uk/mobiledoctor/",
     mockupHref: "/portfolio/mobiledoctor",
-    image: "/portfolio/10.png",
+    image: "/portfolio/10.webp",
   },
   {
     slug: "hotspotayr",
@@ -209,7 +209,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WordPress"],
     previewHref: "https://thesocialnexus.co.uk/hotspotayr/",
     mockupHref: "/portfolio/hotspotayr",
-    image: "/portfolio/12.png",
+    image: "/portfolio/12.webp",
   },
   {
     slug: "phone-doctor",
@@ -218,7 +218,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WordPress"],
     previewHref: "https://thesocialnexus.co.uk/phonedoctorayr/",
     mockupHref: "/portfolio/phone-doctor",
-    image: "/portfolio/6.png",
+    image: "/portfolio/6.webp",
   },
   {
     slug: "matlock",
@@ -227,7 +227,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WooCommerce", "WordPress"],
     previewHref: "https://thesocialnexus.co.uk/matlock",
     mockupHref: "/portfolio/matlock",
-    image: "/portfolio/3.png",
+    image: "/portfolio/3.webp",
   },
   {
     slug: "islamic-wall-arts",
@@ -236,7 +236,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WordPress"],
     previewHref: null,
     mockupHref: "/portfolio/islamic-wall-arts",
-    image: "/portfolio/4.png",
+    image: "/portfolio/4.webp",
   },
   {
     slug: "al-quran-islamic-education",
@@ -245,7 +245,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WordPress"],
     previewHref: null,
     mockupHref: "/portfolio/al-quran-islamic-education",
-    image: "/portfolio/7.png",
+    image: "/portfolio/7.webp",
   },
   {
     slug: "gadgetsrepairltd",
@@ -254,7 +254,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WordPress"],
     previewHref: "https://thesocialnexus.co.uk/mygadgetrecycle/",
     mockupHref: "/portfolio/gadgetsrepairltd",
-    image: "/portfolio/9.png",
+    image: "/portfolio/9.webp",
   },
   {
     slug: "cvs",
@@ -281,7 +281,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "Membership", "WooCommerce"],
     previewHref: "https://thesocialnexus.co.uk/OWW",
     mockupHref: "/portfolio/oww",
-    image: "/portfolio/5.png",
+    image: "/portfolio/5.webp",
   },
   {
     slug: "wimmera-security",
