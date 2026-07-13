@@ -364,6 +364,7 @@ const Header = () => {
             : "pointer-events-none opacity-0"
         }`}
         role="dialog"
+        aria-labelledby="contact-dialog-title"
         aria-modal="true"
       >
         <div className="flex h-full w-full flex-row overflow-hidden">

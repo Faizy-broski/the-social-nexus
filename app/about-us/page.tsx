@@ -250,12 +250,12 @@ export default function AboutUsPage() {
           </Reveal>
 
           {/* Bottom row */}
-          <div className="mt-14 grid items-center gap-8 sm:mt-16 sm:gap-10 lg:mt-20 lg:grid-cols-[300px_1fr_100px_250px] lg:gap-10">
+          <div className="mt-14 grid items-center gap-8 sm:mt-16 sm:gap-10 lg:mt-20 lg:grid-cols-[220px_1fr_60px_200px] lg:gap-6 xl:grid-cols-[300px_1fr_100px_250px] xl:gap-10">
             {/* Contact Circle */}
             <MagneticButton
               href="/contact-us"
               fillClassName="bg-brand-teal-dark"
-              className="flex h-20 w-20 items-center justify-center rounded-full border border-white/30 text-lg font-semibold transition-colors hover:border-brand-teal sm:h-24 sm:w-24 md:ml-2 md:h-28 md:w-28 lg:h-40 lg:w-40 lg:text-xl"
+              className="flex h-20 w-20 items-center justify-center rounded-full border border-white/30 text-sm md:text-lg font-semibold transition-colors hover:border-brand-teal sm:h-24 sm:w-24 md:ml-2 md:h-28 md:w-28 lg:h-32 lg:w-32 lg:text-lg xl:h-40 xl:w-40 xl:text-xl"
             >
               Contact Us
             </MagneticButton>
@@ -277,7 +277,7 @@ export default function AboutUsPage() {
                 alt="The Social Nexus"
                 width={220}
                 height={60}
-                className="h-auto w-40 object-contain sm:w-48 md:w-56 lg:w-50"
+                className="h-auto w-40 object-contain sm:w-48 md:w-56 lg:w-40 xl:w-50"
               />
             </div>
           </div>
@@ -303,10 +303,10 @@ export default function AboutUsPage() {
       <section className="relative flex h-[60vh] justify-end overflow-hidden
     rounded-2xl bg-brand-navy sm:h-[75vh] lg:h-screen lg:rounded-none"
       >
-        <div className="relative aspect-video w-full max-w-5xl">
+        <div className="relative aspect-video w-full max-w-6xl">
           <iframe
             className="absolute inset-0 h-full w-full border-0"
-            src="https://www.youtube-nocookie.com/embed/27Hgqi7S6uc?autoplay=1&mute=1&loop=1&playlist=27Hgqi7S6uc&controls=0&rel=0&modestbranding=1&playsinline=1&disablekb=1"
+            src="https://www.youtube.com/embed/27Hgqi7S6uc?controls=0&rel=0&playsinline=1&cc_load_policy=0&autoplay=1&enablejsapi=1&origin=https%3A%2F%2Fthesocialnexus.co.uk&widgetid=1&forigin=https%3A%2F%2Fthesocialnexus.co.uk%2Fabout-us%2F&aoriginsup=1&gporigin=https%3A%2F%2Fthesocialnexus.co.uk%2Fservice%2Fsoftware-development%2F&vf=1"
             title="The Social Nexus"
             allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
             allowFullScreen
@@ -457,7 +457,7 @@ export default function AboutUsPage() {
           </div>
 
           {/* Locations */}
-          <div className="stagger-children mt-14 grid grid-cols-1 gap-10 sm:mt-20 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+          <div className="stagger-children mt-14 grid grid-cols-1 gap-10 sm:mt-20 lg:grid-cols-3 lg:gap-5">
             {locations.map((location) => (
               <article
                 key={location.name}

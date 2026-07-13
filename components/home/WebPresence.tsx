@@ -88,7 +88,7 @@ function LaptopMockup() {
 
       <div className="relative aspect-video w-full overflow-hidden rounded-sm">
         <Image
-          src="/laptop.gif"
+          src="/laptop.webp"
           alt="Google Business Profile listing comparison"
           fill
           unoptimized
