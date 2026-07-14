@@ -54,7 +54,7 @@ export default function ContactPage() {
           <span className="text-xs font-medium uppercase tracking-[0.2em] text-brand-teal sm:text-sm">
             Get in touch
           </span>
-          <h1 className="mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+          <h1 className="mt-4 text-3xl uppercase font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
             Let&apos;s build something{" "}
             <span className="gradient-text-animated">worth talking about</span>
           </h1>

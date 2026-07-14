@@ -1,11 +1,17 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { ArrowRight } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { m, useReducedMotion } from "motion/react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import LogoCarousel from "./LogoCarousel";
 import { useInView } from "@/hooks/use-in-view";
+import {
+  heroContactFormSchema,
+  type HeroContactFormValues,
+} from "@/lib/validations/hero-contact";
 
 const OUT_SMOOTH = [0.16, 1, 0.3, 1] as const; // --ease-out-smooth
 
@@ -26,6 +32,43 @@ const itemVariants = {
 
 export default function HeroSection() {
   const reduceMotion = useReducedMotion();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<HeroContactFormValues>({
+    resolver: zodResolver(heroContactFormSchema as any),
+    defaultValues: { fullName: "", phone: "", email: "", message: "" },
+  });
+
+  async function onSubmit(values: HeroContactFormValues) {
+    try {
+      const response = await fetch("/api/contact-hero", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => null);
+        throw new Error(body?.error ?? "Failed to send message.");
+      }
+
+      setIsSubmitted(true);
+      reset();
+    } catch (error) {
+      setError("root", {
+        message:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong sending your message. Please try again.",
+      });
+    }
+  }
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const { ref: videoInViewRef, inView: videoInView } =
@@ -142,30 +185,89 @@ export default function HeroSection() {
               </p>
             </div>
 
-            <form className="stagger-children space-y-1">
-              <FormField label="Full Name" placeholder="Full Name" />
-              <FormField label="Phone Number" placeholder="07XXX XXXXXX" />
-              <FormField label="Email" placeholder="socialnexus@gmail.com" />
-
-              <div>
-                <label className="mb-1.5 block text-[12px] font-bold sm:text-[13px]">
-                  Additional Information
-                </label>
-                <textarea
-                  placeholder="Tell us about your needs..."
-                  rows={3}
-                  className="glass-input w-full resize-none rounded-xl px-3.5 py-2.5 text-[12px] font-medium text-white placeholder:text-white/70 outline-none transition-shadow focus:ring-2 focus:ring-primary sm:px-4 sm:py-3 sm:text-[13px]"
-                />
+            {isSubmitted ? (
+              <div className="animate-scale-in flex flex-col items-center justify-center gap-3 py-6 text-center">
+                <CheckCircle2 className="h-8 w-8 text-brand-teal" />
+                <p className="text-sm font-semibold text-white">
+                  Message sent — we&apos;ll be in touch soon.
+                </p>
+                <button
+                  type="button"
+                  className="text-[12px] font-medium text-white/70 underline underline-offset-2 hover:text-white"
+                  onClick={() => setIsSubmitted(false)}
+                >
+                  Send another message
+                </button>
               </div>
-
-              <Button
-                type="submit"
-                className="brand-cta press-scale h-10 w-full rounded-full text-[13px] font-bold sm:h-11 sm:text-[14px]"
+            ) : (
+              <form
+                className="stagger-children space-y-1"
+                onSubmit={handleSubmit(onSubmit)}
+                noValidate
               >
-                Send Message
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </form>
+                <FormField
+                  label="Full Name"
+                  placeholder="Full Name"
+                  error={errors.fullName?.message}
+                  {...register("fullName")}
+                />
+                <FormField
+                  label="Phone Number"
+                  placeholder="07XXX XXXXXX"
+                  type="tel"
+                  error={errors.phone?.message}
+                  {...register("phone")}
+                />
+                <FormField
+                  label="Email"
+                  placeholder="socialnexus@gmail.com"
+                  type="email"
+                  error={errors.email?.message}
+                  {...register("email")}
+                />
+
+                <div>
+                  <label className="mb-1.5 block text-[12px] font-bold sm:text-[13px]">
+                    Additional Information
+                  </label>
+                  <textarea
+                    placeholder="Tell us about your needs..."
+                    rows={3}
+                    className="glass-input w-full resize-none rounded-xl px-3.5 py-2.5 text-[12px] font-medium text-white placeholder:text-white/70 outline-none transition-shadow focus:ring-2 focus:ring-primary sm:px-4 sm:py-3 sm:text-[13px]"
+                    {...register("message")}
+                  />
+                  {errors.message?.message && (
+                    <p className="mt-1 text-[11px] text-red-300">
+                      {errors.message.message}
+                    </p>
+                  )}
+                </div>
+
+                {errors.root?.message && (
+                  <p className="text-[11px] text-red-300">
+                    {errors.root.message}
+                  </p>
+                )}
+
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="brand-cta press-scale h-10 w-full rounded-full text-[13px] font-bold sm:h-11 sm:text-[14px]"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+              </form>
+            )}
           </m.div>
         </m.div>
       </div>
@@ -175,20 +277,19 @@ export default function HeroSection() {
   );
 }
 
-function FormField({
-  label,
-  placeholder,
-}: {
-  label: string;
-  placeholder: string;
-}) {
+const FormField = React.forwardRef<
+  HTMLInputElement,
+  React.InputHTMLAttributes<HTMLInputElement> & { label: string; error?: string }
+>(function FormField({ label, error, ...inputProps }, ref) {
   return (
     <div>
       <label className="mb-1.5 block text-[12px] font-bold sm:text-[13px]">{label}</label>
       <input
-        placeholder={placeholder}
+        ref={ref}
         className="glass-input h-10 w-full rounded-full px-4 text-[12px] font-medium text-white placeholder:text-white/70 outline-none transition-shadow focus:ring-2 focus:ring-primary sm:h-11 sm:px-5 sm:text-[13px]"
+        {...inputProps}
       />
+      {error && <p className="mt-1 text-[11px] text-red-300">{error}</p>}
     </div>
   );
-}
+});
