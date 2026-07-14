@@ -108,7 +108,7 @@ export function ServicesSection() {
         <NetworkLines />
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-6 lg:px-8">
+      <div className="relative mx-auto max-w-6xl px-6 lg:pl-17">
         {/* Intro row */}
         <div className="scroll-reveal-row flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
           <div className="lg:max-w-lg">

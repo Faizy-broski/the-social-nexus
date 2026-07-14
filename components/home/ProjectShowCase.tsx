@@ -44,7 +44,7 @@ export function ProductShowcaseSection() {
 
   return (
     <section className="bg-white py-16 sm:py-24 lg:py-28">
-      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:pl-17">
         {/* Intro */}
         <Reveal variant="up" richer className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold text-brand-teal-dark">

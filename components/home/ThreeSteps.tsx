@@ -32,7 +32,7 @@ const ProcessSection = () => {
 
   return (
     <section className="bg-white py-16 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:pl-17">
         {/* Heading */}
         <div className="scroll-reveal-row text-center">
           <p className="text-sm font-semibold text-brand-teal-dark">Process</p>
@@ -80,7 +80,7 @@ const ProcessSection = () => {
                   to mx-0 at md where the column itself goes left-aligned.
                   Width also now scales up gradually instead of jumping
                   straight to a fixed 270px on every screen ≥0px. */}
-              <p className="mx-auto mt-3 max-w-xs text-sm text-justify leading-6 text-muted-foreground sm:mt-4 sm:max-w-sm sm:leading-7 md:mx-0 md:max-w-67.5">
+              <p className="mx-auto mt-3 max-w-xs text-sm text-justify leading-6 text-muted-foreground sm:mt-4 sm:max-w-sm md:mx-0 md:max-w-67.5">
                 {step.description}
               </p>
 

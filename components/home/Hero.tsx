@@ -163,8 +163,8 @@ export default function HeroSection() {
             className="mx-auto mt-5 max-w-90 text-[12px] font-medium leading-[1.6] text-white/90 sm:mt-6 sm:max-w-110 sm:text-[14px] lg:mx-0 lg:max-w-120 lg:text-[15px] text-justify"
           >
             We combine software engineering, artificial intelligence, design,
-            and performance marketing to create powerful digital ecosystems
-            that drive measurable business growth worldwide.
+            and performance marketing to create powerful digital ecosystems that
+            drive measurable business growth worldwide.
           </m.p>
         </m.div>
 
@@ -174,11 +174,11 @@ export default function HeroSection() {
           animate="visible"
           variants={containerVariants}
           style={{ perspective: 1000 }}
-          className="relative w-full max-w-sm shrink-0 sm:max-w-md lg:max-w-md xl:max-w-md"
+          className="relative w-full max-w-6xl shrink-0 sm:max-w-5xl lg:max-w-md xl:max-w-md"
         >
           <m.div
             variants={itemVariants}
-            className="glass-panel rounded-2xl p-5 shadow-lg sm:p-6"
+            className="glass-panel backdrop-blur-2xl rounded-2xl p-5 shadow-lg sm:p-6"
           >
             <div className="mb-4">
               <h2 className="text-base font-bold text-white sm:text-lg">
@@ -283,11 +283,16 @@ export default function HeroSection() {
 
 const FormField = React.forwardRef<
   HTMLInputElement,
-  React.InputHTMLAttributes<HTMLInputElement> & { label: string; error?: string }
+  React.InputHTMLAttributes<HTMLInputElement> & {
+    label: string;
+    error?: string;
+  }
 >(function FormField({ label, error, ...inputProps }, ref) {
   return (
     <div>
-      <label className="mb-1.5 block text-[12px] font-bold sm:text-[13px]">{label}</label>
+      <label className="mb-1.5 block text-[12px] font-bold sm:text-[13px]">
+        {label}
+      </label>
       <input
         ref={ref}
         className="glass-input h-10 w-full rounded-full px-4 text-[12px] font-medium text-white placeholder:text-white/70 outline-none transition-shadow focus:ring-2 focus:ring-primary sm:h-11 sm:px-5 sm:text-[13px]"

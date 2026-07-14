@@ -154,7 +154,7 @@ const Header = () => {
         className={cn(
           "fixed inset-x-0 top-0 z-40 flex h-16 w-full items-center justify-between overflow-hidden border-b px-4",
           "sm:h-20 sm:px-6",
-          "lg:inset-x-auto lg:left-0 lg:top-0 lg:h-screen lg:w-19 lg:flex-col lg:justify-between lg:border-b-0 lg:border-r lg:bg-transparent lg:px-0 lg:py-18",
+          "lg:inset-x-auto lg:left-0 lg:top-0 lg:h-screen lg:w-16 lg:grid lg:grid-rows-[1fr_1fr_1fr] lg:items-center lg:justify-items-center lg:border-b-0 lg:border-r lg:bg-transparent lg:px-0 lg:py-0",
           t.border,
         )}
       >
@@ -177,14 +177,14 @@ const Header = () => {
           aria-label="The Social Nexus home"
           className="animate-fade-in-down flex items-center justify-center"
         >
-          <span className="block lg:origin-center lg:-rotate-90 lg:scale-155">
+          <span className="block lg:origin-center shrink-0 lg:-rotate-90 lg:scale-155">
             <Image
               src={t.logo}
               alt="The Social Nexus"
               width={140}
               height={46}
               priority
-              className="h-7 w-auto transition-opacity duration-300 sm:h-8 lg:h-8"
+              className="h-7 w-auto transition-opacity duration-300 sm:h-7 lg:h-6"
             />
           </span>
         </Link>
@@ -270,7 +270,6 @@ const Header = () => {
                             onClick={() => setIsSheetOpen(false)}
                             className="group flex items-center text-2xl font-semibold text-white/60 transition-colors hover:text-white sm:text-3xl"
                           >
-                            
                             {link.label}
                           </Link>
                         </li>
@@ -337,7 +336,10 @@ const Header = () => {
         />
 
         {/* Contact us + phone, rotated — desktop rail only */}
-        <a href="tel:+447462254013" className="hidden items-center lg:flex">
+        <a
+          href="tel:+447462254013"
+          className="hidden shrink-0 items-center lg:flex"
+        >
           <span
             className={cn(
               "[writing-mode:vertical-rl] rotate-180 whitespace-nowrap text-[16px] font-semibold tracking-wide transition-colors duration-300",
@@ -385,7 +387,11 @@ const Header = () => {
             />
 
             <div className="relative">
-              <Link href="/" onClick={() => setIsOpen(false)} className="inline-block">
+              <Link
+                href="/"
+                onClick={() => setIsOpen(false)}
+                className="inline-block"
+              >
                 <Image
                   src="/TSN-White-Logo.webp"
                   alt="The Social Nexus"
@@ -553,7 +559,7 @@ function MagneticDotGrid({
       onMouseLeave={handleLeave}
       aria-label="Open menu"
       aria-expanded={isOpen}
-      className="press-scale relative hidden h-12 w-12 cursor-pointer items-center justify-center overflow-hidden rounded-full transition-transform duration-300 hover:scale-105 lg:mt-8 lg:flex"
+      className="press-scale relative hidden h-12 w-12 cursor-pointer items-center justify-center overflow-hidden rounded-full transition-transform duration-300 hover:scale-105 lg:flex"
     >
       <span
         ref={tealFillRef}

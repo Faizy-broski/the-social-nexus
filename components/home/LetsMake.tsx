@@ -3,7 +3,7 @@ import MagneticButton from "@/components/home/MagneticButton";
 const LetsMake = () => {
   return (
     <section className="bg-white py-16 sm:py-20 lg:py-28">
-      <div className="mx-auto flex max-w-6xl flex-col items-center px-5 text-center sm:px-6">
+      <div className="mx-auto flex max-w-6xl flex-col items-center px-5 text-center sm:pl-17">
         <p className="scroll-reveal-row text-base font-medium text-[#555555] sm:text-2xl lg:text-3xl">
           Have a project in mind?
         </p>

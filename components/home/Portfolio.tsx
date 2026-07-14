@@ -145,7 +145,7 @@ export function PortfolioSection() {
         <NetworkLines />
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-6xl px-5 sm:px-6 lg:pl-17">
         {/* Header row */}
         <Reveal
           variant="up"

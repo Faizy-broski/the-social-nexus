@@ -18,8 +18,6 @@ type Product = {
   href: string;
   previewImage: string;
   previewHeadline: string;
-  /** How far (as % of the image's own height) it pans up on hover.
-   *  Taller full-page screenshots want a bigger number. Defaults to 65. */
   previewScrollPercent?: number;
 };
 
@@ -27,13 +25,10 @@ const ProductCard = ({ product }: { product: Product }) => {
   const shift = product.previewScrollPercent ?? 65;
 
   return (
-    <TiltCard className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-2 hover:border-brand-cyan-accent hover:shadow-xl">
+    <TiltCard className="group flex flex-col overflow-hidden rounded-xl border border-neutral-200/80 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:border-brand-teal/40 hover:shadow-[0_16px_32px_-12px_rgba(11,14,19,0.18)]">
       {/* Browser-chrome preview */}
-      <div className="relative overflow-hidden rounded-t-2xl bg-[#0B0E13]">
-        {/* Fixed-height viewport that clips the tall screenshot.
-            `group/image` scopes the hover trigger to just this box —
-            hovering the card body/button won't trigger the pan. */}
-        <div className="group/image relative h-48 overflow-hidden sm:h-56 lg:h-64">
+      <div className="relative overflow-hidden rounded-t-xl bg-[#0B0E13]">
+        <div className="group/image relative h-36 overflow-hidden sm:h-40 lg:h-44">
           <Image
             src={product.previewImage}
             alt={`${product.eyebrowTitle} product preview`}
@@ -44,39 +39,42 @@ const ProductCard = ({ product }: { product: Product }) => {
             className="h-auto w-full origin-top translate-y-0 transition-transform ease-in-out will-change-transform duration-4000 group-hover/image:translate-y-[calc(var(--shift)*-1%)]"
           />
 
-          {/* Bouncing scroll/pointer hint — centered on the image, cues that
-              hovering pans the screenshot. Fades out once hovered so it
-              doesn't sit on top of the panned content. */}
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-100 transition-opacity duration-300 group-hover/image:opacity-0">
-            <div className="flex h-11 w-11 animate-float items-center justify-center rounded-full sm:h-12 sm:w-12">
+            <div className="flex h-8 w-8 animate-float items-center justify-center rounded-full bg-black/20 backdrop-blur-sm sm:h-9 sm:w-9">
               <Mouse
-                className="h-5 w-5 text-brand-teal sm:h-9 sm:w-9"
+                className="h-4 w-4 text-brand-teal-light sm:h-4.5 sm:w-4.5"
                 strokeWidth={1.5}
               />
             </div>
           </div>
+
+          {/* subtle top fade so the screenshot edge doesn't feel clipped-hard */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#0B0E13]/60 to-transparent" />
         </div>
       </div>
 
       {/* Body */}
-      <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <h3 className="text-base font-extrabold uppercase tracking-tight text-[#121212] sm:text-lg">
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
+        <h3 className="text-[13px] font-extrabold uppercase tracking-tight text-[#121212] sm:text-sm">
           {product.eyebrowTitle}{" "}
           <span className="gradient-text">{product.highlight}</span>
         </h3>
 
-        <p className="mt-3 text-sm leading-relaxed text-[#3a3a3a]">
+        <p className="mt-2 text-[13px] leading-relaxed text-[#3a3a3a]">
           {product.description}
         </p>
 
-        <ul className="mt-5 space-y-2.5">
+        {/* thin gold accent divider — token-only, ~20% accent role */}
+        <span className="mt-4 h-px w-8 bg-brand-gold/60" aria-hidden />
+
+        <ul className="mt-3 space-y-1.5">
           {product.bullets.map((bullet: string) => (
             <li
               key={bullet}
-              className="flex items-start gap-2.5 text-sm text-[#3a3a3a]"
+              className="flex items-start gap-2 text-[13px] text-[#3a3a3a]"
             >
               <Check
-                className="mt-0.5 h-4 w-4 shrink-0 text-[#3AB5C0]"
+                className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#3AB5C0]"
                 strokeWidth={3}
               />
               {bullet}
@@ -84,15 +82,13 @@ const ProductCard = ({ product }: { product: Product }) => {
           ))}
         </ul>
 
-        <div className={cn("flex flex-1 items-end pt-6 sm:justify-start")}>
+        <div className="mt-5 flex flex-1 items-end">
           <MagneticButton
             href="/contact-us"
             fillClassName="bg-brand-gold"
-            className="mt-10 h-32 w-32 flex-col rounded-full bg-brand-teal text-center text-base font-semibold leading-tight text-white sm:mt-2 sm:h-40 sm:w-40 sm:text-lg"
+            className="h-10 w-full rounded-full bg-brand-teal px-5 text-center text-[13px] font-semibold text-white transition-colors sm:h-11 sm:text-sm"
           >
-            {product.ctaLabel[0]}
-            <br />
-            {product.ctaLabel[1]}
+            {product.ctaLabel.join(" ")}
           </MagneticButton>
         </div>
       </div>

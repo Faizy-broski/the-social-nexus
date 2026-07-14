@@ -67,7 +67,7 @@ export default function LogoCarousel() {
   return (
     <section
       ref={setSectionRefs}
-      className="reveal relative overflow-hidden bg-white/10 py-6 backdrop-blur-md sm:py-8"
+      className="reveal relative overflow-hidden bg-white/20 py-6 backdrop-blur-md sm:py-6"
     >
       {/* edge fade masks so logos scroll under a soft gradient, not a hard cut */}
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-linear-to-r from-brand-navy to-transparent sm:w-16 md:w-24" />
@@ -89,7 +89,7 @@ export default function LogoCarousel() {
                   alt={logo.name}
                   width={56}
                   height={56}
-                  className="relative h-11 w-11 object-contain opacity-70 transition-all duration-300 ease-out sm:h-10 sm:w-10 md:h-14 md:w-14"
+                  className="relative h-11 w-11 object-contain opacity-70 transition-all duration-300 ease-out sm:h-10 sm:w-10 md:h-10 md:w-10"
                 />
               </div>
             </div>

@@ -21,7 +21,7 @@ export default function WebBriefPage() {
         <NetworkLines />
       </div>
 
-      <div className="container-section relative py-14 sm:py-20 lg:py-28">
+      <div className="container-section relative py-24 sm:py-20 lg:py-28">
         <div className="scroll-reveal-row mx-auto mb-10 max-w-2xl text-center sm:mb-14 lg:mb-16">
           <span className="text-xs font-medium uppercase tracking-[0.2em] text-brand-teal sm:text-sm">
             Let&apos;s get started

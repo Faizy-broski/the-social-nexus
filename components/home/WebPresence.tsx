@@ -25,7 +25,7 @@ import { Reveal } from "@/components/motion/Reveal";
 export function WebPresenceSection() {
   return (
     <section className="overflow-hidden bg-white py-12 sm:py-24 lg:py-22">
-      <div className="mx-auto max-w-7xl px-5 sm:px-10 lg:pl-26 lg:pr-16">
+      <div className="mx-auto max-w-6xl px-5 sm:pl-17">
         <div className="grid grid-cols-1 gap-10 sm:gap-14 lg:grid-cols-2 lg:gap-16">
           {/* Left — heading + copy + tagline */}
           <Reveal

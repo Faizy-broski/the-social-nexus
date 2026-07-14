@@ -157,7 +157,7 @@ export function LogoBriefForm() {
 
       <div className="space-y-2">
         <Label className="text-white/80">Contact Phone Number*</Label>
-        <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-2 sm:gap-3">
+        <div className="grid grid-cols-[minmax(4.5rem,5.5rem)_1fr] gap-2 sm:grid-cols-[minmax(0,7.5rem)_1fr] sm:gap-3">
           <Controller
             control={control}
             name="countryCode"

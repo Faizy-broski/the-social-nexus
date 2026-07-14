@@ -236,21 +236,18 @@ export default function AboutUsPage() {
           <NetworkLines />
         </div>
 
-        <div className="relative mx-auto flex min-h-screen flex-col justify-center px-5 pt-8 sm:px-8 md:px-12 lg:pl-20 lg:pr-10 xl:pl-25 xl:pr-12">
+        <div className="relative mx-auto flex min-h-screen flex-col justify-center px-5 pt-8 sm:px-8 md:px-12 lg:pl-20 lg:pr-10 xl:pl-25 xl:pr-12 text-center">
           {/* Heading */}
           <Reveal variant="right" richer className="max-w-6xl">
-            <h1 className="text-[38px] font-medium uppercase leading-[0.95] tracking-[-0.05em] sm:text-[56px] md:text-[80px] lg:text-[110px] xl:text-[130px]">
-              We turn ideas{" "}
-              <span className="inline-block align-middle text-[19px] leading-[0.95] tracking-[-0.05em] sm:text-[26px] md:text-[34px] lg:text-[42px] xl:text-[46px]">
-                Into Digital <br /> Infrastructure
-              </span>
+            <h1 className="text-[38px] font-medium uppercase leading-[1.1] tracking-tighter sm:text-[56px] md:text-[60px] lg:text-[68px] xl:text-6xl">
+              We turn ideas Into Digital Infrastructure
               <br />
               <span className="gradient-text-animated">That businesses</span> run on.
             </h1>
           </Reveal>
 
           {/* Bottom row */}
-          <div className="mt-14 grid items-center gap-8 sm:mt-16 sm:gap-10 lg:mt-20 lg:grid-cols-[220px_1fr_60px_200px] lg:gap-6 xl:grid-cols-[300px_1fr_100px_250px] xl:gap-10">
+          <div className="mt-14 grid items-center gap-8 sm:mt-16 sm:gap-10 lg:mt-20 lg:grid-cols-[220px_1fr_80px_200px] lg:gap-6 xl:grid-cols-[300px_1fr_100px_250px] xl:gap-0 mb-12">
             {/* Contact Circle */}
             <MagneticButton
               href="/contact-us"
@@ -316,7 +313,7 @@ export default function AboutUsPage() {
 
       {/* ================= OUR STORY ================= */}
       <section className="relative border-t border-white/10 bg-brand-navy px-5 text-white sm:px-8 md:px-12 lg:pl-20 lg:pr-10 xl:pl-25 xl:pr-12">
-        <div className="relative mx-auto min-h-[470px] max-w-[1920px] lg:grid lg:grid-cols-[41%_59%]">
+        <div className="relative mx-auto min-h-117.5 max-w-[1920px] lg:grid lg:grid-cols-[41%_59%]">
           <Reveal
             variant="right"
             richer
@@ -394,7 +391,7 @@ export default function AboutUsPage() {
           <NetworkLines />
         </div>
 
-        <div className="relative mx-auto max-w-[1760px]">
+        <div className="relative mx-auto max-w-6xl">
           {/* Header */}
           <div className="scroll-reveal-row grid gap-10 lg:grid-cols-[1fr_1.5fr_auto] lg:items-start">
             <div>
@@ -402,7 +399,7 @@ export default function AboutUsPage() {
                 Services
               </p>
 
-              <h2 className="mt-8 max-w-[430px] text-[32px] font-medium uppercase leading-[1.05] tracking-[-0.04em] sm:mt-10 sm:text-[42px] lg:text-[46px] xl:text-3xl">
+              <h2 className="mt-8 max-w-[430px] text-[32px] font-medium uppercase leading-[1.05] tracking-[-0.04em] sm:mt-10 sm:text-[42px] lg:text-[46px] xl:text-[50px]">
                 Digital services
                 <br />
                 that define{" "}
@@ -429,7 +426,7 @@ export default function AboutUsPage() {
           </div>
 
           {/* Cards */}
-          <div className="stagger-children mt-12 grid grid-cols-1 gap-6 sm:gap-7 md:grid-cols-2 xl:grid-cols-3">
+          <div className="stagger-children mt-12 grid grid-cols-1 gap-6 sm:gap-7 md:grid-cols-2 xl:grid-cols-4">
             {services.map((service, index) => (
               <ServiceCard
                 key={service.title}
@@ -443,7 +440,7 @@ export default function AboutUsPage() {
 
       {/* ================= GLOBAL PRESENCE ================= */}
       <section className="bg-brand-navy px-5 py-14 text-white sm:px-8 sm:py-16 md:px-12 lg:pl-20 lg:pr-10 xl:pl-25 xl:pr-12">
-        <div className="mx-auto max-w-[1500px]">
+        <div className="mx-auto max-w-6xl">
           {/* Heading */}
           <div className="scroll-reveal-row text-center">
             <h2 className="text-[28px] font-medium uppercase leading-none tracking-[-0.035em] sm:text-[36px] lg:text-4xl">
@@ -496,7 +493,7 @@ function ServiceCard({ service, priority = false }: ServiceCardProps) {
   return (
     <Link
       href={service.href}
-      className="group relative block h-[300px] overflow-hidden rounded-2xl border border-white/10 bg-brand-navy-light shadow-lg transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-brand-teal/40 hover:shadow-xl sm:h-[360px] lg:h-[380px] xl:h-[400px]"
+      className="group relative block h-[300px] overflow-hidden rounded-2xl border border-white/10 bg-brand-navy-light shadow-lg transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-brand-teal/40 hover:shadow-xl sm:h-[360px] lg:h-[380px] xl:h-[300px]"
     >
       <Image
         src={service.image}
@@ -508,10 +505,10 @@ function ServiceCard({ service, priority = false }: ServiceCardProps) {
       />
 
       {/* Dark overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/20 to-brand-navy/5" />
+      <div className="absolute inset-0 bg-linear-to-t from-brand-navy/90 via-brand-navy/20 to-brand-navy/5" />
 
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-5 p-6 sm:p-7">
-        <h3 className="max-w-[90%] text-xl font-semibold leading-[1.12] tracking-[-0.035em] text-white sm:text-2xl lg:text-[28px]">
+        <h3 className="max-w-[90%] text-xl font-semibold leading-[1.12] tracking-[-0.035em] text-white sm:text-2xl lg:text-[22px]">
           {service.title}
         </h3>
       </div>

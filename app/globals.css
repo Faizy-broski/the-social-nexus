@@ -57,7 +57,7 @@
 
   /* hero overlay tint — teal/navy over the skyline photo */
   --hero-overlay-from: rgb(59 179 194 / 0.55);
-  --hero-overlay-via: rgb(43 130 141 / 0.5);
+  --hero-overlay-via: rgb(43 130 141 / 0.85);
   --hero-overlay-to: rgb(11 16 32 / 0.75);
 
   /* glass panel (form card) */
@@ -648,6 +648,26 @@
   .gradient-bg-pan {
     background-size: 200% 200%;
     animation: gradient-bg-pan 10s ease-in-out infinite;
+  }
+
+  /* Vertical variant of gradient-bg-pan — for the desktop rail's
+     edge stripe, which pans top-to-bottom instead of side-to-side. */
+  @keyframes gradient-pan-vertical {
+    0%, 100% { background-position: 50% 0%; }
+    50% { background-position: 50% 100%; }
+  }
+  .gradient-pan-vertical {
+    background-size: 200% 200%;
+    animation: gradient-pan-vertical 8s ease-in-out infinite;
+  }
+
+  /* Slow continuous rotation — for the conic-gradient aura behind the
+     header's dot-grid trigger, so it reads as "alive" even at rest. */
+  @keyframes spin-slow {
+    to { transform: rotate(360deg); }
+  }
+  .animate-spin-slow {
+    animation: spin-slow 7s linear infinite;
   }
 
   .scrollbar-none {

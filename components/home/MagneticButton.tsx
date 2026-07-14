@@ -41,6 +41,13 @@ type MagneticButtonProps = {
  *    responsive without flying across the page.
  *  - On leave, the fill scales back down toward the exit point and the
  *    button eases back to rest with a light overshoot.
+ *
+ * NOTE: the content span below MUST be its own inline-flex row. Tailwind's
+ * preflight sets `svg { display: block }`, so any icon passed in as a
+ * child (e.g. lucide-react icons) will break onto its own line above
+ * sibling text if this wrapper is a plain (non-flex) span — the outer
+ * `items-center gap-*` classes only affect direct flex children, and
+ * this span is the only direct child, not the icon/text inside it.
  */
 export const MagneticButton = forwardRef<
   HTMLAnchorElement | HTMLButtonElement,
@@ -132,13 +139,15 @@ export const MagneticButton = forwardRef<
         )}
         style={{ transformOrigin: "50% 50%" }}
       />
-      <span className="relative z-10">{children}</span>
+      <span className="relative z-10 inline-flex items-center justify-center gap-2">
+        {children}
+      </span>
     </>
   );
 
   if (href) {
     return (
-      <Link href={href} ref={setRefs as never} {...sharedProps}>
+      <Link href={href} ref={setRefs as never} {...sharedProps} onClick={onClick}>
         {fillAndContent}
       </Link>
     );
