@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Geist } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Header from "@/components/home/Header";
@@ -10,12 +10,6 @@ import WhatsappButton from "@/components/home/WhatsappButton";
 import LetsMake from "@/components/home/LetsMake";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-});
 
 export const metadata: Metadata = {
   title: "Social Nexus – Where Ideas Transform Into Digital Power.",
@@ -43,12 +37,10 @@ export default function RootLayout({
       <body>
         <HeaderThemeProvider>
         <Header />
-        <LetsTalkBadge/>
+        {/* <LetsTalkBadge/> */}
         {children}
         <LetsMake />
-        <div className="relative pt-30 mt-6 overflow-hidden">
         <Footer />
-        </div>
         <WhatsappButton />
         </HeaderThemeProvider>
         </body>

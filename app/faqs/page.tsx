@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { Minus, Plus } from "lucide-react";
-import LetsMake from "@/components/home/LetsMake";
 import NetworkLines from "@/components/contact/network-lines";
 import { Reveal } from "@/components/motion/Reveal";
 import MagneticButton from "@/components/home/MagneticButton";

@@ -8,27 +8,27 @@ const ProcessSection = () => {
       title: "FILL UP THE DETAIL",
       description:
         "Tell us about your business, goals and timeline through a short form. No jargon, no long calls—just the essentials we need to get started.",
-      image: "/boy-is-working.jpg",
+      image: "/boy-is-working.avif",
     },
     {
       number: "02",
       title: "MEET WITH OUR TEAM",
       description:
         "We schedule a short call to walk through your requirements, scope the project properly, and answer any questions you have.",
-      image: "/flat-illustration-business.png",
+      image: "/flat-illustration-business.avif",
     },
     {
       number: "03",
       title: "WE BUILD, LAUNCH & SUPPORT",
       description:
         "Our team designs, develops and ships your project, then stays on for support and updates long after launch day.",
-      image: "/Tiny-character-launching.jpg",
+      image: "/Tiny-character-launching.avif",
     },
   ];
 
   // One distinct arrow graphic per connector slot: arrow-1 bridges
   // step 1 → 2, arrow-2 bridges step 2 → 3.
-  const arrowByIndex = ["/arrow-1.png", "/arrow-2.png"];
+  const arrowByIndex = ["/arrow-1.avif", "/arrow-2.avif"];
 
   return (
     <section className="bg-white py-16 sm:py-20 lg:py-24">

@@ -94,21 +94,25 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden text-white">
-      {/* Background video */}
+      {/* Background video — poster/preload intentionally omitted: there's no
+          static frame asset to show, and `poster` pointing at a missing file
+          used to 404 and stall the LCP paint. `preload="metadata"` keeps the
+          full 1.9MB file out of the critical request chain while still
+          letting `autoPlay` kick the fetch off once the video is in view. */}
       <video
         ref={setVideoRefs}
         className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
         src="/hero-video.mp4"
-        poster="/images/hero-bg.jpg"
         autoPlay
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
       />
 
-      {/* Static fallback for reduced-motion users */}
-      <div className="absolute inset-0 hidden bg-[url('/images/hero-bg.jpg')] bg-cover bg-center motion-reduce:block" />
+      {/* Static fallback for reduced-motion users — the gradient overlay
+          below already paints instantly, so this is just the navy base. */}
+      <div className="absolute inset-0 hidden bg-brand-navy motion-reduce:block" />
 
       {/* Gradient overlay — teal → navy, driven by globals.css hero tokens */}
       <div className="hero-teal-overlay absolute inset-0" />

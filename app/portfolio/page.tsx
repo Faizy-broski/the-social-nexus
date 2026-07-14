@@ -200,7 +200,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WordPress"],
     previewHref: "https://thesocialnexus.co.uk/mobiledoctor/",
     mockupHref: "/portfolio/mobiledoctor",
-    image: "/portfolio/10.png",
+    image: "/portfolio/10.webp",
   },
   {
     slug: "hotspotayr",
@@ -209,7 +209,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WordPress"],
     previewHref: "https://thesocialnexus.co.uk/hotspotayr/",
     mockupHref: "/portfolio/hotspotayr",
-    image: "/portfolio/12.png",
+    image: "/portfolio/12.webp",
   },
   {
     slug: "phone-doctor",
@@ -218,7 +218,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WordPress"],
     previewHref: "https://thesocialnexus.co.uk/phonedoctorayr/",
     mockupHref: "/portfolio/phone-doctor",
-    image: "/portfolio/6.png",
+    image: "/portfolio/6.webp",
   },
   {
     slug: "matlock",
@@ -227,7 +227,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WooCommerce", "WordPress"],
     previewHref: "https://thesocialnexus.co.uk/matlock",
     mockupHref: "/portfolio/matlock",
-    image: "/portfolio/3.png",
+    image: "/portfolio/3.webp",
   },
   {
     slug: "islamic-wall-arts",
@@ -236,7 +236,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WordPress"],
     previewHref: null,
     mockupHref: "/portfolio/islamic-wall-arts",
-    image: "/portfolio/4.png",
+    image: "/portfolio/4.webp",
   },
   {
     slug: "al-quran-islamic-education",
@@ -245,7 +245,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WordPress"],
     previewHref: null,
     mockupHref: "/portfolio/al-quran-islamic-education",
-    image: "/portfolio/7.png",
+    image: "/portfolio/7.webp",
   },
   {
     slug: "gadgetsrepairltd",
@@ -254,7 +254,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WordPress"],
     previewHref: "https://thesocialnexus.co.uk/mygadgetrecycle/",
     mockupHref: "/portfolio/gadgetsrepairltd",
-    image: "/portfolio/9.png",
+    image: "/portfolio/9.webp",
   },
   {
     slug: "cvs",
@@ -281,7 +281,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "Membership", "WooCommerce"],
     previewHref: "https://thesocialnexus.co.uk/OWW",
     mockupHref: "/portfolio/oww",
-    image: "/portfolio/5.png",
+    image: "/portfolio/5.webp",
   },
   {
     slug: "wimmera-security",
@@ -428,19 +428,17 @@ function PortfolioCard({
 }) {
   return (
     <TiltCard className="group flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl">
-      {/* Screenshot — hover-scrolls the background over 8s */}
+      {/* Screenshot — hover-pans via object-position over 8s. Next/Image is
+          the visible layer (not a raw CSS background-image), so it gets
+          responsive srcset + lazy loading instead of downloading the
+          full-resolution source twice. */}
       <div className="group/thumb relative aspect-16/10 w-full overflow-hidden bg-brand-navy">
-        <div
-          className="absolute inset-0 bg-cover bg-top transition-[background-position] duration-8000 ease-linear group-hover/thumb:bg-bottom"
-          style={{ backgroundImage: `url(${item.image})` }}
-        />
         <Image
           src={item.image}
           alt={item.title}
           fill
           sizes="(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="opacity-0"
-          aria-hidden="true"
+          className="object-cover object-top transition-[object-position] duration-8000 ease-linear group-hover/thumb:object-bottom"
         />
         <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-brand-teal opacity-100 transition-opacity duration-300 ease-out group-hover:opacity-0 sm:h-11 sm:w-11">
           <Mouse className="animate-float h-4 w-4 sm:h-7 sm:w-7" />
@@ -551,9 +549,12 @@ function MockupModal({
         </button>
 
         <div className="group/mockup relative aspect-video w-full shrink-0 overflow-hidden bg-brand-navy">
-          <div
-            className="absolute inset-0 bg-cover bg-top transition-[background-position] duration-6000 ease-linear group-hover/mockup:bg-bottom"
-            style={{ backgroundImage: `url(${item.image})` }}
+          <Image
+            src={item.image}
+            alt={item.title}
+            fill
+            sizes="(min-width: 1024px) 56rem, 100vw"
+            className="object-cover object-top transition-[object-position] duration-6000 ease-linear group-hover/mockup:object-bottom"
           />
         </div>
 
@@ -597,54 +598,54 @@ function MockupModal({
 /* ------------------------------------------------------------------ */
 
 const logoDesignImages = [
-  "/logo-designs/1.png",
-  "/logo-designs/2.png",
-  "/logo-designs/3.png",
-  "/logo-designs/4.png",
-  "/logo-designs/5.png",
-  "/logo-designs/6.png",
-  "/logo-designs/7.png",
-  "/logo-designs/8.png",
-  "/logo-designs/9.png",
-  "/logo-designs/10.png",
-  "/logo-designs/11.png",
-  "/logo-designs/12.png",
-  "/logo-designs/13.png",
-  "/logo-designs/14.png",
+  "/logo-designs/1.webp",
+  "/logo-designs/2.webp",
+  "/logo-designs/3.webp",
+  "/logo-designs/4.webp",
+  "/logo-designs/5.webp",
+  "/logo-designs/6.webp",
+  "/logo-designs/7.webp",
+  "/logo-designs/8.webp",
+  "/logo-designs/9.webp",
+  "/logo-designs/10.webp",
+  "/logo-designs/11.webp",
+  "/logo-designs/12.webp",
+  "/logo-designs/13.webp",
+  "/logo-designs/14.webp",
 ];
 
 const socialMediaImages = [
-  "/posts/1.png",
-  "/posts/2.png",
-  "/posts/3.png",
-  "/posts/4.png",
-  "/posts/5.png",
-  "/posts/6.png",
-  "/posts/7.png",
-  "/posts/8.png",
-  "/posts/9.png",
-  "/posts/10.png",
-  "/posts/11.png",
-  "/posts/12.png",
-  "/posts/13.png",
-  "/posts/14.png",
-  "/posts/15.png",
-  "/posts/16.png",
-  "/posts/17.png",
-  "/posts/18.png",
-  "/posts/19.png",
-  "/posts/20.png",
-  "/posts/21.png",
-  "/posts/22.png",
-  "/posts/23.png",
-  "/posts/24.png",
-  "/posts/25.png",
-  "/posts/26.png",
-  "/posts/27.png",
-  "/posts/28.png",
-  "/posts/29.png",
-  "/posts/30.png",
-  "/posts/31.png",
+  "/posts/1.webp",
+  "/posts/2.webp",
+  "/posts/3.webp",
+  "/posts/4.webp",
+  "/posts/5.webp",
+  "/posts/6.webp",
+  "/posts/7.webp",
+  "/posts/8.webp",
+  "/posts/9.webp",
+  "/posts/10.webp",
+  "/posts/11.webp",
+  "/posts/12.webp",
+  "/posts/13.webp",
+  "/posts/14.webp",
+  "/posts/15.webp",
+  "/posts/16.webp",
+  "/posts/17.webp",
+  "/posts/18.webp",
+  "/posts/19.webp",
+  "/posts/20.webp",
+  "/posts/21.webp",
+  "/posts/22.webp",
+  "/posts/23.webp",
+  "/posts/24.webp",
+  "/posts/25.webp",
+  "/posts/26.webp",
+  "/posts/27.webp",
+  "/posts/28.webp",
+  "/posts/29.webp",
+  "/posts/30.webp",
+  "/posts/31.webp",
 ];
 
 function MasonryGallery({ images }: { images: string[] }) {

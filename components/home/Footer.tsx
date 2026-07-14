@@ -59,7 +59,7 @@ export function SiteFooter() {
   const ctaRef = useReveal<HTMLDivElement>();
 
   return (
-    <>
+    <div className="relative md:pt-30 mt-6 overflow-hidden">
       {/* Parallax banner, faded into the panel below — desktop only,
           already correctly hidden on mobile/tablet */}
       <div
@@ -71,7 +71,7 @@ export function SiteFooter() {
           style={{ transform: `translate3d(0, ${offset}px, 0)` }}
         >
           <Image
-            src="/footer-parallax.jpeg"
+            src="/footer-parallax.avif"
             alt=""
             fill
             priority={false}
@@ -245,7 +245,7 @@ export function SiteFooter() {
             </div>
         </div>
       </footer>
-    </>
+    </div>
   );
 }
 

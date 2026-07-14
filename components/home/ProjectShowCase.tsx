@@ -18,7 +18,7 @@ const products = [
     ],
     ctaLabel: ["Explore", "POS"],
     href: "https://repairbooking.co.uk/",
-    previewImage: "/repairbooking-co-uk.png",
+    previewImage: "/repairbooking-co-uk.avif",
     previewHeadline: "The All-in-One POS for repair shops & retail",
   },
   {
@@ -34,7 +34,7 @@ const products = [
     ],
     ctaLabel: ["Explore", "LMS"],
     href: "/products/lms",
-    previewImage: "/repairbooking-co-uk.png",
+    previewImage: "/repairbooking-co-uk.avif",
     previewHeadline: "The All-in-One POS for repair shops & retail",
   },
 ];

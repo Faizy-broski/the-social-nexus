@@ -27,6 +27,8 @@ const navLinks = [
   { label: "Services", href: "/services" },
   { label: "Portfolio", href: "/portfolio" },
   { label: "FAQs", href: "/faqs" },
+  { label: "Web Brief", href: "/web-brief" },
+  { label: "Logo Brief", href: "/logo-brief" },
   { label: "Contact Us", href: "/contact-us" },
 ];
 
@@ -364,6 +366,7 @@ const Header = () => {
             : "pointer-events-none opacity-0"
         }`}
         role="dialog"
+        aria-labelledby="contact-dialog-title"
         aria-modal="true"
       >
         <div className="flex h-full w-full flex-row overflow-hidden">

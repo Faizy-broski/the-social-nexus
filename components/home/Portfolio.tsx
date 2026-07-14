@@ -21,73 +21,73 @@ const items: PortfolioItem[] = [
     slug: "matlock",
     title: "Matlock Phones & Vapes",
     href: "/portfolio/matlock",
-    image: "/portfolio/1.png",
+    image: "/portfolio/1.webp",
   },
   {
     slug: "oww",
     title: "Outside Walla Walla",
     href: "/portfolio/oww",
-    image: "/portfolio/2.png",
+    image: "/portfolio/2.webp",
   },
   {
     slug: "islamic-wall-arts",
     title: "Islamic Wall Arts",
     href: "/portfolio/islamic-wall-arts",
-    image: "/portfolio/3.png",
+    image: "/portfolio/3.webp",
   },
   {
     slug: "al-quran-islamic-education",
     title: "Al Quran Islamic Education",
     href: "/portfolio/al-quran-islamic-education",
-    image: "/portfolio/4.png",
+    image: "/portfolio/4.webp",
   },
   {
     slug: "zummunta",
     title: "Zummunta",
     href: "/portfolio/zummunta",
-    image: "/portfolio/5.png",
+    image: "/portfolio/5.webp",
   },
   {
     slug: "mobifix",
     title: "MobiFix",
     href: "/portfolio/mobifix",
-    image: "/portfolio/6.png",
+    image: "/portfolio/6.webp",
   },
   {
     slug: "gadgetsrepairltd",
     title: "Gadgets Repair Ltd",
     href: "/portfolio/gadgetsrepairltd",
-    image: "/portfolio/7.png",
+    image: "/portfolio/7.webp",
   },
   {
     slug: "four-minds",
     title: "Four Minds",
     href: "/portfolio/four-minds",
-    image: "/portfolio/8.png",
+    image: "/portfolio/8.webp",
   },
   {
     slug: "mobiledoctor",
     title: "Mobile Doctor",
     href: "/portfolio/mobiledoctor",
-    image: "/portfolio/9.png",
+    image: "/portfolio/9.webp",
   },
   {
     slug: "hotspotayr",
     title: "Hotspot Ayr",
     href: "/portfolio/hotspotayr",
-    image: "/portfolio/10.png",
+    image: "/portfolio/10.webp",
   },
   {
     slug: "phone-doctor",
     title: "Phone Doctor",
     href: "/portfolio/phone-doctor",
-    image: "/portfolio/11.png",
+    image: "/portfolio/11.webp",
   },
   {
     slug: "mobi-fix",
     title: "Mobi-Fix",
     href: "/portfolio/mobi-fix",
-    image: "/portfolio/12.png",
+    image: "/portfolio/12.webp",
   },
 ];
 
@@ -221,19 +221,18 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
         href={item.href}
         className="group relative block overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl"
       >
-        <div
-          className="relative aspect-4/3 w-full overflow-hidden bg-cover bg-top transition-[background-position] duration-8000 ease-linear group-hover:bg-bottom"
-          style={{ backgroundImage: `url(${item.image})` }}
-        >
-          {/* Faded fallback <img> so alt text / SEO / loading still works
-              even though the visible surface is the CSS background above. */}
+        <div className="relative aspect-4/3 w-full overflow-hidden">
+          {/* Next/Image is the visible layer now (was previously duplicated
+              behind an unoptimized raw CSS background-image, downloading
+              the full-resolution PNG twice). The hover-pan effect is
+              recreated with object-position, which transitions the same
+              way background-position did. */}
           <Image
             src={item.image}
             alt={item.title}
             fill
             sizes="(min-width: 1024px) 340px, (min-width: 640px) 288px, 256px"
-            className="opacity-0"
-            aria-hidden="true"
+            className="object-cover object-top transition-[object-position] duration-8000 ease-linear group-hover:object-bottom"
           />
 
           {/* Floating scroll-hint icon, fades out on hover — same glass +

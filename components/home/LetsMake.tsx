@@ -17,7 +17,7 @@ const LetsMake = () => {
            great together!
         </h2>
 
-        <div className="scroll-reveal-row mt-8 sm:mt-12" style={{ animationDelay: "260ms" }}>
+        <div className="mt-8 sm:mt-12" style={{ animationDelay: "260ms" }}>
           <MagneticButton
             href="/contact-us"
             fillClassName="bg-brand-gold"
