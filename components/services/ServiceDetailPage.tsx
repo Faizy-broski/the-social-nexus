@@ -183,11 +183,11 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
             delay={0.1}
             className="mt-10 grid gap-8 rounded-3xl border border-brand-teal/30 bg-white/5 p-6 sm:p-8 lg:grid-cols-[1fr_1fr] lg:items-center"
           >
-            <p className="text-justify text-base leading-relaxed text-white/70 sm:text-lg">
+            <p className="text-base leading-relaxed text-white/70 sm:text-lg">
               {service.overviewParagraph ?? (
                 <>
                   The Social Nexus stands as a trusted {service.overviewFocus}{" "}
-                  agency with over 8 years of collective experience delivering
+                  agency with over 10+ years of collective experience delivering
                   tailored solutions to businesses of all sizes. Our team of
                   expert {service.overviewTeam} craft solutions using modern
                   tools, agile methodologies, and industry best practices. We

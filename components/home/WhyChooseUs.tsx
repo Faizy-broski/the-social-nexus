@@ -154,6 +154,21 @@ export function WhyChooseUsHorizontal() {
         ),
       );
 
+      // The pin's scroll distance is measured from `track.scrollWidth` at
+      // creation time, before web fonts have necessarily swapped in — a
+      // late font swap (or anything else that nudges panel widths after
+      // this runs) leaves the pin-spacer's height stale, which shows up
+      // as a large layout shift for everything below this section once
+      // the real width is known. Re-measuring after fonts settle (and
+      // once more after full load, for images/late content) keeps the
+      // spacer honest without waiting on a user-triggered resize.
+      document.fonts?.ready?.then(() => ScrollTrigger.refresh()).catch(() => {});
+      if (document.readyState === "complete") {
+        ScrollTrigger.refresh();
+      } else {
+        window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
+      }
+
       return () => {
         trigger.kill();
         panelTweens.forEach((tw) => tw.scrollTrigger?.kill());

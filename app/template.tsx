@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, LazyMotion, domAnimation, m, useReducedMotion } from "motion/react";
 import LoadingScreen from "@/components/shared/LoadingScreen";
 
@@ -9,8 +9,18 @@ import LoadingScreen from "@/components/shared/LoadingScreen";
 // navigations instant before the loader would even mount. Holding
 // LoadingScreen up for a fixed beat here — driven by Template's own
 // mount lifecycle, not data fetching — is what guarantees it's always
-// seen, on every navigation and every reload.
+// seen, on every client-side navigation.
 const LOADER_DURATION_MS = 550;
+
+// Module state, not a cookie/localStorage: it only needs to survive for
+// the lifetime of this JS session, and must start `false` identically on
+// the server and on the client's first hydration pass (both evaluate this
+// module fresh) so the very first paint never shows the loader — that
+// first paint is what Lighthouse/Core Web Vitals measure, and holding it
+// behind an opaque overlay for half a second was pure self-inflicted LCP
+// cost. Subsequent client-side navigations remount Template with this
+// already flipped to `true`, so the branded loader still plays for those.
+let hasNavigatedOnce = false;
 
 /**
  * Wraps {children} only (Header/Footer/HeaderThemeProvider/LetsTalkBadge/
@@ -28,11 +38,18 @@ const LOADER_DURATION_MS = 550;
  */
 export default function Template({ children }: { children: React.ReactNode }) {
   const reduceMotion = useReducedMotion();
-  const [showLoader, setShowLoader] = useState(true);
+  const [showLoader, setShowLoader] = useState(() => hasNavigatedOnce);
+  // Captured once: whether THIS mount is the very first (no loader, so
+  // there's nothing to cross-fade from — content should just be there,
+  // not animate in from opacity:0 and gate LCP on a Framer Motion tick).
+  const isFirstLoad = useRef(!hasNavigatedOnce).current;
 
   useEffect(() => {
+    hasNavigatedOnce = true;
+    if (!showLoader) return;
     const timer = setTimeout(() => setShowLoader(false), LOADER_DURATION_MS);
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -45,7 +62,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
         )}
       </AnimatePresence>
       <m.div
-        initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+        initial={reduceMotion || isFirstLoad ? false : { opacity: 0, y: 12 }}
         animate={{ opacity: showLoader ? 0 : 1, y: showLoader ? 12 : 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: showLoader ? 0 : 0.1 }}
       >

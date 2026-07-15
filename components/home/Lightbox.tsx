@@ -118,6 +118,7 @@ export function Lightbox({
       ref={rootRef}
       role="dialog"
       aria-modal="true"
+      aria-label="Image preview"
       onClick={onClose}
       className="animate-fade-in fixed inset-0 z-100 flex items-center justify-center bg-black/55 backdrop-blur-sm"
     >

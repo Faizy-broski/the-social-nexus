@@ -139,9 +139,9 @@ export function SiteFooter() {
 
             {/* Information */}
             <div className="lg:col-span-3">
-              <h4 className="text-sm font-semibold uppercase tracking-wide text-white">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-white">
                 Information
-              </h4>
+              </h3>
               <ul className="mt-4 space-y-3 sm:mt-5">
                 {infoLinks.map((link) => (
                   <li key={link.label}>
@@ -159,9 +159,9 @@ export function SiteFooter() {
 
             {/* Office locations */}
             <div className="lg:col-span-4">
-              <h4 className="text-sm font-semibold uppercase tracking-wide text-white">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-white">
                 Office Locations
-              </h4>
+              </h3>
               <ul className="mt-4 space-y-3 sm:mt-5">
                 {offices.map((office) => (
                   <li key={office.label} className="group flex items-center gap-3">

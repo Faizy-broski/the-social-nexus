@@ -371,6 +371,9 @@ const Header = () => {
         aria-labelledby="contact-dialog-title"
         aria-modal="true"
       >
+        <VisuallyHidden>
+          <h2 id="contact-dialog-title">Contact and navigation menu</h2>
+        </VisuallyHidden>
         <div className="flex h-full w-full flex-row overflow-hidden">
           {/* Left panel — logo, contact info, footer. Gold-dark → navy corner glow (accent, ~20%) */}
           <div

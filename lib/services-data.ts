@@ -103,7 +103,7 @@ export const services: ServiceDetail[] = [
       after: " by Industry Experience",
     },
     overviewParagraph:
-      "The Social Nexus stands as a trusted software development agency with over 20 years of collective experience in delivering custom software solutions tailored to business goals. Our team of expert developers, architects, and strategists builds secure, scalable, and high-performance software using modern tools, agile methodologies, and best practices. We focus on software that is reliable, efficient, and built to support long-term growth. Serving global clients across the UK, USA, and Pakistan, we combine deep technical expertise, innovation, and industry insights to build software that is secure, maintainable, and ready to scale.",
+      "The Social Nexus stands as a trusted software development agency with over 20+ years of collective experience in delivering custom software solutions tailored to business goals. Our team of expert developers, architects, and strategists builds secure, scalable, and high-performance software using modern tools, agile methodologies, and best practices. We focus on software that is reliable, efficient, and built to support long-term growth. Serving global clients across the UK, USA, and Pakistan, we combine deep technical expertise, innovation, and industry insights to build software that is secure, maintainable, and ready to scale.",
     features: [
       {
         icon: Code,

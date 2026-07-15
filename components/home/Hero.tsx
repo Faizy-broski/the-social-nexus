@@ -20,10 +20,14 @@ const containerVariants = {
   visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
 };
 
+// Deliberately transform-only (no opacity) — Chrome's LCP algorithm treats
+// an element mid opacity:0->1 transition as not yet "painted", so animating
+// opacity here was adding seconds to LCP on the hero's own heading/paragraph
+// while JS hydrates. translateY/rotateX still animate the entrance, and
+// transform never gates LCP or triggers layout (so it's CLS-safe too).
 const itemVariants = {
-  hidden: { opacity: 0, y: 24, rotateX: -10 },
+  hidden: { y: 24, rotateX: -10 },
   visible: {
-    opacity: 1,
     y: 0,
     rotateX: 0,
     transition: { duration: 0.7, ease: OUT_SMOOTH },
@@ -118,7 +122,7 @@ export default function HeroSection() {
       <div className="hero-teal-overlay absolute inset-0" />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center gap-10 px-6 py-20 sm:gap-12 sm:px-10 sm:py-24 md:px-12 lg:flex-row lg:items-center lg:justify-center lg:gap-16 lg:px-16 lg:py-8 xl:justify-between xl:gap-12 xl:pr-6">
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center gap-10 px-6 py-20 sm:gap-12 sm:px-10 sm:py-20 md:px-12 lg:flex-row lg:items-center lg:justify-center lg:gap-16 lg:px-16 lg:py-8 xl:justify-between xl:gap-12 xl:pr-6">
         {/* Left copy */}
         <m.div
           initial={reduceMotion ? false : "hidden"}
@@ -129,7 +133,7 @@ export default function HeroSection() {
         >
           <m.div
             variants={itemVariants}
-            className="mb-4 inline-flex rounded-full border border-white/40 bg-white/10 px-4 py-1.5 text-[10px] font-medium tracking-[0.18em] backdrop-blur-sm sm:mb-5 sm:px-5 sm:text-[12px] sm:tracking-[0.26em]"
+            className="mb-4 inline-flex rounded-full border border-white/40 bg-white/10 px-4 py-1.5 text-[10px] font-medium tracking-[0.18em] backdrop-blur-sm sm:mb-5 sm:px-5 sm:text-[14px] sm:tracking-[0.26em]"
           >
             The Social Nexus
           </m.div>
@@ -138,12 +142,12 @@ export default function HeroSection() {
             variants={itemVariants}
             className="font-extrabold uppercase leading-[1.08] tracking-wider sm:leading-[1.02]"
           >
-            <span className="block text-[26px] xs:text-[30px] sm:text-[40px] lg:text-[46px] xl:text-[66px]">
+            <span className="block text-[26px] xs:text-[30px] sm:text-6xl lg:text-[46px] xl:text-[66px]">
               Transforming
             </span>
 
             <span className="flex flex-wrap items-center justify-center gap-x-2.5 sm:gap-x-4 lg:justify-start">
-              <span className="text-[26px] xs:text-[30px] sm:text-[40px] lg:text-[46px] xl:text-[66px]">
+              <span className="text-[26px] xs:text-[30px] sm:text-6xl lg:text-[46px] xl:text-[66px]">
                 Business
               </span>
               <span className="text-left text-[12px] font-semibold leading-[1.15] sm:text-[17px] lg:text-[19px]">
@@ -153,14 +157,14 @@ export default function HeroSection() {
               </span>
             </span>
 
-            <span className="block text-[26px] xs:text-[30px] sm:text-[40px] lg:text-[46px] xl:text-[66px] gradient-text-animated">
+            <span className="block text-[26px] xs:text-[30px] sm:text-6xl lg:text-[46px] xl:text-[66px] gradient-text-animated">
               Digital Impact
             </span>
           </m.h1>
 
           <m.p
             variants={itemVariants}
-            className="mx-auto mt-5 max-w-90 text-[12px] font-medium leading-[1.6] text-white/90 sm:mt-6 sm:max-w-110 sm:text-[14px] lg:mx-0 lg:max-w-120 lg:text-[15px] text-justify"
+            className="mx-auto mt-5 max-w-90 text-[12px] font-medium leading-[1.6] text-white/90 sm:mt-6 sm:max-w-110 sm:text-[14px] lg:mx-0 lg:max-w-120 lg:text-[15px] lg:text-justify text-left"
           >
             We combine software engineering, artificial intelligence, design,
             and performance marketing to create powerful digital ecosystems that

@@ -89,6 +89,7 @@ export default function LogoCarousel() {
                   alt={logo.name}
                   width={56}
                   height={56}
+                  quality={60}
                   className="relative h-11 w-11 object-contain opacity-70 transition-all duration-300 ease-out sm:h-10 sm:w-10 md:h-10 md:w-10"
                 />
               </div>

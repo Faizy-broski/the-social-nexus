@@ -91,7 +91,6 @@ function LaptopMockup() {
           src="/laptop.webp"
           alt="Google Business Profile listing comparison"
           fill
-          unoptimized
           className="object-contain object-top"
           sizes="(min-width: 1024px) 50vw, 100vw"
         />
