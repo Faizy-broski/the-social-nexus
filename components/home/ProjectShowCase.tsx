@@ -51,7 +51,7 @@ export function ProductShowcaseSection() {
             Products
           </p>
           <h2 className="mt-3 text-2xl font-extrabold uppercase leading-tight tracking-tight text-foreground sm:text-3xl lg:text-5xl">
-            Software built to <br /> run your <span className="gradient-text">business</span>.
+            Software built to <br /> run your <span className="gradient-text-animated">business</span>.
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
             Beyond websites and apps, we build the everyday tools your team

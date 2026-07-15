@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowUpRight, ArrowDown, Mouse } from "lucide-react";
 import NetworkLines from "@/components/contact/network-lines";
 import { TiltCard } from "@/components/motion/TiltCard";
+import { Lightbox } from "@/components/home/Lightbox";
 
 /**
  * Animated navy background — same technique as the Header's mobile bar:
@@ -198,45 +199,45 @@ const portfolioItems: PortfolioItem[] = [
     title: "Mobile Doctor",
     categories: ["Phone Repair", "E-commerce"],
     stack: ["Elementor", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/mobiledoctor/",
+    previewHref: "https://mobiledoctoruk.com/",
     mockupHref: "/portfolio/mobiledoctor",
-    image: "/portfolio/10.webp",
+    image: "/portfolio/mobiledoctor.jpg",
   },
   {
     slug: "hotspotayr",
     title: "Hotspot Ayr",
     categories: ["Phone Repair"],
     stack: ["Elementor", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/hotspotayr/",
+    previewHref: "https://hotspotayr.com/",
     mockupHref: "/portfolio/hotspotayr",
-    image: "/portfolio/12.webp",
+    image: "/portfolio/hotspot.jpg",
   },
   {
     slug: "phone-doctor",
     title: "Phone Doctor",
     categories: ["Phone Repair"],
     stack: ["Elementor", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/phonedoctorayr/",
+    previewHref: "https://phonedoctorayr.co.uk/",
     mockupHref: "/portfolio/phone-doctor",
-    image: "/portfolio/6.webp",
+    image: "/portfolio/Phone doctor.jpg",
   },
   {
     slug: "matlock",
     title: "Matlock Phones & Vapes",
     categories: ["E-commerce", "Phone Repair", "Phone Accessories"],
     stack: ["Elementor", "WooCommerce", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/matlock",
+    previewHref: null,
     mockupHref: "/portfolio/matlock",
-    image: "/portfolio/3.webp",
+    image: "/portfolio/matlock.jpg",
   },
   {
     slug: "islamic-wall-arts",
     title: "Islamic Wall Arts",
     categories: ["Religious Donation", "E-commerce"],
     stack: ["Elementor", "WordPress"],
-    previewHref: null,
+    previewHref: "https://islamicwallarts.co.uk/",
     mockupHref: "/portfolio/islamic-wall-arts",
-    image: "/portfolio/4.webp",
+    image: "/portfolio/islamic-wall-arts.jpg",
   },
   {
     slug: "al-quran-islamic-education",
@@ -245,43 +246,43 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WordPress"],
     previewHref: null,
     mockupHref: "/portfolio/al-quran-islamic-education",
-    image: "/portfolio/7.webp",
+    image: "/portfolio/alquran-islamic-education.jpg",
   },
   {
     slug: "gadgetsrepairltd",
     title: "Gadgets Repair Ltd",
     categories: ["Phone Repair", "E-commerce"],
     stack: ["Elementor", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/mygadgetrecycle/",
+    previewHref: null,
     mockupHref: "/portfolio/gadgetsrepairltd",
-    image: "/portfolio/9.webp",
+    image: "/portfolio/gadget-repaier.jpg",
   },
   {
     slug: "cvs",
     title: "CVS Recovery",
     categories: ["Tyres", "Business"],
     stack: ["Elementor", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/CVS/",
+    previewHref: null,
     mockupHref: "/portfolio/cvs",
-    image: "/portfolio/27.png",
+    image: "/portfolio/cvs.jpg",
   },
   {
     slug: "labubu-offical",
     title: "Labubu Offical",
     categories: ["Portfolio", "Business", "E-commerce"],
     stack: ["Elementor", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/labubuoffical/",
+    previewHref: null,
     mockupHref: "/portfolio/labubu-offical",
-    image: "/portfolio/24.png",
+    image: "/portfolio/labubu-offical.jpg",
   },
   {
     slug: "oww",
     title: "Outside Walla Walla",
     categories: ["Membership", "E-commerce"],
     stack: ["Elementor", "Membership", "WooCommerce"],
-    previewHref: "https://thesocialnexus.co.uk/OWW",
+    previewHref: null,
     mockupHref: "/portfolio/oww",
-    image: "/portfolio/5.webp",
+    image: "/portfolio/oww.jpg",
   },
   {
     slug: "wimmera-security",
@@ -297,25 +298,25 @@ const portfolioItems: PortfolioItem[] = [
     title: "IPM Systems",
     categories: ["IT Solution", "Business"],
     stack: ["Elementor", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/IPMSystems/",
+    previewHref: null,
     mockupHref: "/portfolio/ipmsystems",
-    image: "/portfolio/ipmsystems.jpg",
+    image: "/portfolio/IPMS systems.jpg",
   },
   {
     slug: "zaza-doner",
     title: "Zaza Doner",
     categories: ["Restaurants", "E-commerce"],
     stack: ["Elementor", "WooCommerce", "WordPress"],
-    previewHref: "http://thesocialnexus.co.uk/zazadoner.com",
+    previewHref: null,
     mockupHref: "/portfolio/zaza-doner",
-    image: "/portfolio/zaza-doner.jpg",
+    image: "/portfolio/zaza-donner.jpg",
   },
   {
     slug: "total-tech-repair",
     title: "Total Tech Repair",
     categories: ["Phone Accessories", "E-commerce"],
     stack: ["Elementor", "WooCommerce", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/total-tech-repair/",
+    previewHref: null,
     mockupHref: "/portfolio/total-tech-repair",
     image: "/portfolio/total-tech-repair.jpg",
   },
@@ -324,16 +325,16 @@ const portfolioItems: PortfolioItem[] = [
     title: "Fix To Go",
     categories: ["E-commerce", "Phone Accessories"],
     stack: ["Elementor", "WooCommerce", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/fixtogo/",
+    previewHref: null,
     mockupHref: "/portfolio/fix-to-go",
-    image: "/portfolio/fix-to-go.jpg",
+    image: "/portfolio/fixtogo.jpg",
   },
   {
     slug: "heywood",
     title: "Heywood Mobiles & Vapes",
     categories: ["Phone Repair", "Phone Accessories"],
     stack: ["Elementor", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/heywoodmobilesandvapes/",
+    previewHref: null,
     mockupHref: "/portfolio/heywood",
     image: "/portfolio/heywood.jpg",
   },
@@ -342,7 +343,7 @@ const portfolioItems: PortfolioItem[] = [
     title: "Techfixman",
     categories: ["Phone Repair"],
     stack: ["Elementor", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/techfixman/",
+    previewHref: null,
     mockupHref: "/portfolio/techfixman",
     image: "/portfolio/techfixman.jpg",
   },
@@ -351,7 +352,7 @@ const portfolioItems: PortfolioItem[] = [
     title: "PCI Computers",
     categories: ["IT Solution"],
     stack: ["Elementor", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/pcicomputers/",
+    previewHref: "https://pcicomputers.co.uk/",
     mockupHref: "/portfolio/pci-computers",
     image: "/portfolio/pci-computers.jpg",
   },
@@ -362,32 +363,23 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WordPress"],
     previewHref: null,
     mockupHref: "/portfolio/worix-it",
-    image: "/portfolio/worix-it.jpg",
-  },
-  {
-    slug: "forkliftpioneertraining",
-    title: "Forklift Pioneer Training",
-    categories: ["Business"],
-    stack: ["Elementor", "WordPress"],
-    previewHref: null,
-    mockupHref: "/portfolio/forkliftpioneertraining",
-    image: "/portfolio/forkliftpioneertraining.jpg",
+    image: "/portfolio/worix-IT.jpg",
   },
   {
     slug: "icmobiletyre",
     title: "IC Mobile Tyre Fitting",
-    categories: ["Business"],
+    categories: ["Tyres", "Business"],
     stack: ["Elementor", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/icmobiletyre/",
+    previewHref: null,
     mockupHref: "/portfolio/icmobiletyre",
-    image: "/portfolio/icmobiletyre.jpg",
+    image: "/portfolio/ic-mobile-tyres.jpg",
   },
   {
     slug: "pcxpress",
     title: "PC Xpress",
     categories: ["Phone Repair", "Phone Accessories"],
     stack: ["Elementor", "WooCommerce", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/PCXpress/",
+    previewHref: null,
     mockupHref: "/portfolio/pcxpress",
     image: "/portfolio/pcxpress.jpg",
   },
@@ -396,18 +388,18 @@ const portfolioItems: PortfolioItem[] = [
     title: "iFix",
     categories: ["Phone Repair", "Phone Accessories"],
     stack: ["Elementor", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/ifix/",
+    previewHref: "https://ifixgadgetsltd.com/",
     mockupHref: "/portfolio/ifix",
-    image: "/portfolio/ifix.jpg",
+    image: "/portfolio/ifix-old.jpg",
   },
   {
-    slug: "mobifix",
+    slug: "mobitech-repair",
     title: "Mobitech Repair",
     categories: ["E-commerce", "Phone Repair", "Phone Accessories"],
     stack: ["Elementor", "WooCommerce", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/mobitechrepair",
-    mockupHref: "/portfolio/mobifix",
-    image: "/portfolio/mobifix.jpg",
+    previewHref: null,
+    mockupHref: "/portfolio/mobitech-repair",
+    image: "/portfolio/mobitech-repair.jpg",
   },
   {
     slug: "zummunta",
@@ -416,25 +408,25 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Donation", "Elementor", "WordPress"],
     previewHref: null,
     mockupHref: "/portfolio/zummunta",
-    image: "/portfolio/zummunta.jpg",
+    image: "/portfolio/Zummunta.jpg",
   },
   {
     slug: "mobi-fix",
     title: "Mobi Fix",
     categories: ["E-commerce", "Phone Repair"],
     stack: ["Elementor", "WooCommerce", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/mobifix/",
+    previewHref: "https://mobifix.uk/",
     mockupHref: "/portfolio/mobi-fix",
-    image: "/portfolio/mobi-fix.jpg",
+    image: "/portfolio/mobifix.jpg",
   },
   {
-    slug: "four-minds",
-    title: "Four Minds",
+    slug: "four-minds-security",
+    title: "Four Minds Security",
     categories: ["Security"],
     stack: ["Elementor", "WordPress"],
     previewHref: null,
-    mockupHref: "/portfolio/four-minds",
-    image: "/portfolio/four-minds.jpg",
+    mockupHref: "/portfolio/four-minds-security",
+    image: "/portfolio/four mind secuirty.jpg",
   },
   {
     slug: "wendy-bailye",
@@ -443,7 +435,7 @@ const portfolioItems: PortfolioItem[] = [
     stack: ["Elementor", "WooCommerce", "WordPress"],
     previewHref: null,
     mockupHref: "/portfolio/wendy-bailye",
-    image: "/portfolio/wendy-bailye.jpg",
+    image: "/portfolio/wendy.jpg",
   },
   {
     slug: "skora-care",
@@ -459,9 +451,45 @@ const portfolioItems: PortfolioItem[] = [
     title: "Riseteck Ltd",
     categories: ["E-commerce", "Phone Accessories"],
     stack: ["Elementor", "WooCommerce", "WordPress"],
-    previewHref: "https://thesocialnexus.co.uk/Riseteck-Ltd/",
+    previewHref: null,
     mockupHref: "/portfolio/risetech",
     image: "/portfolio/risetech.jpg",
+  },
+  {
+    slug: "almustafa-online-academy",
+    title: "Al Mustafa Online Academy",
+    categories: ["Religious Donation", "Membership"],
+    stack: ["Elementor", "WordPress"],
+    previewHref: "https://almustafaonlineacademy.com/",
+    mockupHref: "/portfolio/almustafa-online-academy",
+    image: "/portfolio/almustafaonlineacademy.jpg",
+  },
+  {
+    slug: "mw-institute",
+    title: "MW Institute",
+    categories: ["Business"],
+    stack: ["Elementor", "WordPress"],
+    previewHref: "https://mwinstitute.org.uk/",
+    mockupHref: "/portfolio/mw-institute",
+    image: "/portfolio/mwinstitute.jpg",
+  },
+  {
+    slug: "phone-repair-melksham",
+    title: "Phone Repair Melksham",
+    categories: ["Phone Repair"],
+    stack: ["Elementor", "WordPress"],
+    previewHref: "https://phonerepairmelksham.co.uk/",
+    mockupHref: "/portfolio/phone-repair-melksham",
+    image: "/portfolio/phonerepairmelksham.jpg",
+  },
+  {
+    slug: "ruqyah",
+    title: "Ruqyah",
+    categories: ["Religious Donation"],
+    stack: ["Elementor", "WordPress"],
+    previewHref: "https://ruqyah.org/",
+    mockupHref: "/portfolio/ruqyah",
+    image: "/portfolio/ruqyah.jpg",
   },
 ];
 
@@ -470,6 +498,7 @@ const ITEMS_PER_PAGE = 9;
 export function WebDevelopmentGrid() {
   const [filter, setFilter] = useState<SubCategory>("All");
   const [page, setPage] = useState(1);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const filtered = useMemo(
     () =>
@@ -517,10 +546,24 @@ export function WebDevelopmentGrid() {
           key={`${filter}-${page}`}
           className="stagger-children grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3"
         >
-          {pageItems.map((item) => (
-            <PortfolioCard key={item.slug} item={item} />
+          {pageItems.map((item, i) => (
+            <PortfolioCard
+              key={item.slug}
+              item={item}
+              onOpenMockup={() => setLightboxIndex(i)}
+            />
           ))}
         </div>
+
+        {lightboxIndex !== null && (
+          <Lightbox
+            images={pageItems.map((item) => item.image)}
+            titles={pageItems.map((item) => item.title)}
+            index={lightboxIndex}
+            onNavigate={setLightboxIndex}
+            onClose={() => setLightboxIndex(null)}
+          />
+        )}
 
         {pageItems.length === 0 && (
           <p className="py-16 text-center text-sm text-white/50">
@@ -553,7 +596,13 @@ export function WebDevelopmentGrid() {
   );
 }
 
-function PortfolioCard({ item }: { item: PortfolioItem }) {
+function PortfolioCard({
+  item,
+  onOpenMockup,
+}: {
+  item: PortfolioItem;
+  onOpenMockup: () => void;
+}) {
   return (
     <TiltCard className="group flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl">
       {/* Screenshot — hover-pans via object-position over 8s. Next/Image is
@@ -599,14 +648,13 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
               Preview <ArrowUpRight className="h-3 w-3" />
             </span>
           )}
-          <a
-            href={item.image}
-            target="_blank"
-            rel="noreferrer"
-            className="press-scale inline-flex flex-1 items-center justify-center gap-1.5 rounded bg-brand-teal px-3 py-2 text-[10px] font-medium text-white transition-colors hover:bg-brand-teal-dark"
+          <button
+            type="button"
+            onClick={onOpenMockup}
+            className="press-scale inline-flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded bg-brand-teal px-3 py-2 text-[10px] font-medium text-white transition-colors hover:bg-brand-teal-dark"
           >
             Mockup View <ArrowUpRight className="h-3 w-3" />
-          </a>
+          </button>
         </div>
       </div>
     </TiltCard>
@@ -669,15 +717,16 @@ const socialMediaImages = [
 ];
 
 function MasonryGallery({ images }: { images: string[] }) {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
   return (
     <div className="mx-auto flex-col columns-1 gap-3 sm:columns-2 lg:columns-4 xl:columns-4">
-      {images.map((src) => (
-        <a
+      {images.map((src, i) => (
+        <button
           key={src}
-          href={src}
-          target="_blank"
-          rel="noreferrer"
-          className="scroll-reveal-row group/img relative mb-3 block break-inside-avoid overflow-hidden rounded-xl bg-white/5"
+          type="button"
+          onClick={() => setLightboxIndex(i)}
+          className="scroll-reveal-row group/img relative mb-3 block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-xl bg-white/5"
         >
           <Image
             src={src}
@@ -686,8 +735,17 @@ function MasonryGallery({ images }: { images: string[] }) {
             height={400}
             className="h-auto w-full object-cover transition-transform duration-300 group-hover/img:scale-105"
           />
-        </a>
+        </button>
       ))}
+
+      {lightboxIndex !== null && (
+        <Lightbox
+          images={images}
+          index={lightboxIndex}
+          onNavigate={setLightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+        />
+      )}
     </div>
   );
 }
@@ -715,6 +773,7 @@ function resolveLogoImages(images: LogoImage[]) {
 
 function LogoGrid({ images }: { images: LogoImage[] }) {
   const resolved = resolveLogoImages(images);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   return (
     // was `grid-flow-defence` — not a real Tailwind class, so the bento
@@ -723,13 +782,12 @@ function LogoGrid({ images }: { images: LogoImage[] }) {
     // that enables dense packing.
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 grid-flow-dense auto-rows-35 sm:auto-rows-40">
       {resolved.map(({ src, span }, i) => (
-        <a
+        <button
           key={`${src}-${i}`}
-          href={src}
-          target="_blank"
-          rel="noreferrer"
+          type="button"
+          onClick={() => setLightboxIndex(i)}
           style={{ gridRow: `span ${span}` }}
-          className="scroll-reveal-row group/img relative block overflow-hidden rounded-xl bg-white/5"
+          className="scroll-reveal-row group/img relative block cursor-pointer overflow-hidden rounded-xl bg-white/5"
         >
           <Image
             src={src}
@@ -738,8 +796,17 @@ function LogoGrid({ images }: { images: LogoImage[] }) {
             sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw"
             className="object-cover transition-transform duration-300 group-hover/img:scale-105"
           />
-        </a>
+        </button>
       ))}
+
+      {lightboxIndex !== null && (
+        <Lightbox
+          images={resolved.map((r) => r.src)}
+          index={lightboxIndex}
+          onNavigate={setLightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+        />
+      )}
     </div>
   );
 }

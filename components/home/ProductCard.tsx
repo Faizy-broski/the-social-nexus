@@ -49,7 +49,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           </div>
 
           {/* subtle top fade so the screenshot edge doesn't feel clipped-hard */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#0B0E13]/60 to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-linear-to-t from-[#0B0E13]/60 to-transparent" />
         </div>
       </div>
 
