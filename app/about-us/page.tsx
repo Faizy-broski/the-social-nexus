@@ -39,92 +39,77 @@ const values = [
 const services = [
   {
     title: "Cloud Migration & Cloud Operations",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/06/cloud-computing-data-center-concept-digital-cloud-solutions-pcb-futuristic-background_817025-3856.jpg",
-    href: "/services/cloud-migration",
+    image: "/services/15.jpg",
+    href: "/services/cloud-migration-cloud-operations",
   },
   {
     title: "Salesforce Development & Consulting",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/06/analyst-team-utilizing-bi-fintech-analyze-financial-data-table-meeting-room-businesspeople-analyzing-bi-dashboard-power-business-insight-strategic-marketing-planning-prudent_31965-265907.jpg",
-    href: "/services/salesforce-development",
+    image: "/services/14.jpg",
+    href: "/services/salesforce-development-consulting",
   },
   {
     title: "Maintenance and Support",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/06/digital-support-maintenance-solutions-business_1101054-90862.avif",
-    href: "/services/maintenance-support",
+    image: "/services/13.jpg",
+    href: "/services/maintenance-and-support",
   },
   {
     title: "SaaS Development",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/06/representation-user-experience-interface-design_23-2150169860.jpg",
+    image: "/services/12.jpg",
     href: "/services/saas-development",
   },
   {
     title: "Software Development",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/06/professional-programmer-working-late-dark-office_1098-18705.avif",
+    image: "/services/1.jpg",
     href: "/services/software-development",
   },
   {
     title: "Smart Business Automation Services",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/05/robotic-arm-scanning-package-smart-warehouse_23-2151983327.jpg",
-    href: "/services/business-automation",
+    image: "/services/7.jpg",
+    href: "/services/automation",
   },
   {
     title: "Advanced Voicebot Development Services",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/05/chatbot-messenger-isometric-concept_1284-69074.jpg",
-    href: "/services/voicebot-development",
+    image: "/services/8.jpg",
+    href: "/services/voicebots",
   },
   {
     title: "Intelligent Chatbot Development Services",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/05/6534541-1.jpg",
-    href: "/services/chatbot-development",
+    image: "/services/9.jpg",
+    href: "/services/chatbots",
   },
   {
     title: "Generative AI Development",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/05/businessman-using-computer-generate-ai-chat-ai-data-analysis-data-online-network-artificial-intelligence_36325-5218.avif",
-    href: "/services/generative-ai",
+    image: "/services/4.jpg",
+    href: "/services/generative-ai-development",
   },
   {
     title: "Brand Identity & Logo Design",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/05/close-up-image-programer-working-his-desk-office-scaled-1.jpg",
-    href: "/services/brand-identity",
+    image: "/services/11.jpg",
+    href: "/services/brand-identity-logo-design",
   },
   {
     title: "Digital Marketing & SEO",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/05/employee-working-marketing-setting-scaled-1.jpg",
+    image: "/services/5.jpg",
     href: "/services/digital-marketing",
   },
   {
     title: "ERP & CRM Implementation",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/05/new-crm-customer-relationship-management-concept-2021_161452-12076.jpg",
-    href: "/services/erp-crm",
+    image: "/services/10.jpg",
+    href: "/services/erp-crm-implementation",
   },
   {
     title: "Mobile App Development",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/05/1720-1-scaled-1.jpg",
+    image: "/services/3.jpg",
     href: "/services/mobile-app-development",
   },
   {
     title: "Social Media Design",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/05/1812fa01-4041-4f41-bb36-f2f4833ed021.jpg",
+    image: "/services/6.jpg",
     href: "/services/social-media-design",
   },
   {
     title: "Web Development & Design Services",
-    image:
-      "https://thesocialnexus.co.uk/wp-content/uploads/2026/06/sleek-digital-scene-showing-laptop_1272475-15130.avif",
+    image: "/services/2.jpg",
     href: "/services/web-development",
   },
 ];
@@ -303,7 +288,7 @@ export default function AboutUsPage() {
         <div className="relative aspect-video w-full max-w-6xl">
           <iframe
             className="absolute inset-0 h-full w-full border-0"
-            src="https://www.youtube.com/embed/27Hgqi7S6uc?controls=0&rel=0&playsinline=1&cc_load_policy=0&autoplay=1&enablejsapi=1&origin=https%3A%2F%2Fthesocialnexus.co.uk&widgetid=1&forigin=https%3A%2F%2Fthesocialnexus.co.uk%2Fabout-us%2F&aoriginsup=1&gporigin=https%3A%2F%2Fthesocialnexus.co.uk%2Fservice%2Fsoftware-development%2F&vf=1"
+            src="https://www.youtube.com/embed/27Hgqi7S6uc?controls=0&rel=0&playsinline=1&cc_load_policy=0&autoplay=1&mute=1&enablejsapi=1&origin=https%3A%2F%2Fthesocialnexus.co.uk&widgetid=1&forigin=https%3A%2F%2Fthesocialnexus.co.uk%2Fabout-us%2F&aoriginsup=1&gporigin=https%3A%2F%2Fthesocialnexus.co.uk%2Fservice%2Fsoftware-development%2F&vf=1"
             title="The Social Nexus"
             allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
             allowFullScreen
@@ -317,7 +302,7 @@ export default function AboutUsPage() {
           <Reveal
             variant="right"
             richer
-            className="px-0 pb-10 pt-20 sm:pt-24 lg:px-5 lg:pt-[220px]"
+            className="px-0 pb-10 pt-20 sm:pt-24 lg:px-5 lg:pt-55"
           >
             <h2 className="text-[clamp(2.25rem,3.4vw,3.75rem)] font-medium uppercase leading-none tracking-[-0.045em]">
               Our <span className="gradient-text-animated">Story</span>
@@ -333,7 +318,7 @@ export default function AboutUsPage() {
               <p className="mt-4 text-3xl font-bold leading-none sm:text-4xl">2019</p>
             </div>
 
-            <div className="mt-8 max-w-[1000px] lg:mt-0 lg:pr-6">
+            <div className="mt-8 max-w-250 lg:mt-0 lg:pr-6">
               <div className="space-y-3 font-medium leading-snug text-white/60">
                 <p>
                   Social Nexus started with a simple frustration: most agencies
@@ -367,11 +352,11 @@ export default function AboutUsPage() {
                 {item.eyebrow}
               </p>
 
-              <h3 className="my-4 max-w-[520px] text-2xl font-semibold leading-[1.12] tracking-[-0.035em] text-white sm:text-[28px] lg:text-2xl">
+              <h3 className="my-4 max-w-130 text-2xl font-semibold leading-[1.12] tracking-[-0.035em] text-white sm:text-[28px] lg:text-2xl">
                 {item.title}
               </h3>
 
-              <p className="max-w-[500px] pb-2 text-base font-medium leading-[1.48] tracking-[-0.015em] text-white/60 sm:text-lg lg:text-base">
+              <p className="max-w-125 pb-2 text-base font-medium leading-[1.48] tracking-[-0.015em] text-white/60 sm:text-lg lg:text-base">
                 {item.description}
               </p>
             </article>
@@ -399,7 +384,7 @@ export default function AboutUsPage() {
                 Services
               </p>
 
-              <h2 className="mt-8 max-w-[430px] text-[32px] font-medium uppercase leading-[1.05] tracking-[-0.04em] sm:mt-10 sm:text-[42px] lg:text-[46px] xl:text-[50px]">
+              <h2 className="mt-8 max-w-107.5 text-[32px] font-medium uppercase leading-[1.05] tracking-[-0.04em] sm:mt-10 sm:text-[42px] lg:text-[46px] xl:text-[50px]">
                 Digital services
                 <br />
                 that define{" "}
@@ -407,7 +392,7 @@ export default function AboutUsPage() {
               </h2>
             </div>
 
-            <p className="max-w-[760px] pt-1 text-lg font-semibold leading-[1.45] text-white/60 sm:text-xl lg:pt-12 lg:text-lg">
+            <p className="max-w-190 pt-1 text-lg font-semibold leading-[1.45] text-white/60 sm:text-xl lg:pt-12 lg:text-lg">
               Comprehensive solutions crafted with precision and powered by
               innovation.
             </p>
@@ -447,7 +432,7 @@ export default function AboutUsPage() {
               Our <span className="gradient-text-animated">Global Presence</span>
             </h2>
 
-            <p className="mx-auto mt-6 max-w-[1000px] text-sm font-medium leading-[1.4] text-white/60 sm:mt-8 sm:text-lg lg:text-lg">
+            <p className="mx-auto mt-6 max-w-250 text-sm font-medium leading-[1.4] text-white/60 sm:mt-8 sm:text-lg lg:text-lg">
               We support clients globally and drive continued growth through
               innovation and transformation.
             </p>
@@ -461,7 +446,7 @@ export default function AboutUsPage() {
                 className={`group flex flex-col ${location.articleClass}`}
               >
                 <div
-                  className={`relative h-[340px] overflow-hidden rounded-2xl bg-brand-navy-light transition-transform duration-500 ease-out group-hover:-translate-y-1 sm:h-[420px] ${location.imageClass}`}
+                  className={`relative h-85 overflow-hidden rounded-2xl bg-brand-navy-light transition-transform duration-500 ease-out group-hover:-translate-y-1 sm:h-105 ${location.imageClass}`}
                 >
                   <Image
                     src={location.image}
@@ -472,7 +457,7 @@ export default function AboutUsPage() {
                   />
                 </div>
 
-                <h3 className="mt-6 text-center text-lg font-semibold leading-[1.1] tracking-[-0.025em] text-white transition-colors duration-300 group-hover:text-brand-teal-light sm:mt-7 sm:text-xl lg:text-[26px]">
+                <h3 className="mt-6 text-center text-lg font-semibold leading-[1.1] tracking-tight text-white transition-colors duration-300 group-hover:text-brand-teal-light sm:mt-7 sm:text-xl lg:text-[26px]">
                   {location.name}
                 </h3>
               </article>
@@ -493,7 +478,7 @@ function ServiceCard({ service, priority = false }: ServiceCardProps) {
   return (
     <Link
       href={service.href}
-      className="group relative block h-[300px] overflow-hidden rounded-2xl border border-white/10 bg-brand-navy-light shadow-lg transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-brand-teal/40 hover:shadow-xl sm:h-[360px] lg:h-[380px] xl:h-[300px]"
+      className="group relative block h-75 overflow-hidden rounded-2xl border border-white/10 bg-brand-navy-light shadow-lg transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-brand-teal/40 hover:shadow-xl sm:h-90 lg:h-95 xl:h-75"
     >
       <Image
         src={service.image}

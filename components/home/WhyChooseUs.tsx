@@ -92,10 +92,22 @@ export function WhyChooseUsHorizontal() {
       const getScrollDistance = () =>
         Math.max(track.scrollWidth - window.innerWidth, 0);
 
+      // `ease: "none"` is deliberate — scrub already smooths the tween
+      // toward the scroll position over time, so pairing it with a
+      // non-linear ease double-smooths the motion and makes the track
+      // visibly lag/rubber-band behind the actual scroll input.
       const tween = gsap.to(track, {
         x: () => -getScrollDistance(),
-        ease: "power1.inOut",
+        ease: "none",
       });
+
+      // Read once per layout pass (mount + refresh), not on every scrub
+      // tick — offsetLeft is a forced-layout read, and onUpdate can fire
+      // dozens of times per second while scrolling.
+      let statsPanelLeft = statsPanelRef.current?.offsetLeft ?? 0;
+      const cacheStatsPanelLeft = () => {
+        statsPanelLeft = statsPanelRef.current?.offsetLeft ?? 0;
+      };
 
       const trigger = ScrollTrigger.create({
         trigger: section,
@@ -103,15 +115,15 @@ export function WhyChooseUsHorizontal() {
         end: () => `+=${getScrollDistance()}`,
         pin: true,
         anticipatePin: 1,
-        scrub: 1,
+        scrub: 0.3,
         animation: tween,
         invalidateOnRefresh: true,
+        onRefresh: cacheStatsPanelLeft,
         onUpdate: (self) => {
-          if (statsAnimated.current || !statsPanelRef.current) return;
+          if (statsAnimated.current) return;
           const currentX = -self.progress * getScrollDistance();
-          const panelLeft = statsPanelRef.current.offsetLeft;
           const viewportCenter = window.innerWidth * 0.6;
-          if (panelLeft + currentX < viewportCenter) {
+          if (statsPanelLeft + currentX < viewportCenter) {
             animateStats();
           }
         },
@@ -291,6 +303,7 @@ export function WhyChooseUsHorizontal() {
               videoId="27Hgqi7S6uc"
               title="The Social Nexus — Think. Build. Launch."
               className="h-full w-full"
+              autoplayOnView
             />
           </div>
         </Panel>

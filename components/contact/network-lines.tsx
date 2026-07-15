@@ -137,10 +137,19 @@ export default function NetworkLines() {
     resize();
     renderFrame();
 
-    window.addEventListener("resize", resize);
+    // Debounced — a drag-resize fires many times a second, and each resize()
+    // call re-reads layout and rebuilds the whole points array, so running
+    // it on every event (instead of once the resize settles) is wasted work.
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+    const debouncedResize = () => {
+      if (resizeTimer !== null) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 150);
+    };
+    window.addEventListener("resize", debouncedResize);
 
     return () => {
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", debouncedResize);
+      if (resizeTimer !== null) clearTimeout(resizeTimer);
       stop();
       controlsRef.current = null;
     };

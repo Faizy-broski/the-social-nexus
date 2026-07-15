@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { ArrowUpRight, ArrowDown, X, Mouse } from "lucide-react";
+import { ArrowUpRight, ArrowDown, Mouse } from "lucide-react";
 import NetworkLines from "@/components/contact/network-lines";
 import { TiltCard } from "@/components/motion/TiltCard";
 
@@ -29,8 +29,8 @@ const navyPanBg =
  *                        there's no green token in globals.css, same
  *                        reasoning ServicesSection already used)
  *
- * "Mockup View" now opens an in-page modal (MockupModal) instead of
- * navigating to /portfolio/[slug] — same page, no route change.
+ * "Mockup View", the logo grid, and the social media gallery all open
+ * their full-size image in a new browser tab on click.
  *
  * NOTE ON DATA: same as before — representative ~14-item sample
  * covering every category, not the full 40+ item catalog. Extending
@@ -265,7 +265,7 @@ const portfolioItems: PortfolioItem[] = [
     mockupHref: "/portfolio/cvs",
     image: "/portfolio/27.png",
   },
-    {
+  {
     slug: "labubu-offical",
     title: "Labubu Offical",
     categories: ["Portfolio", "Business", "E-commerce"],
@@ -319,6 +319,150 @@ const portfolioItems: PortfolioItem[] = [
     mockupHref: "/portfolio/total-tech-repair",
     image: "/portfolio/total-tech-repair.jpg",
   },
+  {
+    slug: "fix-to-go",
+    title: "Fix To Go",
+    categories: ["E-commerce", "Phone Accessories"],
+    stack: ["Elementor", "WooCommerce", "WordPress"],
+    previewHref: "https://thesocialnexus.co.uk/fixtogo/",
+    mockupHref: "/portfolio/fix-to-go",
+    image: "/portfolio/fix-to-go.jpg",
+  },
+  {
+    slug: "heywood",
+    title: "Heywood Mobiles & Vapes",
+    categories: ["Phone Repair", "Phone Accessories"],
+    stack: ["Elementor", "WordPress"],
+    previewHref: "https://thesocialnexus.co.uk/heywoodmobilesandvapes/",
+    mockupHref: "/portfolio/heywood",
+    image: "/portfolio/heywood.jpg",
+  },
+  {
+    slug: "techfixman",
+    title: "Techfixman",
+    categories: ["Phone Repair"],
+    stack: ["Elementor", "WordPress"],
+    previewHref: "https://thesocialnexus.co.uk/techfixman/",
+    mockupHref: "/portfolio/techfixman",
+    image: "/portfolio/techfixman.jpg",
+  },
+  {
+    slug: "pci-computers",
+    title: "PCI Computers",
+    categories: ["IT Solution"],
+    stack: ["Elementor", "WordPress"],
+    previewHref: "https://thesocialnexus.co.uk/pcicomputers/",
+    mockupHref: "/portfolio/pci-computers",
+    image: "/portfolio/pci-computers.jpg",
+  },
+  {
+    slug: "worix-it",
+    title: "Worix IT",
+    categories: ["Business", "IT Solution"],
+    stack: ["Elementor", "WordPress"],
+    previewHref: null,
+    mockupHref: "/portfolio/worix-it",
+    image: "/portfolio/worix-it.jpg",
+  },
+  {
+    slug: "forkliftpioneertraining",
+    title: "Forklift Pioneer Training",
+    categories: ["Business"],
+    stack: ["Elementor", "WordPress"],
+    previewHref: null,
+    mockupHref: "/portfolio/forkliftpioneertraining",
+    image: "/portfolio/forkliftpioneertraining.jpg",
+  },
+  {
+    slug: "icmobiletyre",
+    title: "IC Mobile Tyre Fitting",
+    categories: ["Business"],
+    stack: ["Elementor", "WordPress"],
+    previewHref: "https://thesocialnexus.co.uk/icmobiletyre/",
+    mockupHref: "/portfolio/icmobiletyre",
+    image: "/portfolio/icmobiletyre.jpg",
+  },
+  {
+    slug: "pcxpress",
+    title: "PC Xpress",
+    categories: ["Phone Repair", "Phone Accessories"],
+    stack: ["Elementor", "WooCommerce", "WordPress"],
+    previewHref: "https://thesocialnexus.co.uk/PCXpress/",
+    mockupHref: "/portfolio/pcxpress",
+    image: "/portfolio/pcxpress.jpg",
+  },
+  {
+    slug: "ifix",
+    title: "iFix",
+    categories: ["Phone Repair", "Phone Accessories"],
+    stack: ["Elementor", "WordPress"],
+    previewHref: "https://thesocialnexus.co.uk/ifix/",
+    mockupHref: "/portfolio/ifix",
+    image: "/portfolio/ifix.jpg",
+  },
+  {
+    slug: "mobifix",
+    title: "Mobitech Repair",
+    categories: ["E-commerce", "Phone Repair", "Phone Accessories"],
+    stack: ["Elementor", "WooCommerce", "WordPress"],
+    previewHref: "https://thesocialnexus.co.uk/mobitechrepair",
+    mockupHref: "/portfolio/mobifix",
+    image: "/portfolio/mobifix.jpg",
+  },
+  {
+    slug: "zummunta",
+    title: "Zummunta",
+    categories: ["Religious Donation"],
+    stack: ["Donation", "Elementor", "WordPress"],
+    previewHref: null,
+    mockupHref: "/portfolio/zummunta",
+    image: "/portfolio/zummunta.jpg",
+  },
+  {
+    slug: "mobi-fix",
+    title: "Mobi Fix",
+    categories: ["E-commerce", "Phone Repair"],
+    stack: ["Elementor", "WooCommerce", "WordPress"],
+    previewHref: "https://thesocialnexus.co.uk/mobifix/",
+    mockupHref: "/portfolio/mobi-fix",
+    image: "/portfolio/mobi-fix.jpg",
+  },
+  {
+    slug: "four-minds",
+    title: "Four Minds",
+    categories: ["Security"],
+    stack: ["Elementor", "WordPress"],
+    previewHref: null,
+    mockupHref: "/portfolio/four-minds",
+    image: "/portfolio/four-minds.jpg",
+  },
+  {
+    slug: "wendy-bailye",
+    title: "Wendy Bailye",
+    categories: ["Business", "E-commerce", "Portfolio"],
+    stack: ["Elementor", "WooCommerce", "WordPress"],
+    previewHref: null,
+    mockupHref: "/portfolio/wendy-bailye",
+    image: "/portfolio/wendy-bailye.jpg",
+  },
+  {
+    slug: "skora-care",
+    title: "Skora Care",
+    categories: ["E-commerce"],
+    stack: ["Elementor", "WooCommerce", "WordPress"],
+    previewHref: null,
+    mockupHref: "/portfolio/skora-care",
+    image: "/portfolio/skora-care.jpg",
+  },
+  {
+    slug: "risetech",
+    title: "Riseteck Ltd",
+    categories: ["E-commerce", "Phone Accessories"],
+    stack: ["Elementor", "WooCommerce", "WordPress"],
+    previewHref: "https://thesocialnexus.co.uk/Riseteck-Ltd/",
+    mockupHref: "/portfolio/risetech",
+    image: "/portfolio/risetech.jpg",
+  },
 ];
 
 const ITEMS_PER_PAGE = 9;
@@ -326,8 +470,6 @@ const ITEMS_PER_PAGE = 9;
 export function WebDevelopmentGrid() {
   const [filter, setFilter] = useState<SubCategory>("All");
   const [page, setPage] = useState(1);
-  const [activeItem, setActiveItem] = useState<PortfolioItem | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
 
   const filtered = useMemo(
     () =>
@@ -346,12 +488,6 @@ export function WebDevelopmentGrid() {
   useEffect(() => {
     setPage(1);
   }, [filter]);
-
-  const openMockup = (item: PortfolioItem) => {
-    setActiveItem(item);
-    setModalOpen(true);
-  };
-  const closeMockup = () => setModalOpen(false);
 
   return (
     <div className="grid grid-cols-1 gap-10 lg:grid-cols-[220px_1fr]">
@@ -382,7 +518,7 @@ export function WebDevelopmentGrid() {
           className="stagger-children grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3"
         >
           {pageItems.map((item) => (
-            <PortfolioCard key={item.slug} item={item} onMockupClick={openMockup} />
+            <PortfolioCard key={item.slug} item={item} />
           ))}
         </div>
 
@@ -413,19 +549,11 @@ export function WebDevelopmentGrid() {
           </div>
         )}
       </div>
-
-      <MockupModal item={activeItem} isOpen={modalOpen} onClose={closeMockup} />
     </div>
   );
 }
 
-function PortfolioCard({
-  item,
-  onMockupClick,
-}: {
-  item: PortfolioItem;
-  onMockupClick: (item: PortfolioItem) => void;
-}) {
+function PortfolioCard({ item }: { item: PortfolioItem }) {
   return (
     <TiltCard className="group flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl">
       {/* Screenshot — hover-pans via object-position over 8s. Next/Image is
@@ -471,125 +599,17 @@ function PortfolioCard({
               Preview <ArrowUpRight className="h-3 w-3" />
             </span>
           )}
-          <button
-            type="button"
-            onClick={() => onMockupClick(item)}
+          <a
+            href={item.image}
+            target="_blank"
+            rel="noreferrer"
             className="press-scale inline-flex flex-1 items-center justify-center gap-1.5 rounded bg-brand-teal px-3 py-2 text-[10px] font-medium text-white transition-colors hover:bg-brand-teal-dark"
           >
             Mockup View <ArrowUpRight className="h-3 w-3" />
-          </button>
+          </a>
         </div>
       </div>
     </TiltCard>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* 3a. Mockup View modal — opens in-page instead of navigating         */
-/* ------------------------------------------------------------------ */
-
-function MockupModal({
-  item,
-  isOpen,
-  onClose,
-}: {
-  item: PortfolioItem | null;
-  isOpen: boolean;
-  onClose: () => void;
-}) {
-  // Escape-to-close + scroll lock while open. `item` is kept in state even
-  // after closing (see WebDevelopmentGrid) so the panel content doesn't
-  // flash empty mid-close-transition — only `isOpen` drives visibility.
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handleKey);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", handleKey);
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [isOpen, onClose]);
-
-  if (!item) return null;
-
-  return (
-    <div
-      className={`fixed inset-0 z-60 flex items-center justify-center p-4 transition-opacity duration-300 sm:p-8 ${
-        isOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
-      }`}
-      role="dialog"
-      aria-modal="true"
-      aria-label={`${item.title} mockup preview`}
-    >
-      {/* backdrop */}
-      <button
-        type="button"
-        aria-label="Close mockup preview"
-        onClick={onClose}
-        className="absolute inset-0 bg-brand-navy/85 backdrop-blur-sm"
-      />
-
-      {/* panel */}
-      <div
-        className={`relative z-10 flex max-h-[85vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl transition-all duration-300 ease-out ${
-          isOpen ? "translate-y-0 scale-100 opacity-100" : "translate-y-4 scale-95 opacity-0"
-        }`}
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close"
-          className="press-scale absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-brand-navy/80 text-white transition-colors hover:bg-brand-navy"
-        >
-          <X className="h-4 w-4" />
-        </button>
-
-        <div className="group/mockup relative aspect-video w-full shrink-0 overflow-hidden bg-brand-navy">
-          <Image
-            src={item.image}
-            alt={item.title}
-            fill
-            sizes="(min-width: 1024px) 56rem, 100vw"
-            className="object-cover object-top transition-[object-position] duration-6000 ease-linear group-hover/mockup:object-bottom"
-          />
-        </div>
-
-        <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-6 sm:p-8">
-          <div>
-            <h3 className="text-xl font-extrabold text-foreground sm:text-2xl">
-              {item.title}
-            </h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              {item.stack.join(" · ")}
-            </p>
-          </div>
-
-          <div className="mt-auto flex flex-wrap gap-3">
-            {item.previewHref && (
-              <a
-                href={item.previewHref}
-                target="_blank"
-                rel="noreferrer"
-                className="brand-cta press-scale inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold"
-              >
-                Visit Live Site <ArrowUpRight className="h-4 w-4" />
-              </a>
-            )}
-            <button
-              type="button"
-              onClick={onClose}
-              className="press-scale inline-flex items-center gap-1.5 rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-brand-teal hover:text-brand-teal"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
   );
 }
 

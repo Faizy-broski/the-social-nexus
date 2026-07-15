@@ -23,6 +23,10 @@ export function TiltCard({ children, className, maxTilt = 8, scale = 1.02 }: Til
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
   const [tiltEnabled, setTiltEnabled] = useState(false);
+  // Cached on pointerenter instead of re-read via getBoundingClientRect() on
+  // every pointermove — the card's position/size doesn't change mid-hover,
+  // and this backs every product/portfolio/thumbnail card sitewide.
+  const rectRef = useRef<DOMRect | null>(null);
 
   useEffect(() => {
     // window.matchMedia is unavailable during SSR, so this can only be read
@@ -41,11 +45,15 @@ export function TiltCard({ children, className, maxTilt = 8, scale = 1.02 }: Til
 
   const active = tiltEnabled && !reduceMotion;
 
+  const handlePointerEnter = () => {
+    if (!active) return;
+    rectRef.current = ref.current?.getBoundingClientRect() ?? null;
+  };
+
   const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
     if (!active) return;
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
+    const rect = rectRef.current;
+    if (!rect) return;
     const px = (event.clientX - rect.left) / rect.width - 0.5;
     const py = (event.clientY - rect.top) / rect.height - 0.5;
     rotateY.set(px * maxTilt * 2);
@@ -53,6 +61,7 @@ export function TiltCard({ children, className, maxTilt = 8, scale = 1.02 }: Til
   };
 
   const handlePointerLeave = () => {
+    rectRef.current = null;
     rotateX.set(0);
     rotateY.set(0);
   };
@@ -71,6 +80,7 @@ export function TiltCard({ children, className, maxTilt = 8, scale = 1.02 }: Til
       className={className}
       style={{ rotateX: springX, rotateY: springY, transformPerspective: 800 }}
       whileHover={{ scale }}
+      onPointerEnter={handlePointerEnter}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
     >

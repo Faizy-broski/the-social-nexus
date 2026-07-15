@@ -67,6 +67,11 @@ export const MagneticButton = forwardRef<
 ) {
   const localRef = useRef<HTMLAnchorElement | HTMLButtonElement | null>(null);
   const fillRef = useRef<HTMLSpanElement>(null);
+  // Cached on enter instead of re-read via getBoundingClientRect() on every
+  // mousemove — the button's position/size doesn't change mid-hover, and
+  // this component is reused on nearly every primary CTA sitewide, so an
+  // unthrottled layout read on a hot pointer-move handler adds up fast.
+  const rectRef = useRef<DOMRect | null>(null);
 
   const setRefs = (node: HTMLAnchorElement | HTMLButtonElement | null) => {
     localRef.current = node;
@@ -74,40 +79,41 @@ export const MagneticButton = forwardRef<
     else if (forwardedRef) forwardedRef.current = node;
   };
 
-  const setFillOrigin = (e: ReactMouseEvent) => {
-    const el = localRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
+  const setFillOrigin = (e: ReactMouseEvent, rect: DOMRect) => {
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
     if (fillRef.current) fillRef.current.style.transformOrigin = `${x}% ${y}%`;
   };
 
   const handleEnter = (e: ReactMouseEvent) => {
-    setFillOrigin(e);
+    const el = localRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    rectRef.current = rect;
+    setFillOrigin(e, rect);
     gsap.to(fillRef.current, { scale: 1, duration: 0.5, ease: "power3.out" });
   };
 
   const handleMove = (e: ReactMouseEvent) => {
-    const el = localRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
+    const rect = rectRef.current;
+    if (!rect) return;
 
     // magnetic pull — offset from center, scaled down
     const relX = e.clientX - rect.left - rect.width / 4;
     const relY = e.clientY - rect.top - rect.height / 4;
-    gsap.to(el, {
+    gsap.to(localRef.current, {
       x: relX * magneticStrength,
       y: relY * magneticStrength,
       duration: 0.4,
       ease: "power2.out",
     });
 
-    setFillOrigin(e);
+    setFillOrigin(e, rect);
   };
 
   const handleLeave = (e: ReactMouseEvent) => {
-    setFillOrigin(e);
+    const rect = rectRef.current;
+    if (rect) setFillOrigin(e, rect);
     gsap.to(fillRef.current, { scale: 0, duration: 0.8, ease: "power3.inOut" });
     gsap.to(localRef.current, {
       x: 0,

@@ -48,7 +48,7 @@ const services: Service[] = [
     title: ["Software", "Development"],
     description:
       "We are a leading software development agency delivering custom solutions.",
-    href: "/service/software-development",
+    href: "/services/software-development",
     image: "/services/1.jpg",
   },
   {
@@ -56,7 +56,7 @@ const services: Service[] = [
     title: ["Web", "Development"],
     description:
       "We provide end-to-end custom web development solutions designed for growth.",
-    href: "/service/web-development-design-services",
+    href: "/services/web-development",
     image: "/services/2.jpg",
   },
   {
@@ -64,7 +64,7 @@ const services: Service[] = [
     title: ["Mobile App", "Development"],
     description:
       "We are a leading mobile app development agency delivering native and cross-platform apps.",
-    href: "/service/mobile-app-development",
+    href: "/services/mobile-app-development",
     image: "/services/3.jpg",
   },
   {
@@ -72,7 +72,7 @@ const services: Service[] = [
     title: ["Generative AI", "Development"],
     description:
       "A forward-thinking AI development agency delivering intelligent, production-ready systems.",
-    href: "/service/ai-development",
+    href: "/services/generative-ai-development",
     image: "/services/4.jpg",
   },
   {
@@ -80,7 +80,7 @@ const services: Service[] = [
     title: ["Digital", "Marketing"],
     description:
       "Powerful digital marketing and SEO services that turn visibility into revenue.",
-    href: "/service/digital-marketing-seo",
+    href: "/services/digital-marketing",
     image: "/services/5.jpg",
   },
   {
@@ -88,7 +88,7 @@ const services: Service[] = [
     title: ["Social Media", "Design"],
     description:
       "Stunning social media visuals, branded templates, and scroll-stopping content.",
-    href: "/service/social-media-design",
+    href: "/services/social-media-design",
     image: "/services/6.jpg",
   },
 ];

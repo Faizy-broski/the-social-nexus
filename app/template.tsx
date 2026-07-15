@@ -10,7 +10,7 @@ import LoadingScreen from "@/components/shared/LoadingScreen";
 // LoadingScreen up for a fixed beat here — driven by Template's own
 // mount lifecycle, not data fetching — is what guarantees it's always
 // seen, on every navigation and every reload.
-const LOADER_DURATION_MS = 1500;
+const LOADER_DURATION_MS = 550;
 
 /**
  * Wraps {children} only (Header/Footer/HeaderThemeProvider/LetsTalkBadge/
