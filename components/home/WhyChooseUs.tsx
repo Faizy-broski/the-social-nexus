@@ -37,10 +37,30 @@ import { YouTubeFacade } from "@/components/home/YouTubeFacade";
  * independent of whatever internal text-alignment (left/justify/
  * center) each panel's content uses.
  *
+ * PERF NOTE — first-scroll lag fix:
+ * `getScrollDistance()` reads `track.scrollWidth`, a forced layout
+ * read. If that read happens before every layout-affecting asset
+ * (web fonts, the YouTube facade thumbnail, icon SVGs) has actually
+ * painted, the pin-spacer is sized against a stale width. The user
+ * then scrolls against the wrong distance for a moment until GSAP's
+ * internal ResizeObserver notices the mismatch and silently
+ * re-measures mid-scroll — that recalculation is what reads as lag
+ * on first render and never again afterward. Fixed by (a) gating the
+ * single ScrollTrigger.refresh() call on fonts AND window `load`
+ * together via Promise.all instead of firing it from multiple
+ * independent hooks, and (b) pre-promoting the track to its own
+ * compositor layer with `transform-gpu` so the browser doesn't pay
+ * that promotion cost on the first real transform.
+ *
  * Install once: `npm install gsap`
  */
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Prevents an extra unnecessary refresh cycle on iOS when the address
+// bar collapses/expands mid-scroll (that resize event would otherwise
+// re-trigger the ResizeObserver-driven refresh path below).
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 type StatItem = {
   value: number;
@@ -155,19 +175,25 @@ export function WhyChooseUsHorizontal() {
       );
 
       // The pin's scroll distance is measured from `track.scrollWidth` at
-      // creation time, before web fonts have necessarily swapped in — a
-      // late font swap (or anything else that nudges panel widths after
-      // this runs) leaves the pin-spacer's height stale, which shows up
-      // as a large layout shift for everything below this section once
-      // the real width is known. Re-measuring after fonts settle (and
-      // once more after full load, for images/late content) keeps the
-      // spacer honest without waiting on a user-triggered resize.
-      document.fonts?.ready?.then(() => ScrollTrigger.refresh()).catch(() => {});
-      if (document.readyState === "complete") {
-        ScrollTrigger.refresh();
-      } else {
-        window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
-      }
+      // creation time. If web fonts, the YouTube facade thumbnail, or any
+      // other layout-affecting asset hasn't painted yet, that measurement
+      // is stale — GSAP silently re-measures once it notices, which is
+      // exactly the "laggy first scroll, smooth after" symptom. Waiting on
+      // BOTH fonts and window `load` together (rather than refreshing
+      // separately on each) means the very first refresh is already
+      // correct, so there's nothing left to correct mid-scroll.
+      Promise.all([
+        document.fonts?.ready ?? Promise.resolve(),
+        new Promise<void>((resolve) => {
+          if (document.readyState === "complete") {
+            resolve();
+          } else {
+            window.addEventListener("load", () => resolve(), { once: true });
+          }
+        }),
+      ]).then(() => {
+        requestAnimationFrame(() => ScrollTrigger.refresh());
+      });
 
       return () => {
         trigger.kill();
@@ -217,7 +243,7 @@ export function WhyChooseUsHorizontal() {
     <section ref={sectionRef} className="relative overflow-hidden bg-white">
       <div
         ref={trackRef}
-        className="flex flex-col items-center gap-16 px-4 py-16 will-change-transform sm:gap-20 sm:px-10 sm:py-20 2xl:h-screen lg:w-max lg:flex-row lg:items-center lg:gap-24 lg:px-0 lg:py-20 lg:pl-[8vw] lg:pr-[12vw]"
+        className="flex flex-col items-center gap-16 px-4 py-16 will-change-transform transform-gpu sm:gap-20 sm:px-10 sm:py-20 2xl:h-screen lg:w-max lg:flex-row lg:items-center lg:gap-24 lg:px-0 lg:py-20 lg:pl-[8vw] lg:pr-[12vw]"
       >
         {/* Panel 1 — section title */}
         <Panel widthClass="w-full lg:w-[min(1100px,88vw)]" align="center">
@@ -290,7 +316,7 @@ export function WhyChooseUsHorizontal() {
           ref={statsPanelRef}
           widthClass="w-full max-w-xl lg:w-[min(680px,88vw)] lg:max-w-none"
         >
-          <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:gap-x-16 sm:gap-y-12">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:gap-x-16 sm:gap-y-12 mx-auto lg:mx-0">
             {stats.map((stat, i) => (
               <div key={stat.label}>
                 <div className="flex items-baseline text-3xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl gradient-text">

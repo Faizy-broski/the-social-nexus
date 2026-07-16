@@ -26,9 +26,9 @@ const navLinks = [
   { label: "About Us", href: "/about-us" },
   { label: "Services", href: "/services" },
   { label: "Portfolio", href: "/portfolio" },
-  { label: "FAQs", href: "/faqs" },
   { label: "Web Brief", href: "/web-brief" },
   { label: "Logo Brief", href: "/logo-brief" },
+  { label: "FAQs", href: "/faqs" },
   { label: "Contact Us", href: "/contact-us" },
 ];
 
@@ -262,13 +262,13 @@ const Header = () => {
                   </div>
 
                   <nav className="my-10">
-                    <ul ref={mobileNavRef} className="">
+                    <ul ref={mobileNavRef} className="space-y-5">
                       {navLinks.map((link) => (
                         <li key={link.href}>
                           <Link
                             href={link.href}
                             onClick={() => setIsSheetOpen(false)}
-                            className="group flex items-center text-2xl font-semibold text-white/60 transition-colors hover:text-white sm:text-3xl"
+                            className="group flex items-center text-xl font-semibold text-white/60 transition-colors hover:text-white sm:text-3xl"
                           >
                             {link.label}
                           </Link>
@@ -567,13 +567,13 @@ function MagneticDotGrid({
       <span
         ref={tealFillRef}
         aria-hidden
-        className="pointer-events-none absolute inset-0 scale-0 rounded-full bg-brand-teal/70"
+        className="pointer-events-none absolute inset-0 scale-0 rounded-full "
         style={{ transformOrigin: "50% 50%" }}
       />
       <span
         ref={goldFillRef}
         aria-hidden
-        className="pointer-events-none absolute inset-0 scale-0 rounded-full bg-brand-gold/40 mix-blend-overlay"
+        className="pointer-events-none absolute inset-0 scale-0 rounded-full "
         style={{ transformOrigin: "50% 50%" }}
       />
       <span className="relative z-10 grid grid-cols-3 gap-1.5">

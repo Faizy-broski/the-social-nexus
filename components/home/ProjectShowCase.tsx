@@ -43,7 +43,7 @@ export function ProductShowcaseSection() {
   const cardsRef = useReveal<HTMLDivElement>();
 
   return (
-    <section className="bg-white py-16 sm:py-24 lg:py-28">
+    <section className="bg-white py-10 sm:pt-24 lg:pt-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:pl-17">
         {/* Intro */}
         <Reveal variant="up" richer className="mx-auto max-w-2xl text-center">

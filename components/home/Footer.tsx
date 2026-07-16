@@ -40,12 +40,12 @@ const socialLinks = [
 
 const infoLinks = [
   { label: "About Us", href: "/about-us" },
-  { label: "Contact", href: "/contact-us" },
   { label: "Services", href: "/services" },
-  { label: "FAQs", href: "/faqs" },
   { label: "Web Brief", href: "/web-brief" },
   { label: "Logo Brief", href: "/logo-brief" },
   { label: "Portfolio", href: "/portfolio" },
+  { label: "FAQs", href: "/faqs" },
+  { label: "Contact Us", href: "/contact-us" },
 ];
 
 const offices = [
@@ -149,7 +149,7 @@ export function SiteFooter() {
                       href={link.href}
                       className="group inline-flex items-center text-sm text-white/60 transition-colors hover:text-[#2FD4C9]"
                     >
-                      <span className="h-1.5 w-0 shrink-0 bg-[#2FD4C9] opacity-0 transition-all duration-300 ease-out group-hover:mr-2 group-hover:w-2.5 group-hover:opacity-100" />
+                      {/* <span className="h-1.5 w-0 shrink-0 bg-[#2FD4C9] opacity-0 transition-all duration-300 ease-out group-hover:mr-2 group-hover:w-2.5 group-hover:opacity-100" /> */}
                       {link.label}
                     </Link>
                   </li>
