@@ -6,14 +6,17 @@ import NetworkLines from "@/components/contact/network-lines";
 /**
  * LoadingScreen
  * ------------------------------------------------------------------
- * Shared branded loading visual. Used two ways:
- *   1. As the Suspense fallback for every route's `loading.tsx`
- *      (streams in during a genuinely slow server render).
- *   2. As a deliberate, timed overlay mounted by `app/template.tsx`
- *      on every client-side navigation, so the loading moment always
- *      plays even when the destination page has no async work to
- *      suspend on.
+ * Shared branded loading visual, mounted as a deliberate, timed overlay
+ * by `app/template.tsx` on client-side navigations. Every route in this
+ * app is fully static (prerendered at build time), so there's no real
+ * server work to show a loading state for — this used to also be wired
+ * up as the Suspense fallback via each route's `loading.tsx`, but that
+ * gave every static page a needless streaming boundary: under a slow
+ * connection the fallback would paint first and the actual (much
+ * taller) page content would swap in seconds later, producing a huge
+ * layout shift. Removed in favor of relying solely on Template's timer.
  *
+
  * Uses /favicon.ico directly (your actual mark) rather than a
  * hand-traced approximation, so the two-tone teal/gold shape and
  * proportions are pixel-accurate to the real logo.

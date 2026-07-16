@@ -235,7 +235,7 @@ export function ContactForm() {
             <Select onValueChange={field.onChange} value={field.value ?? ""}>
               <SelectTrigger
                 id="region"
-                className="glass-input h-11 w-full text-white data-[placeholder]:text-white/50"
+                className="glass-input h-11 w-full text-white data-placeholder:text-white/50"
               >
                 <SelectValue placeholder="Select region" />
               </SelectTrigger>

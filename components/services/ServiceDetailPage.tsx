@@ -157,7 +157,7 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
       <section className="relative px-5 py-8 sm:px-8 md:px-12 lg:pl-20 lg:pr-10 xl:pl-25 xl:pr-12">
         <div className="mx-auto max-w-6xl">
           <Reveal variant="up" className="text-center">
-            <h2 className="text-2xl font-semibold leading-[1.2] tracking-[-0.03em] sm:text-3xl lg:text-5xl">
+            <h2 className="text-2xl max-w-5xl mx-auto font-semibold leading-[1.2] tracking-[-0.03em] sm:text-3xl lg:text-5xl">
               {service.overviewHeading ? (
                 <>
                   {service.overviewHeading.before}
