@@ -98,11 +98,11 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden text-white">
-      {/* Background video — poster/preload intentionally omitted: there's no
-          static frame asset to show, and `poster` pointing at a missing file
-          used to 404 and stall the LCP paint. `preload="metadata"` keeps the
-          full 1.9MB file out of the critical request chain while still
-          letting `autoPlay` kick the fetch off once the video is in view. */}
+      {/* Background video — poster intentionally omitted: there's no static
+          frame asset to show, and `poster` pointing at a missing file used
+          to 404 and stall the LCP paint. `preload="auto"` fetches the full
+          file eagerly so it's already buffered and playing the instant the
+          hero paints, instead of popping in a beat later. */}
       <video
         ref={setVideoRefs}
         className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
@@ -111,7 +111,7 @@ export default function HeroSection() {
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
       />
 
       {/* Static fallback for reduced-motion users — the gradient overlay
@@ -122,7 +122,7 @@ export default function HeroSection() {
       <div className="hero-teal-overlay absolute inset-0" />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center gap-10 px-6 py-20 sm:gap-12 sm:px-10 sm:py-20 md:px-12 lg:flex-row lg:items-center lg:justify-center lg:gap-16 lg:px-16 lg:py-8 xl:justify-between xl:gap-12 xl:pr-6">
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl lg:max-w-7xl flex-col items-center justify-center gap-10 px-6 py-20 sm:gap-12 sm:px-10 sm:py-20 md:px-12 lg:flex-row lg:items-center lg:justify-center lg:gap-16 lg:px-16 lg:py-8 xl:justify-between xl:gap-12 xl:pr-6">
         {/* Left copy */}
         <m.div
           initial={reduceMotion ? false : "hidden"}

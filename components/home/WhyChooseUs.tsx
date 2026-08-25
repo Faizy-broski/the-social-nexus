@@ -345,6 +345,7 @@ export function WhyChooseUsHorizontal() {
               title="The Social Nexus — Think. Build. Launch."
               className="h-full w-full"
               autoplayOnView
+              eager
             />
           </div>
         </Panel>

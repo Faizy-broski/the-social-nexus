@@ -173,8 +173,8 @@ export function TechnologiesSection() {
   const active = tabs[activeIndex];
 
   return (
-    <section className="bg-white py-16 sm:py-24 lg:py-24">
-      <div className="mx-auto max-w-5xl px-5 sm:px-6 lg:pl-17">
+    <section className="section-y bg-white">
+      <div className="container-rail max-w-5xl lg:max-w-7xl">
         <Reveal variant="up" richer className="text-center">
           <p className="text-sm font-semibold text-brand-teal-dark">
             Technologies
@@ -191,7 +191,7 @@ export function TechnologiesSection() {
           ref={tabListRef}
           role="tablist"
           aria-label="Technology categories"
-          className="scrollbar-none mx-auto mt-8 flex max-w-4xl items-center gap-1 overflow-x-auto rounded-full bg-linear-to-br from-brand-teal to-brand-teal-dark p-1.5 sm:mt-10 sm:flex-nowrap sm:overflow-visible"
+          className="scrollbar-none mx-auto mt-8 flex max-w-4xl lg:max-w-7xl items-center gap-1 overflow-x-auto rounded-full bg-linear-to-br from-brand-teal to-brand-teal-dark p-1.5 sm:mt-10 sm:flex-nowrap sm:overflow-visible"
         >
           {tabs.map((tab, index) => {
             const isActive = index === activeIndex;

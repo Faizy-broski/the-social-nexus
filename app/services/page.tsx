@@ -1,131 +1,18 @@
-"use client";
-
 import Link from "next/link";
-import { ArrowUp } from "lucide-react";
 import NetworkLines from "@/components/contact/network-lines";
 import { Reveal } from "@/components/motion/Reveal";
 import { ServiceThumbnail } from "@/components/home/ServiceThumbnail";
+import { getPublishedServices } from "@/lib/data/services";
 
-const slugify = (title: string) =>
-  title
-    .replace(/\n/g, " ")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-
-const services = [
-  {
-    number: "1",
-    title: "Software\nDevelopment",
-    description:
-      "We are a leading software development agency delivering custom...",
-    image: "/services/1.jpg",
-  },
-  {
-    number: "2",
-    title: "Web\nDevelopment",
-    description:
-      "We provide end-to-end custom web development solutions designed...",
-    image: "/services/2.jpg",
-  },
-  {
-    number: "3",
-    title: "Mobile App\nDevelopment",
-    description:
-      "We are a leading mobile app development agency delivering...",
-    image: "/services/3.jpg",
-  },
-  {
-    number: "4",
-    title: "Generative AI\nDevelopment",
-    description:
-      "The Social Nexus is a forward-thinking AI development agency delivering...",
-    image: "/services/4.jpg",
-  },
-  {
-    number: "5",
-    title: "Digital\nMarketing",
-    description:
-      "The Social Nexus delivers powerful digital marketing and SEO services...",
-    image: "/services/5.jpg",
-  },
-  {
-    number: "6",
-    title: "Social Media\nDesign",
-    description:
-      "The Social Nexus creates stunning social media visuals, branded templates...",
-    image: "/services/6.jpg",
-  },
-  {
-    number: "7",
-    title: "Automation",
-    description:
-      "The Social Nexus delivers intelligent business automation solutions that...",
-    image: "/services/7.jpg",
-  },
-  {
-    number: "8",
-    title: "Voicebots",
-    description:
-      "The Social Nexus builds sophisticated voicebot and conversational AI systems...",
-    image: "/services/8.jpg",
-  },
-  {
-    number: "9",
-    title: "Chatbots",
-    description:
-      "The Social Nexus builds intelligent, conversational chatbots that engage customers...",
-    image: "/services/9.jpg",
-  },
-  {
-    number: "10",
-    title: "ERP & CRM Implementation",
-    description:
-      "The Social Nexus delivers expert ERP and CRM implementation services that transform...",
-    image: "/services/10.jpg",
-  },
-  {
-    number: "11",
-    title: "Brand Identity & Logo\nDesign",
-    description:
-      "We craft brand identities that communicate purpose, personality, and positioning...",
-    image: "/services/11.jpg",
-  },
-  {
-    number: "12",
-    title: "Saas\nDevelopment",
-    description:
-      "We are a leading SaaS development agency delivering custom SaaS products...",
-    image: "/services/12.jpg",
-  },
-  {
-    number: "13",
-    title: "Maintenance and Support",
-    description:
-      "We are a leading software maintenance and support agency delivering...",
-    image: "/services/13.jpg",
-  },
-  {
-    number: "14",
-    title: "Salesforce Development &\nConsulting",
-    description:
-      "We are a leading Salesforce development and consulting agency...",
-    image: "/services/14.jpg",
-  },
-  {
-    number: "15",
-    title: "Cloud Migration & Cloud\nOperations",
-    description:
-      "We are a leading cloud migration and cloud operations agency delivering...",
-    image: "/services/15.jpg",
-  },
-];
-
-export default function Page() {
-  const goNext = (index: number) =>
-    document
-      .getElementById(`service-${index}`)
-      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+export default async function Page() {
+  const rows = await getPublishedServices();
+  const services = rows.map((row) => ({
+    slug: row.slug,
+    number: row.number,
+    title: row.title.join("\n"),
+    description: row.hero_description,
+    image: row.image_path,
+  }));
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-brand-navy text-white">
@@ -161,7 +48,7 @@ export default function Page() {
           {services.map((service, index) => (
             <article
               id={`service-${index}`}
-              key={service.title}
+              key={service.slug}
               className="scroll-reveal-row group relative grid grid-cols-[36px_1fr_auto] gap-x-4 border-b border-white/15 py-8 sm:grid-cols-[90px_1fr_auto] sm:gap-x-5 sm:py-10 lg:grid-cols-[100px_1.1fr_1.5fr_auto] lg:items-center lg:gap-8 px-4 sm:px-6"
             >
               {/* left-to-right highlight sweep on hover, same treatment as
@@ -175,17 +62,14 @@ export default function Page() {
                   spans/headings. The arrow button stays OUTSIDE this Link
                   as a sibling (not nested inside it), since a link inside
                   a link — or a button inside a link — is invalid HTML. */}
-              <Link
-                href={`/services/${slugify(service.title)}`}
-                className="contents"
-              >
+              <Link href={`/services/${service.slug}`} className="contents">
                 <span className="text-xl font-semibold text-white/35 transition-colors duration-300 group-hover:text-brand-gold sm:text-2xl lg:text-3xl">
                   {service.number}
                 </span>
                 <h2 className="whitespace-pre-line text-2xl font-semibold leading-tight tracking-[-.03em] transition-colors duration-300 group-hover:text-brand-teal-light sm:text-3xl">
                   {service.title}
                 </h2>
-                <p className="col-start-2 mt-5 max-w-172.5 text-base font-medium leading-relaxed text-white/50 sm:mt-6 sm:text-lg lg:col-start-auto lg:mt-0 lg:text-base">
+                <p className="col-start-2 mt-5 line-clamp-3 max-w-172.5 text-base font-medium leading-relaxed text-white/50 sm:mt-6 sm:text-lg lg:col-start-auto lg:mt-0 lg:text-base">
                   {service.description}
                 </p>
               </Link>

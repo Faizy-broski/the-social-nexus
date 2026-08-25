@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, LazyMotion, domAnimation, m, useReducedMotion } from "motion/react";
 import LoadingScreen from "@/components/shared/LoadingScreen";
 
@@ -38,6 +39,8 @@ let hasNavigatedOnce = false;
  */
 export default function Template({ children }: { children: React.ReactNode }) {
   const reduceMotion = useReducedMotion();
+  const pathname = usePathname();
+  const isAdmin = pathname?.startsWith("/admin");
   const [showLoader, setShowLoader] = useState(() => hasNavigatedOnce);
   // Captured once: whether THIS mount is the very first (no loader, so
   // there's nothing to cross-fade from — content should just be there,
@@ -51,6 +54,10 @@ export default function Template({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // The branded marketing loader/fade has no place in the admin dashboard
+  // — it's a plain app shell, not a site page, so just render it directly.
+  if (isAdmin) return <>{children}</>;
 
   return (
     <LazyMotion features={domAnimation} strict>

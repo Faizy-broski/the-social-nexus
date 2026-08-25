@@ -44,7 +44,7 @@ export function ProductShowcaseSection() {
 
   return (
     <section className="bg-white py-10 sm:pt-24 lg:pt-28">
-      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:pl-17">
+      <div className="container-rail max-w-6xl lg:max-w-7xl">
         {/* Intro */}
         <Reveal variant="up" richer className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold text-brand-teal-dark">
@@ -62,7 +62,7 @@ export function ProductShowcaseSection() {
         {/* Cards */}
         <div
           ref={cardsRef}
-          className="reveal stagger-children mt-10 grid grid-cols-1 gap-6 sm:mt-16 sm:gap-8 md:grid-cols-2"
+          className="reveal stagger-children grid-cards-2 mt-10 sm:mt-16"
         >
           {products.map((product) => (
             <ProductCard key={product.slug} product={product} />

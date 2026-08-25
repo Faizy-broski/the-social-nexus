@@ -13,24 +13,31 @@ import { useInView } from "@/hooks/use-in-view";
  * `autoplayOnView` opts a specific instance out of that click-to-load
  * gate: the real iframe loads (muted, so browsers allow autoplay)
  * once the facade scrolls into view, no click required.
+ *
+ * `eager` goes a step further and loads the iframe immediately on
+ * mount instead of waiting for an intersection — for spots (like a
+ * scroll-jacked panel that gets translated into view) where waiting
+ * for the IntersectionObserver still leaves a visible load delay.
  */
 export function YouTubeFacade({
   videoId,
   title,
   className,
   autoplayOnView = false,
+  eager = false,
 }: {
   videoId: string;
   title: string;
   className?: string;
   autoplayOnView?: boolean;
+  eager?: boolean;
 }) {
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(eager);
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.5 });
 
   useEffect(() => {
-    if (autoplayOnView && inView) setLoaded(true);
-  }, [autoplayOnView, inView]);
+    if (!eager && autoplayOnView && inView) setLoaded(true);
+  }, [autoplayOnView, eager, inView]);
 
   return (
     <div ref={ref} className={className}>

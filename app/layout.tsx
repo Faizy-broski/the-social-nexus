@@ -2,12 +2,8 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import Header from "@/components/home/Header";
-import Footer from "@/components/home/Footer";
-import LetsTalkBadge from "@/components/home/LetsTalkBadge";
-import {HeaderThemeProvider} from "@/contexts/header-theme-contexts";
-import WhatsappButton from "@/components/home/WhatsappButton";
-import LetsMake from "@/components/home/LetsMake";
+import { SiteChrome } from "@/components/shared/SiteChrome";
+import { Toaster } from "@/components/ui/sonner";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -35,15 +31,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable)} data-scroll-behavior="smooth">
       <body>
-        <HeaderThemeProvider>
-        <Header />
-        {/* <LetsTalkBadge/> */}
-        {children}
-        <LetsMake />
-        <Footer />
-        <WhatsappButton />
-        </HeaderThemeProvider>
-        </body>
+        <SiteChrome>{children}</SiteChrome>
+        <Toaster />
+      </body>
     </html>
   );
 }

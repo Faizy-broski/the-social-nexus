@@ -255,7 +255,7 @@ export default function AboutUsPage() {
             {/* Logo */}
             <div className="animate-float flex justify-start lg:justify-end">
               <Image
-                src="https://thesocialnexus.co.uk/wp-content/uploads/2026/05/TSN-LOGO-2-1536x457.png"
+                src="/TSN-White-Logo.webp"
                 alt="The Social Nexus"
                 width={220}
                 height={60}

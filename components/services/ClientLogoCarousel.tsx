@@ -2,8 +2,12 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import useEmblaCarousel from "embla-carousel-react";
-import AutoScroll from "embla-carousel-auto-scroll";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, FreeMode } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
+
+import "swiper/css";
+import "swiper/css/free-mode";
 
 type ClientLogo = {
   name: string;
@@ -30,87 +34,71 @@ const clientLogos: ClientLogo[] = [
 const rowOneLogos = clientLogos.slice(0, 7);
 const rowTwoLogos = clientLogos.slice(7, 14);
 
+// Duplicated once so `loop` has enough slides to bridge seamlessly at
+// this slidesPerView. If you add/remove logos, keep at least 2x the
+// visible count per row or Swiper's loop mode will visibly jump.
 const rowOne = [...rowOneLogos, ...rowOneLogos];
 const rowTwo = [...rowTwoLogos.slice().reverse(), ...rowTwoLogos.slice().reverse()];
 
 function LogoRow({
   logos,
-  direction,
+  reverse,
 }: {
   logos: ClientLogo[];
-  direction: "forward" | "backward";
+  reverse: boolean;
 }) {
-  // PERF NOTE — initial-load lag fix:
-  // Previously this plugin was instantiated inline inside the
-  // useEmblaCarousel call (a fresh AutoScroll(...) object on every
-  // render) with playOnInit defaulting to true and stopOnInteraction/
-  // MouseEnter/FocusIn all disabled. That meant a continuous rAF loop
-  // started the instant the component mounted — with two rows, two
-  // such loops — competing for main-thread time with hydration, the
-  // header animation, and any GSAP ScrollTrigger init happening in the
-  // same window right after load. That contention is what reads as lag
-  // on first render.
-  //
-  // Fixed two ways:
-  //  1. The plugin instance is created once via useRef, not recreated
-  //     on every render, so there's no risk of embla destroying and
-  //     reinitializing the carousel on a reinit-triggering re-render.
-  //  2. playOnInit is now false, and play()/stop() are driven by an
-  //     IntersectionObserver — the row only starts animating once it's
-  //     actually visible, and stops burning rAF cycles once it isn't.
-  //     This defers the first tick until after the page has already
-  //     painted, instead of racing it against initial hydration.
-  const autoScrollRef = useRef(
-    AutoScroll({
-      direction,
-      speed: 2,
-      stopOnInteraction: false,
-      stopOnMouseEnter: false,
-      stopOnFocusIn: false,
-      playOnInit: false,
-    }),
-  );
+  const swiperRef = useRef<SwiperType | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    { loop: true, dragFree: true, align: "start", containScroll: false },
-    [autoScrollRef.current],
-  );
-
+  // Same fix as the Embla version: don't let autoplay start the instant
+  // the component mounts. `autoplay: false` on init + an
+  // IntersectionObserver driving start()/stop() means the row only
+  // spends main-thread time once it's actually on screen, and doesn't
+  // compete with hydration / header animation / GSAP init right after
+  // load.
   useEffect(() => {
-    if (!emblaApi) return;
-
-    const autoScroll = emblaApi.plugins().autoScroll as
-      | { play: () => void; stop: () => void }
-      | undefined;
-    if (!autoScroll) return;
-
-    const root = emblaApi.rootNode();
+    const el = containerRef.current;
+    const swiper = swiperRef.current;
+    if (!el || !swiper) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          autoScroll.play();
+          swiper.autoplay.start();
         } else {
-          autoScroll.stop();
+          swiper.autoplay.stop();
         }
       },
       { threshold: 0.1 },
     );
 
-    observer.observe(root);
+    observer.observe(el);
     return () => observer.disconnect();
-  }, [emblaApi]);
+  }, []);
 
   return (
-    <div className="overflow-hidden" ref={emblaRef}>
-      {/* Spacing is margin/padding-based (not the `gap` utility) because
-          Embla's loop mode repositions slides via transform using each
-          slide's own box size — a container `gap` isn't included in that
-          math, so the wrap-around slide would butt up against the next
-          one with no space. */}
-      <div className="flex -ml-4">
+    <div ref={containerRef} className="overflow-hidden">
+      <Swiper
+        modules={[Autoplay, FreeMode]}
+        onSwiper={(s) => {
+          swiperRef.current = s;
+        }}
+        loop
+        freeMode={{ enabled: true, momentum: false }}
+        slidesPerView="auto"
+        spaceBetween={16}
+        speed={4000}
+        allowTouchMove={false}
+        autoplay={{
+          delay: 1,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: false,
+          reverseDirection: reverse,
+        }}
+        className="!overflow-visible"
+      >
         {logos.map((logo, i) => (
-          <div key={`${logo.name}-${i}`} className="shrink-0 pl-4">
+          <SwiperSlide key={`${logo.name}-${i}`} className="!w-44 sm:!w-56">
             <div className="flex h-20 w-44 items-center justify-center rounded-full bg-white px-6 shadow-sm sm:h-24 sm:w-56">
               <Image
                 src={logo.src}
@@ -121,9 +109,9 @@ function LogoRow({
                 className="h-full max-h-12 w-auto object-contain sm:max-h-14"
               />
             </div>
-          </div>
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
     </div>
   );
 }
@@ -131,8 +119,8 @@ function LogoRow({
 export function ClientLogoCarousel() {
   return (
     <div className="stagger-children space-y-4 sm:space-y-5">
-      <LogoRow logos={rowOne} direction="forward" />
-      <LogoRow logos={rowTwo} direction="backward" />
+      <LogoRow logos={rowOne} reverse={false} />
+      <LogoRow logos={rowTwo} reverse={true} />
     </div>
   );
 }

@@ -84,7 +84,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <footer className="relative max-w-6xl overflow-hidden lg:h-screen bg-[#0B0E13] text-white">
+      <footer className="relative max-w-6xl overflow-hidden lg:h-[80%] bg-[#0B0E13] text-white">
         {/* ambient network glow — same "Nexus" motif used on the other
             dark sections (Services/Portfolio), so the footer doesn't
             feel like a flat, unrelated dark panel at the end of the page */}
@@ -96,7 +96,7 @@ export function SiteFooter() {
           />
         </div>
 
-        <div className="relative mx-auto flex max-w-5xl flex-col gap-12 px-5 pb-8 pt-14 sm:px-6 sm:pb-10 sm:pt-20 lg:flex-row lg:items-start lg:justify-between lg:gap-16 lg:pl-17">
+        <div className="container-rail relative flex max-w-5xl flex-col gap-12 pb-8 pt-14 sm:pb-10 sm:pt-20 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
           {/* Brand / nav grid */}
           <div
             ref={gridRef}

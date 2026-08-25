@@ -109,6 +109,50 @@
   --duration-base: 400ms;
   --duration-slow: 700ms;
   --duration-slower: 1000ms;
+
+  /* =========================================================
+     RESPONSIVE LAYOUT TOKENS
+     Single source of truth for containers, spacing, type and
+     grids across every breakpoint (xs 25rem / sm 40rem / md 48rem /
+     lg 64rem / xl 80rem / 2xl 96rem). Values are fluid (clamp-based)
+     so layout scales continuously instead of jumping at each
+     breakpoint — components should reach for these tokens/utility
+     classes instead of hand-rolled px, py and text-size values per
+     breakpoint.
+     ========================================================= */
+
+  /* Outer page container caps at the 2xl breakpoint (96rem / 1536px) */
+  --container-max: 96rem;
+  --space-container-x: clamp(1rem, 0.6rem + 2vw, 3rem);
+
+  /* Vertical rhythm between/inside sections */
+  --space-section-y: clamp(3rem, 2.2rem + 4vw, 7rem);
+  --space-section-y-sm: clamp(2rem, 1.5rem + 2.2vw, 4rem);
+
+  /* Cards */
+  --space-card-p: clamp(1.25rem, 1rem + 1.2vw, 2rem);
+  --space-card-p-sm: clamp(1rem, 0.85rem + 0.6vw, 1.5rem);
+  --radius-card: var(--radius-xl, 1.25rem);
+
+  /* Grids */
+  --space-grid-gap: clamp(1rem, 0.8rem + 1vw, 2rem);
+  --space-grid-gap-sm: clamp(0.75rem, 0.6rem + 0.6vw, 1.25rem);
+  --grid-card-min: 16rem;
+
+  /* Generic stack/inline spacing (lists, form fields, badge rows) */
+  --space-stack-gap: clamp(0.5rem, 0.4rem + 0.4vw, 1rem);
+  --space-heading-gap: clamp(0.75rem, 0.6rem + 0.6vw, 1.5rem);
+
+  /* Fluid type scale — headings + body copy */
+  --text-h1: clamp(2.25rem, 1.35rem + 3.8vw, 4.5rem);
+  --text-h2: clamp(1.875rem, 1.35rem + 2.2vw, 3rem);
+  --text-h3: clamp(1.375rem, 1.15rem + 1vw, 1.875rem);
+  --text-h4: clamp(1.125rem, 1rem + 0.55vw, 1.5rem);
+  --text-h5: clamp(1rem, 0.94rem + 0.3vw, 1.25rem);
+  --text-h6: clamp(0.9375rem, 0.9rem + 0.2vw, 1.125rem);
+  --text-eyebrow: clamp(0.75rem, 0.72rem + 0.15vw, 0.875rem);
+  --text-body: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+  --text-body-lg: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
 }
 
 .dark {
@@ -157,30 +201,30 @@
      components that need one more step between smallest phones and sm */
   --breakpoint-xs: 25rem;
 
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
 
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
 
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
 
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
 
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
 
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
 
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
 
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 
   /* expose brand tokens as Tailwind utilities, e.g. bg-brand-teal, text-brand-gold */
   --color-brand-teal: var(--brand-teal);
@@ -298,18 +342,37 @@
   }
 
   h1 {
-    @apply text-5xl font-extrabold tracking-tight lg:text-7xl;
+    font-size: var(--text-h1);
+    @apply font-extrabold tracking-tight;
   }
 
   h2 {
-    @apply text-4xl font-bold lg:text-5xl;
+    font-size: var(--text-h2);
+    @apply font-bold tracking-tight;
   }
 
   h3 {
-    @apply text-2xl font-semibold;
+    font-size: var(--text-h3);
+    @apply font-semibold;
+  }
+
+  h4 {
+    font-size: var(--text-h4);
+    @apply font-semibold;
+  }
+
+  h5 {
+    font-size: var(--text-h5);
+    @apply font-semibold;
+  }
+
+  h6 {
+    font-size: var(--text-h6);
+    @apply font-semibold;
   }
 
   p {
+    font-size: var(--text-body);
     @apply text-muted-foreground leading-8;
   }
 
@@ -333,9 +396,105 @@
 }
 
 @layer utilities {
+  /* =========================================================
+     LAYOUT PRIMITIVES
+     Built on the responsive tokens declared in :root above.
+     Prefer these over one-off px, py and max-w combinations so
+     every section shares the same rhythm at every breakpoint.
+     ========================================================= */
+
+  /* Page-level container — centers content and caps it at the 2xl
+     breakpoint (max-w-screen-2xl / 96rem), with fluid side padding
+     that eases from ~1rem on xs screens up to 3rem on 2xl+. */
   .container-section {
-    @apply container mx-auto max-w-7xl px-6;
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--space-container-x);
   }
+
+  /* Content container for sections that sit next to the fixed lg+ icon
+     rail in Header.tsx (w-16 / 4rem wide). Same fluid side padding as
+     .container-section, plus enough extra left padding at lg+ to clear
+     the rail. Pair with a Tailwind `max-w-*` utility for the content
+     width (site sections use max-w-5xl/max-w-6xl, narrower than the
+     page-level 2xl container by design). */
+  .container-rail {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--space-container-x);
+  }
+  @media (min-width: 64rem) {
+    .container-rail { padding-left: calc(var(--space-container-x) + 4.25rem); }
+  }
+
+  /* Fluid vertical rhythm for full sections / smaller sub-sections */
+  .section-y { padding-block: var(--space-section-y); }
+  .section-y-sm { padding-block: var(--space-section-y-sm); }
+  .section-mt { margin-top: var(--space-section-y); }
+  .section-mb { margin-bottom: var(--space-section-y); }
+
+  /* Space below a heading/eyebrow before the copy that follows it */
+  .heading-gap { margin-bottom: var(--space-heading-gap); }
+
+  /* Eyebrow / label text above a heading */
+  .text-eyebrow {
+    font-size: var(--text-eyebrow);
+    @apply font-semibold uppercase tracking-widest;
+  }
+
+  /* Larger lead paragraph variant (hero copy, section intros) */
+  .text-lead {
+    font-size: var(--text-body-lg);
+    @apply text-muted-foreground leading-8;
+  }
+
+  /* Card surface — fluid padding/radius shared by every card component */
+  .card-surface {
+    padding: var(--space-card-p);
+    border-radius: var(--radius-card);
+    @apply border border-border bg-card text-card-foreground;
+  }
+  .card-surface-sm {
+    padding: var(--space-card-p-sm);
+    border-radius: var(--radius-lg);
+    @apply border border-border bg-card text-card-foreground;
+  }
+
+  /* Auto-fitting responsive grid — columns flow from 1 up to however
+     many fit at --grid-card-min per column, no manual breakpoints. */
+  .grid-auto-fit {
+    display: grid;
+    gap: var(--space-grid-gap);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-card-min)), 1fr));
+  }
+
+  /* Fixed-step responsive grids for when column count must be exact
+     (xs: 1 col, sm: 2, lg: 3, 2xl: 4) */
+  .grid-cards-2 {
+    display: grid;
+    gap: var(--space-grid-gap);
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    @apply sm:grid-cols-2;
+  }
+
+  .grid-cards-3 {
+    display: grid;
+    gap: var(--space-grid-gap);
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    @apply sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .grid-cards-4 {
+    display: grid;
+    gap: var(--space-grid-gap);
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    @apply xs:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4;
+  }
+
+  /* Vertical stack with fluid gap (form fields, list items, badge rows) */
+  .stack-y { display: flex; flex-direction: column; gap: var(--space-stack-gap); }
+  .stack-y-sm { display: flex; flex-direction: column; gap: calc(var(--space-stack-gap) / 2); }
 
   /* Primary gradient — teal → navy, the site's main dark/brand gradient */
   .gradient-primary {

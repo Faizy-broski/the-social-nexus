@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
 import { useHeaderTheme } from "@/contexts/header-theme-contexts";
@@ -22,12 +22,40 @@ import {
 } from "@/components/ui/sheet";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
-const navLinks = [
+type NavLink = {
+  label: string;
+  href: string;
+  children?: { label: string; href: string }[];
+};
+
+const navLinks: NavLink[] = [
   { label: "About Us", href: "/about-us" },
-  { label: "Services", href: "/services" },
+  {
+    label: "Services",
+    href: "/services",
+    children: [
+      { label: "SEO Agency London", href: "/seo-agency-london" },
+      {
+        label: "Content Marketing Companies",
+        href: "/content-marketing-companies",
+      },
+      {
+        label: "Website Developers For Small Business",
+        href: "/website-developers-for-small-business",
+      },
+      {
+        label: "WordPress Development Agency London",
+        href: "/wordpress-development-agency-london",
+      },
+      {
+        label: "Google Ads Management Agency London",
+        href: "/google-ads-management-agency-london",
+      },
+    ],
+  },
   { label: "Portfolio", href: "/portfolio" },
-  { label: "Web Brief", href: "/web-brief" },
-  { label: "Logo Brief", href: "/logo-brief" },
+  // { label: "Web Brief", href: "/web-brief" },
+  // { label: "Logo Brief", href: "/logo-brief" },
   { label: "FAQs", href: "/faqs" },
   { label: "Contact Us", href: "/contact-us" },
 ];
@@ -132,6 +160,9 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   // mobile/tablet side sheet
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  // Services submenu expand/collapse, kept separate per nav instance
+  const [desktopServicesOpen, setDesktopServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
   const theme = useHeaderTheme();
   const t = railTheme[theme];
@@ -263,17 +294,73 @@ const Header = () => {
 
                   <nav className="my-10">
                     <ul ref={mobileNavRef} className="space-y-5">
-                      {navLinks.map((link) => (
-                        <li key={link.href}>
-                          <Link
-                            href={link.href}
-                            onClick={() => setIsSheetOpen(false)}
-                            className="group flex items-center text-xl font-semibold text-white/60 transition-colors hover:text-white sm:text-3xl"
-                          >
-                            {link.label}
-                          </Link>
-                        </li>
-                      ))}
+                      {navLinks.map((link) =>
+                        link.children ? (
+                          <li key={link.href}>
+                            <div className="flex items-center justify-between gap-2">
+                              <Link
+                                href={link.href}
+                                onClick={() => setIsSheetOpen(false)}
+                                className="group flex items-center text-xl font-semibold text-white/60 transition-colors hover:text-white sm:text-3xl"
+                              >
+                                {link.label}
+                              </Link>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setMobileServicesOpen((prev) => !prev)
+                                }
+                                aria-label={
+                                  mobileServicesOpen
+                                    ? "Collapse services menu"
+                                    : "Expand services menu"
+                                }
+                                aria-expanded={mobileServicesOpen}
+                                className="press-scale flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+                              >
+                                <ChevronDown
+                                  className={cn(
+                                    "h-4 w-4 transition-transform duration-300",
+                                    mobileServicesOpen && "rotate-180",
+                                  )}
+                                />
+                              </button>
+                            </div>
+                            <ul
+                              className={cn(
+                                "grid overflow-hidden transition-all duration-300 ease-out",
+                                mobileServicesOpen
+                                  ? "mt-3 grid-rows-[1fr] opacity-100"
+                                  : "grid-rows-[0fr] opacity-0",
+                              )}
+                            >
+                              <div className="min-h-0 space-y-3 border-l border-white/10 pl-4">
+                                {link.children.map((child) => (
+                                  <li key={child.href}>
+                                    <Link
+                                      href={child.href}
+                                      onClick={() => setIsSheetOpen(false)}
+                                      className="block text-sm font-medium text-white/50 transition-colors hover:text-brand-teal-light sm:text-base"
+                                    >
+                                      {child.label}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </div>
+                            </ul>
+                          </li>
+                        ) : (
+                          <li key={link.href}>
+                            <Link
+                              href={link.href}
+                              onClick={() => setIsSheetOpen(false)}
+                              className="group flex items-center text-xl font-semibold text-white/60 transition-colors hover:text-white sm:text-3xl"
+                            >
+                              {link.label}
+                            </Link>
+                          </li>
+                        ),
+                      )}
                     </ul>
                   </nav>
                 </div>
@@ -471,18 +558,75 @@ const Header = () => {
 
             <nav className="relative">
               <ul ref={desktopNavRef} className="space-y-2">
-                {navLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className="group flex items-center text-4xl max-w-xs font-bold uppercase text-white/50 transition-colors hover:text-white lg:text-4xl"
-                    >
-                      <span className="h-2 w-0 shrink-0 bg-brand-gold opacity-0 transition-all duration-400 ease-out group-hover:mr-4 group-hover:w-10 group-hover:opacity-100 sm:group-hover:w-12" />
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+                {navLinks.map((link) =>
+                  link.children ? (
+                    <li key={link.href}>
+                      <div className="flex items-center gap-3">
+                        <Link
+                          href={link.href}
+                          onClick={() => setIsOpen(false)}
+                          className="group flex items-center text-4xl max-w-xs font-bold uppercase text-white/50 transition-colors hover:text-white lg:text-4xl"
+                        >
+                          <span className="h-2 w-0 shrink-0 bg-brand-gold opacity-0 transition-all duration-400 ease-out group-hover:mr-4 group-hover:w-10 group-hover:opacity-100 sm:group-hover:w-12" />
+                          {link.label}
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setDesktopServicesOpen((prev) => !prev)
+                          }
+                          aria-label={
+                            desktopServicesOpen
+                              ? "Collapse services menu"
+                              : "Expand services menu"
+                          }
+                          aria-expanded={desktopServicesOpen}
+                          className="press-scale flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white/60 transition-colors hover:bg-white/20 hover:text-white"
+                        >
+                          <ChevronDown
+                            className={cn(
+                              "h-5 w-5 transition-transform duration-300",
+                              desktopServicesOpen && "rotate-180",
+                            )}
+                          />
+                        </button>
+                      </div>
+                      <ul
+                        className={cn(
+                          "grid overflow-hidden transition-all duration-300 ease-out",
+                          desktopServicesOpen
+                            ? "mt-3 grid-rows-[1fr] opacity-100"
+                            : "grid-rows-[0fr] opacity-0",
+                        )}
+                      >
+                        <div className="min-h-0 space-y-2.5 border-l border-white/15 pl-6">
+                          {link.children.map((child) => (
+                            <li key={child.href}>
+                              <Link
+                                href={child.href}
+                                onClick={() => setIsOpen(false)}
+                                className="block text-base font-semibold text-white/45 transition-colors hover:text-brand-teal-light"
+                              >
+                                {child.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </div>
+                      </ul>
+                    </li>
+                  ) : (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className="group flex items-center text-4xl max-w-xs font-bold uppercase text-white/50 transition-colors hover:text-white lg:text-4xl"
+                      >
+                        <span className="h-2 w-0 shrink-0 bg-brand-gold opacity-0 transition-all duration-400 ease-out group-hover:mr-4 group-hover:w-10 group-hover:opacity-100 sm:group-hover:w-12" />
+                        {link.label}
+                      </Link>
+                    </li>
+                  ),
+                )}
               </ul>
             </nav>
           </div>

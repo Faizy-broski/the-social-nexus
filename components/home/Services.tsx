@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import NetworkLines from "../contact/network-lines";
 import { ServiceThumbnail } from "./ServiceThumbnail";
+import { getPublishedServices } from "@/lib/data/services";
 
 /**
  * ServicesSection
@@ -34,68 +35,20 @@ import { ServiceThumbnail } from "./ServiceThumbnail";
  *   /public/services/social-media-design.jpg
  */
 
-type Service = {
-  number: string;
-  title: string[];
-  description: string;
-  href: string;
-  image: string;
-};
+export async function ServicesSection() {
+  const rows = await getPublishedServices(6);
+  const services = rows.map((row) => ({
+    number: row.number,
+    title: row.title,
+    // No separate teaser-copy column in the schema — reuse the hero
+    // description, visually truncated via line-clamp below.
+    description: row.hero_description,
+    href: `/services/${row.slug}`,
+    image: row.image_path,
+  }));
 
-const services: Service[] = [
-  {
-    number: "01",
-    title: ["Software", "Development"],
-    description:
-      "We are a leading software development agency delivering custom solutions.",
-    href: "/services/software-development",
-    image: "/services/1.jpg",
-  },
-  {
-    number: "02",
-    title: ["Web", "Development"],
-    description:
-      "We provide end-to-end custom web development solutions designed for growth.",
-    href: "/services/web-development",
-    image: "/services/2.jpg",
-  },
-  {
-    number: "03",
-    title: ["Mobile App", "Development"],
-    description:
-      "We are a leading mobile app development agency delivering native and cross-platform apps.",
-    href: "/services/mobile-app-development",
-    image: "/services/3.jpg",
-  },
-  {
-    number: "04",
-    title: ["Generative AI", "Development"],
-    description:
-      "A forward-thinking AI development agency delivering intelligent, production-ready systems.",
-    href: "/services/generative-ai-development",
-    image: "/services/4.jpg",
-  },
-  {
-    number: "05",
-    title: ["Digital", "Marketing"],
-    description:
-      "Powerful digital marketing and SEO services that turn visibility into revenue.",
-    href: "/services/digital-marketing",
-    image: "/services/5.jpg",
-  },
-  {
-    number: "06",
-    title: ["Social Media", "Design"],
-    description:
-      "Stunning social media visuals, branded templates, and scroll-stopping content.",
-    href: "/services/social-media-design",
-    image: "/services/6.jpg",
-  },
-];
-
-export function ServicesSection() {
   return (
-    <section className="relative overflow-hidden bg-brand-navy py-24 sm:py-28">
+    <section className="section-y relative overflow-hidden bg-brand-navy">
       {/* ambient network glow — nods to "Nexus" without being a literal icon.
           Slow drift added via animate-float (pure CSS, no JS) so the glow
           feels alive even before anything scrolls. */}
@@ -108,7 +61,7 @@ export function ServicesSection() {
         <NetworkLines />
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-6 lg:pl-17">
+      <div className="container-rail relative max-w-6xl lg:max-w-7xl">
         {/* Intro row */}
         <div className="scroll-reveal-row flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
           <div className="lg:max-w-lg">
@@ -160,7 +113,7 @@ export function ServicesSection() {
                   {service.title[0]} {service.title[1]}
                 </h3>
 
-                <p className="max-w-md text-white/70">{service.description}</p>
+                <p className="line-clamp-2 max-w-md text-white/70">{service.description}</p>
 
                 <ArrowUpRight className="hidden h-8 w-8 shrink-0 -translate-x-2 -rotate-12 text-brand-gold opacity-0 transition-all duration-300 ease-out group-hover:translate-x-0 group-hover:rotate-0 group-hover:opacity-100 sm:block" />
               </Link>

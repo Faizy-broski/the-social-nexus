@@ -31,8 +31,8 @@ const ProcessSection = () => {
   const arrowByIndex = ["/arrow-1.avif", "/arrow-2.avif"];
 
   return (
-    <section className="bg-white py-16 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:pl-17">
+    <section className="section-y bg-white">
+      <div className="container-rail max-w-6xl lg:max-w-7xl">
         {/* Heading */}
         <div className="scroll-reveal-row text-center">
           <p className="text-sm font-semibold text-brand-teal-dark">Process</p>
@@ -50,7 +50,7 @@ const ProcessSection = () => {
         </div>
 
         {/* Steps */}
-        <div className="relative mt-12 grid gap-10 sm:mt-16 sm:gap-12 md:mt-20 md:grid-cols-3 md:gap-6 lg:gap-14">
+        <div className="grid-cards-3 relative mt-12 sm:mt-16 md:mt-20">
           {steps.map((step, index) => (
             <div
               key={step.number}
