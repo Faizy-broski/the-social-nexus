@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { LayoutDashboard, Images, Wrench, HelpCircle, LogOut, Loader2, Palette, Share2 } from "lucide-react";
 import {
   Sidebar,
