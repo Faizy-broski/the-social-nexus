@@ -1,34 +1,90 @@
 import Link from "next/link";
-import { Images, Wrench, HelpCircle, Plus, ArrowRight } from "lucide-react";
+import { Images, Wrench, HelpCircle, Inbox, Plus, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { FadeIn } from "@/components/admin/FadeIn";
 import { SupabaseErrorBanner } from "@/components/admin/SupabaseErrorBanner";
+import { LeadsTrendChart, type LeadsTrendPoint } from "./LeadsTrendChart";
+
+const TREND_DAYS = 14;
 
 async function getCounts() {
   try {
     const supabase = getSupabaseAdmin();
-    const [portfolio, services, faqs] = await Promise.all([
+    const [portfolio, services, faqs, leads] = await Promise.all([
       supabase.from("portfolio_items").select("id", { count: "exact", head: true }),
       supabase.from("services").select("id", { count: "exact", head: true }),
       supabase.from("faqs").select("id", { count: "exact", head: true }),
+      supabase.from("leads").select("id", { count: "exact", head: true }),
     ]);
     return {
       portfolio: portfolio.count ?? 0,
       services: services.count ?? 0,
       faqs: faqs.count ?? 0,
-      error: portfolio.error || services.error || faqs.error ? true : false,
+      leads: leads.count ?? 0,
+      error: portfolio.error || services.error || faqs.error || leads.error ? true : false,
     };
   } catch {
-    return { portfolio: 0, services: 0, faqs: 0, error: true };
+    return { portfolio: 0, services: 0, faqs: 0, leads: 0, error: true };
   }
 }
 
+function dayKey(date: Date) {
+  return date.toISOString().slice(0, 10);
+}
+
+async function getLeadsTrend(): Promise<LeadsTrendPoint[]> {
+  const days: LeadsTrendPoint[] = [];
+  const counts = new Map<string, number>();
+
+  const today = new Date();
+  const start = new Date(today);
+  start.setDate(start.getDate() - (TREND_DAYS - 1));
+  start.setHours(0, 0, 0, 0);
+
+  try {
+    const supabase = getSupabaseAdmin();
+    const { data, error } = await supabase
+      .from("leads")
+      .select("created_at")
+      .gte("created_at", start.toISOString());
+
+    if (!error && data) {
+      for (const row of data) {
+        const key = dayKey(new Date(row.created_at));
+        counts.set(key, (counts.get(key) ?? 0) + 1);
+      }
+    }
+  } catch {
+    // Supabase not configured — fall through and render an all-zero trend.
+  }
+
+  for (let i = 0; i < TREND_DAYS; i++) {
+    const date = new Date(start);
+    date.setDate(start.getDate() + i);
+    const key = dayKey(date);
+    days.push({
+      date: key,
+      label: date.toLocaleDateString("en-GB", { day: "numeric", month: "short" }),
+      count: counts.get(key) ?? 0,
+    });
+  }
+
+  return days;
+}
+
 export default async function AdminDashboardPage() {
-  const counts = await getCounts();
+  const [counts, leadsTrend] = await Promise.all([getCounts(), getLeadsTrend()]);
 
   const cards = [
+    {
+      href: "/admin/leads",
+      label: "Leads",
+      value: counts.leads,
+      icon: Inbox,
+      gradient: "from-brand-teal-dark to-brand-navy",
+    },
     {
       href: "/admin/portfolio",
       label: "Portfolio items",
@@ -83,7 +139,7 @@ export default async function AdminDashboardPage() {
 
       {counts.error && <SupabaseErrorBanner />}
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((card, index) => (
           <FadeIn key={card.href} delay={0.06 * (index + 1)}>
             <Link href={card.href} className="group block">
@@ -111,6 +167,10 @@ export default async function AdminDashboardPage() {
           </FadeIn>
         ))}
       </div>
+
+      <FadeIn delay={0.06 * (cards.length + 1)} className="mt-6">
+        <LeadsTrendChart data={leadsTrend} />
+      </FadeIn>
     </div>
   );
 }

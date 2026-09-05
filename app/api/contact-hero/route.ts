@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { heroContactFormSchema } from "@/lib/validations/hero-contact";
-import { sendFormEmail } from "@/lib/email";
-import { heroContactEmailTemplate } from "@/lib/email-templates";
+import { saveLead } from "@/lib/leads";
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
@@ -18,13 +17,16 @@ export async function POST(request: Request) {
   const data = parsed.data;
 
   try {
-    await sendFormEmail({
-      subject: `New quick enquiry from ${data.fullName}`,
-      replyTo: data.email,
-      html: heroContactEmailTemplate(data),
+    await saveLead({
+      source: "contact_hero",
+      name: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      message: data.message,
+      payload: data,
     });
   } catch (error) {
-    console.error("[api/contact-hero] failed to send email:", error);
+    console.error("[api/contact-hero] failed to save submission:", error);
     return NextResponse.json(
       { error: "Failed to send your message. Please try again shortly." },
       { status: 502 },

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
-import { LayoutDashboard, Images, Wrench, HelpCircle, LogOut, Loader2, Palette, Share2 } from "lucide-react";
+import { LayoutDashboard, Images, Wrench, HelpCircle, LogOut, Loader2, Palette, Share2, Inbox } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { href: "/admin/leads", label: "Leads", icon: Inbox },
   { href: "/admin/portfolio", label: "Portfolio", icon: Images },
   { href: "/admin/logo-images", label: "Logo Designs", icon: Palette },
   { href: "/admin/social-images", label: "Social Media Designs", icon: Share2 },

@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { webBriefFormSchema } from "@/lib/validations/web-brief";
-import { sendFormEmail, type EmailAttachment } from "@/lib/email";
-import { webBriefEmailTemplate } from "@/lib/email-templates";
+import { saveLead } from "@/lib/leads";
 
 const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024; // 10MB, matches the form's client-side accept hint
 const ACCEPTED_ATTACHMENT_TYPES = new Set([
@@ -35,9 +34,7 @@ export async function POST(request: Request) {
     );
   }
 
-  let attachments: EmailAttachment[] | undefined;
   const file = formData.get("attachment");
-
   if (file instanceof File && file.size > 0) {
     if (file.size > MAX_ATTACHMENT_BYTES) {
       return NextResponse.json(
@@ -51,23 +48,21 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
-    const buffer = Buffer.from(await file.arrayBuffer());
-    attachments = [
-      { filename: file.name, content: buffer, contentType: file.type || undefined },
-    ];
   }
 
   const data = parsed.data;
 
   try {
-    await sendFormEmail({
-      subject: `New web brief from ${data.name}`,
-      replyTo: data.email,
-      html: webBriefEmailTemplate(data),
-      attachments,
+    await saveLead({
+      source: "web_brief",
+      name: data.name,
+      email: data.email,
+      phone: `${data.countryCode} ${data.phone}`,
+      message: data.companyDescription,
+      payload: data,
     });
   } catch (error) {
-    console.error("[api/web-brief] failed to send email:", error);
+    console.error("[api/web-brief] failed to save submission:", error);
     return NextResponse.json(
       { error: "Failed to send your brief. Please try again shortly." },
       { status: 502 },

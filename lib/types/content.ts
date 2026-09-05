@@ -52,6 +52,19 @@ export type FaqRow = {
   updated_at: string;
 };
 
+export type LeadRow = {
+  id: string;
+  source: "contact" | "contact_hero" | "web_brief" | "logo_brief";
+  name: string;
+  email: string;
+  phone: string | null;
+  company: string | null;
+  message: string | null;
+  payload: Record<string, unknown>;
+  status: "new" | "contacted" | "closed";
+  created_at: string;
+};
+
 export type GalleryImageRow = {
   id: string;
   image_path: string;

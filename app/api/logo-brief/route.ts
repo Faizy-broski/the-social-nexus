@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { logoBriefFormSchema } from "@/lib/validations/logo-brief";
-import { sendFormEmail, type EmailAttachment } from "@/lib/email";
-import { logoBriefEmailTemplate } from "@/lib/email-templates";
+import { saveLead } from "@/lib/leads";
 
 const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024; // 10MB, matches the form's client-side accept hint
 const ACCEPTED_ATTACHMENT_TYPES = new Set([
@@ -35,9 +34,7 @@ export async function POST(request: Request) {
     );
   }
 
-  let attachments: EmailAttachment[] | undefined;
   const file = formData.get("attachment");
-
   if (file instanceof File && file.size > 0) {
     if (file.size > MAX_ATTACHMENT_BYTES) {
       return NextResponse.json(
@@ -51,23 +48,21 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
-    const buffer = Buffer.from(await file.arrayBuffer());
-    attachments = [
-      { filename: file.name, content: buffer, contentType: file.type || undefined },
-    ];
   }
 
   const data = parsed.data;
 
   try {
-    await sendFormEmail({
-      subject: `New logo brief from ${data.contactName}`,
-      replyTo: data.contactEmail,
-      html: logoBriefEmailTemplate(data),
-      attachments,
+    await saveLead({
+      source: "logo_brief",
+      name: data.contactName,
+      email: data.contactEmail,
+      phone: `${data.countryCode} ${data.contactPhone}`,
+      message: data.businessDescription,
+      payload: data,
     });
   } catch (error) {
-    console.error("[api/logo-brief] failed to send email:", error);
+    console.error("[api/logo-brief] failed to save submission:", error);
     return NextResponse.json(
       { error: "Failed to send your brief. Please try again shortly." },
       { status: 502 },
