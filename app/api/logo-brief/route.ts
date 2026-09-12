@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 
 import { logoBriefFormSchema } from "@/lib/validations/logo-brief";
 import { saveLead } from "@/lib/leads";
+import { sendFormEmail, type EmailAttachment } from "@/lib/email";
+import { logoBriefEmailTemplate } from "@/lib/email-templates";
 
 const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024; // 10MB, matches the form's client-side accept hint
 const ACCEPTED_ATTACHMENT_TYPES = new Set([
@@ -67,6 +69,26 @@ export async function POST(request: Request) {
       { error: "Failed to send your brief. Please try again shortly." },
       { status: 502 },
     );
+  }
+
+  try {
+    const attachments: EmailAttachment[] = [];
+    if (file instanceof File && file.size > 0) {
+      attachments.push({
+        filename: file.name,
+        content: Buffer.from(await file.arrayBuffer()),
+        contentType: file.type || undefined,
+      });
+    }
+
+    await sendFormEmail({
+      subject: `New logo brief from ${data.contactName}`,
+      replyTo: data.contactEmail,
+      html: logoBriefEmailTemplate(data),
+      attachments,
+    });
+  } catch (error) {
+    console.error("[api/logo-brief] failed to send notification email:", error);
   }
 
   return NextResponse.json({ ok: true });

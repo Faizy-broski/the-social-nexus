@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 
 import { contactFormSchema } from "@/lib/validations/contact";
 import { saveLead } from "@/lib/leads";
+import { sendFormEmail } from "@/lib/email";
+import { contactEmailTemplate } from "@/lib/email-templates";
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
@@ -32,6 +34,18 @@ export async function POST(request: Request) {
       { error: "Failed to send your message. Please try again shortly." },
       { status: 502 },
     );
+  }
+
+  try {
+    await sendFormEmail({
+      subject: `New enquiry from ${data.firstName} ${data.lastName}`,
+      replyTo: data.email,
+      html: contactEmailTemplate(data),
+    });
+  } catch (error) {
+    // Lead is already saved and visible in the admin dashboard, so a mail
+    // outage shouldn't fail the submission for the visitor.
+    console.error("[api/contact] failed to send notification email:", error);
   }
 
   return NextResponse.json({ ok: true });

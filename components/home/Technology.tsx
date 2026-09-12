@@ -172,6 +172,16 @@ export function TechnologiesSection() {
 
   const active = tabs[activeIndex];
 
+  // Tabs have different item counts (4–10), so the grid's row count would
+  // otherwise change per tab and shift every section below it up/down.
+  // Padding every tab's rendered items to the same length keeps the row
+  // count (and therefore the section's height) constant across tabs.
+  const maxItems = Math.max(...tabs.map((tab) => tab.items.length));
+  const paddedItems: Array<TechItem | null> = [
+    ...active.items,
+    ...Array.from({ length: maxItems - active.items.length }, () => null),
+  ];
+
   return (
     <section className="section-y bg-white">
       <div className="container-rail max-w-5xl lg:max-w-7xl">
@@ -240,30 +250,42 @@ export function TechnologiesSection() {
           key={activeIndex}
           className="stagger-children mt-10 grid grid-cols-3 gap-x-4 gap-y-7 sm:mt-16 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 md:grid-cols-6"
         >
-          {active.items.map((tech) => (
-            <div
-              key={tech.slug}
-              className="group flex flex-col items-center gap-2 sm:gap-3"
-            >
-              <div className="relative">
-                {/* teal glow bloom behind the tile on hover */}
-                <span className="pointer-events-none cursor-pointer absolute inset-0 scale-50 rounded-2xl opacity-0 transition-all duration-300 ease-out" />
+          {paddedItems.map((tech, index) =>
+            tech ? (
+              <div
+                key={tech.slug}
+                className="group flex flex-col items-center gap-2 sm:gap-3"
+              >
+                <div className="relative">
+                  {/* teal glow bloom behind the tile on hover */}
+                  <span className="pointer-events-none cursor-pointer absolute inset-0 scale-50 rounded-2xl opacity-0 transition-all duration-300 ease-out" />
 
-                <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl transition-all duration-300 ease-out group-hover:-translate-y-1 sm:h-20 sm:w-20">
-                  <Image
-                    src={`/tech/${tech.slug}.png`}
-                    alt={tech.name}
-                    width={36}
-                    height={36}
-                    className="h-12 w-12 object-contain transition-transform duration-300 ease-out group-hover:scale-110 sm:h-16 sm:w-16"
-                  />
+                  <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl transition-all duration-300 ease-out group-hover:-translate-y-1 sm:h-20 sm:w-20">
+                    <Image
+                      src={`/tech/${tech.slug}.png`}
+                      alt={tech.name}
+                      width={36}
+                      height={36}
+                      className="h-12 w-12 object-contain transition-transform duration-300 ease-out group-hover:scale-110 sm:h-16 sm:w-16"
+                    />
+                  </div>
                 </div>
+                <p className="text-center text-xs font-medium text-foreground transition-colors duration-300 group-hover:text-brand-teal-dark sm:text-sm">
+                  {tech.name}
+                </p>
               </div>
-              <p className="text-center text-xs font-medium text-foreground transition-colors duration-300 group-hover:text-brand-teal-dark sm:text-sm">
-                {tech.name}
-              </p>
-            </div>
-          ))}
+            ) : (
+              <div
+                key={`placeholder-${index}`}
+                aria-hidden
+                className="pointer-events-none flex flex-col items-center gap-2 opacity-0 sm:gap-3"
+                style={{ animation: "none" }}
+              >
+                <div className="h-16 w-16 sm:h-20 sm:w-20" />
+                <p className="text-center text-xs sm:text-sm">&nbsp;</p>
+              </div>
+            ),
+          )}
         </div>
       </div>
     </section>
