@@ -6,8 +6,29 @@ import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { FadeIn } from "@/components/admin/FadeIn";
 import { SupabaseErrorBanner } from "@/components/admin/SupabaseErrorBanner";
 import { LeadsTrendChart, type LeadsTrendPoint } from "./LeadsTrendChart";
+import { RecentLeads, type RecentLead } from "./RecentLeads";
 
 const TREND_DAYS = 14;
+const RECENT_LEADS = 5;
+
+async function getRecentLeads(): Promise<RecentLead[]> {
+  try {
+    const supabase = getSupabaseAdmin();
+    const { data, error } = await supabase
+      .from("leads")
+      .select("id, source, name, email, status, created_at")
+      .order("created_at", { ascending: false })
+      .limit(RECENT_LEADS);
+
+    if (error) {
+      console.error("[admin] failed to load recent leads:", error);
+      return [];
+    }
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
 
 async function getCounts() {
   try {
@@ -75,7 +96,11 @@ async function getLeadsTrend(): Promise<LeadsTrendPoint[]> {
 }
 
 export default async function AdminDashboardPage() {
-  const [counts, leadsTrend] = await Promise.all([getCounts(), getLeadsTrend()]);
+  const [counts, leadsTrend, recentLeads] = await Promise.all([
+    getCounts(),
+    getLeadsTrend(),
+    getRecentLeads(),
+  ]);
 
   const cards = [
     {
@@ -170,6 +195,10 @@ export default async function AdminDashboardPage() {
 
       <FadeIn delay={0.06 * (cards.length + 1)} className="mt-6">
         <LeadsTrendChart data={leadsTrend} />
+      </FadeIn>
+
+      <FadeIn delay={0.06 * (cards.length + 2)} className="mt-6">
+        <RecentLeads items={recentLeads} />
       </FadeIn>
     </div>
   );

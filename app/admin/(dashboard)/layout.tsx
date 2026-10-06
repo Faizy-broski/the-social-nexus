@@ -6,6 +6,11 @@ import { AdminMotionProvider } from "../AdminMotionProvider";
 
 export const metadata: Metadata = { title: "Admin — The Social Nexus", robots: { index: false, follow: false } };
 
+// Admin pages read live Supabase data (leads, counts, content) but call no
+// request-time APIs themselves — auth lives in proxy.ts — so without this
+// Next prerenders them at build time and new form submissions never appear.
+export const dynamic = "force-dynamic";
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <AdminMotionProvider>
