@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Phone, Mail, MapPin, 
+import { Phone, Mail, MapPin, Building2,
   // Facebook, Instagram, Linkedin 
 } from "lucide-react";
 
@@ -25,7 +25,12 @@ const CONTACT_DETAILS = [
   },
   {
     icon: MapPin,
-    label: "Operating across the UK, Pakistan & USA",
+    label: "Suite C299, 4-6 Greatorex Street, London, E1 5NF, United Kingdom",
+    href: "https://www.google.com/maps/search/?api=1&query=4-6+Greatorex+Street+London+E1+5NF",
+  },
+  {
+    icon: Building2,
+    label: "Company No. 17502660",
     href: undefined,
   },
 ];

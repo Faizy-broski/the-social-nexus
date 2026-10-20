@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useParallax } from "@/hooks/use-parallax";
 import { useReveal } from "@/hooks/use-reveal";
@@ -180,6 +180,15 @@ export function SiteFooter() {
                   </li>
                 ))}
               </ul>
+
+              <address className="mt-6 flex items-start gap-3 not-italic">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#2FD4C9]" />
+                <span className="text-sm leading-relaxed text-white/60">
+                  Suite C299, 4-6 Greatorex Street
+                  <br />
+                  London, E1 5NF, United Kingdom
+                </span>
+              </address>
             </div>
 
             <div className="sm:col-span-2 lg:col-span-12 hidden lg:block">
@@ -189,7 +198,8 @@ export function SiteFooter() {
               {/* Copyright */}
               <p className="text-xs text-white/40">
                 &copy; <span className="font-semibold text-white/60">TSN</span>{" "}
-                {new Date().getFullYear()}. All rights reserved
+                {new Date().getFullYear()}. All rights reserved. Company No.
+                17502660
               </p>
             </div>
           </div>
@@ -243,7 +253,8 @@ export function SiteFooter() {
               {/* Copyright */}
               <p className="text-xs text-white/40">
                 &copy; <span className="font-semibold text-white/60">TSN</span>{" "}
-                {new Date().getFullYear()}. All rights reserved
+                {new Date().getFullYear()}. All rights reserved. Company No.
+                17502660
               </p>
             </div>
         </div>
