@@ -15,6 +15,14 @@ to the next:
    the content the public site used to render from hardcoded arrays. Safe to
    re-run; every insert is guarded against duplicates.
 
+Later migrations, run in the same way once each:
+
+4. `supabase/migrations/0004_leads.sql` — the `leads` table behind `/admin/leads`.
+5. `supabase/migrations/0005_pricing.sql` — `pricing_plans` and
+   `pricing_comparison_rows`, which power `/pricing` and `/admin/pricing`.
+   Seeds three example website packages as **drafts** with placeholder
+   prices: set real prices and publish them from `/admin/pricing`.
+
 ## 2. Fill in `.env`
 From **Project Settings -> API**:
 

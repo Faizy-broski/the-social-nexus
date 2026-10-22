@@ -52,6 +52,41 @@ export type FaqRow = {
   updated_at: string;
 };
 
+export type PricingPlanRow = {
+  id: string;
+  category: string;
+  name: string;
+  tagline: string;
+  badge: string | null;
+  highlighted: boolean;
+  currency: string;
+  price: number | null;
+  original_price: number | null;
+  price_period: string | null;
+  price_note: string | null;
+  features: string[];
+  cta_label: string;
+  cta_href: string;
+  sort_order: number;
+  published: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+/** true = included, false = not included, string = custom cell text. */
+export type ComparisonValue = boolean | string;
+
+export type PricingComparisonRow = {
+  id: string;
+  category: string;
+  group_name: string;
+  label: string;
+  values: Record<string, ComparisonValue>;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
 export type LeadRow = {
   id: string;
   source: "contact" | "contact_hero" | "web_brief" | "logo_brief";

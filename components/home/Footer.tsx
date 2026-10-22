@@ -44,6 +44,7 @@ const infoLinks = [
   { label: "Web Brief", href: "/web-brief" },
   { label: "Logo Brief", href: "/logo-brief" },
   { label: "Portfolio", href: "/portfolio" },
+  { label: "Pricing", href: "/pricing" },
   { label: "FAQs", href: "/faqs" },
   { label: "Contact Us", href: "/contact-us" },
 ];

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
-import { LayoutDashboard, Images, Wrench, HelpCircle, LogOut, Loader2, Palette, Share2, Inbox } from "lucide-react";
+import { LayoutDashboard, Images, Wrench, HelpCircle, LogOut, Loader2, Palette, Share2, Inbox, BadgePoundSterling } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -28,6 +28,7 @@ const navItems = [
   { href: "/admin/logo-images", label: "Logo Designs", icon: Palette },
   { href: "/admin/social-images", label: "Social Media Designs", icon: Share2 },
   { href: "/admin/services", label: "Services", icon: Wrench },
+  { href: "/admin/pricing", label: "Pricing", icon: BadgePoundSterling },
   { href: "/admin/faqs", label: "FAQs", icon: HelpCircle },
 ];
 
