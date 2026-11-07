@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Geist } from "next/font/google";
@@ -48,6 +49,7 @@ export default function RootLayout({
           src="https://www.googletagmanager.com/gtag/js?id=G-MS0S1WH6YM"
           strategy="afterInteractive"
         />
+
         <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
