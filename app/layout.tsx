@@ -46,16 +46,23 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body>
-        <SiteChrome>{children}</SiteChrome>
-        <Toaster />
-
         {/* Google Tag Manager */}
+        <Script id="google-tag-manager" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+              'gtm.start': new Date().getTime(),
+              event: 'gtm.js'
+            });
+          `}
+        </Script>
+
         <Script
           src="https://www.googletagmanager.com/gtm.js?id=GTM-W7RCND5R"
           strategy="afterInteractive"
         />
 
-        {/* Google Analytics (GA4) */}
+        {/* Google Analytics GA4 */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-MS0S1WH6YM"
           strategy="afterInteractive"
@@ -70,6 +77,9 @@ export default function RootLayout({
             window.gtag('config', 'G-MS0S1WH6YM');
           `}
         </Script>
+
+        <SiteChrome>{children}</SiteChrome>
+        <Toaster />
       </body>
     </html>
   );
