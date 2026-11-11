@@ -18,6 +18,11 @@ export const metadata: Metadata = {
     "Social Nexus is a premium digital agency crafting cutting-edge websites, apps, and digital solutions. With 8+ years experience and 1500+ projects delivered across Pakistan, UK, and USA.",
   keywords:
     "web development, mobile app, digital agency, SEO, UK, Pakistan, USA",
+
+  verification: {
+    google: "_8tyFuBVTuBWbw2e8oFdbt4qtPeYIz-t8jLmxi4S26g",
+  },
+
   openGraph: {
     title: "Social Nexus – Where Ideas Transform Into Digital Power.",
     description:
@@ -44,7 +49,13 @@ export default function RootLayout({
         <SiteChrome>{children}</SiteChrome>
         <Toaster />
 
-        {/* Google Analytics */}
+        {/* Google Tag Manager */}
+        <Script
+          src="https://www.googletagmanager.com/gtm.js?id=GTM-W7RCND5R"
+          strategy="afterInteractive"
+        />
+
+        {/* Google Analytics (GA4) */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-MS0S1WH6YM"
           strategy="afterInteractive"
