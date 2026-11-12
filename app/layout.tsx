@@ -13,18 +13,21 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Social Nexus – Where Ideas Transform Into Digital Power.",
+  metadataBase: new URL("https://thesocialnexus.co.uk"),
+  title: {
+    default: "Social Nexus | Web, App & Digital Marketing Agency",
+    template: "%s | The Social Nexus",
+  },
   description:
-    "Social Nexus is a premium digital agency crafting cutting-edge websites, apps, and digital solutions. With 8+ years experience and 1500+ projects delivered across Pakistan, UK, and USA.",
-  keywords:
-    "web development, mobile app, digital agency, SEO, UK, Pakistan, USA",
+    "Social Nexus is a digital agency building websites, apps and marketing campaigns. 12+ years experience and 1500+ projects delivered across the UK, USA and Pakistan.",
+  alternates: { canonical: "./" },
 
   verification: {
     google: "_8tyFuBVTuBWbw2e8oFdbt4qtPeYIz-t8jLmxi4S26g",
   },
 
   openGraph: {
-    title: "Social Nexus – Where Ideas Transform Into Digital Power.",
+    title: "Social Nexus | Web, App & Digital Marketing Agency",
     description:
       "Premium digital experiences that define the future. Where creativity meets cutting-edge technology.",
     url: "https://thesocialnexus.co.uk",
@@ -32,6 +35,7 @@ export const metadata: Metadata = {
     locale: "en_GB",
     type: "website",
   },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({
@@ -46,6 +50,27 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body>
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-W7RCND5R"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+            title="Google Tag Manager"
+          />
+        </noscript>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Social Nexus",
+              url: "https://thesocialnexus.co.uk",
+              logo: "https://thesocialnexus.co.uk/TSN-Black-Logo.webp",
+            }),
+          }}
+        />
         {/* Google Tag Manager */}
         <Script id="google-tag-manager" strategy="afterInteractive">
           {`

@@ -211,9 +211,9 @@ export function SiteFooter() {
             ref={ctaRef}
             className="reveal-left flex flex-col items-start border-t border-white/10 pt-10 text-center lg:w-72 lg:shrink-0 lg:items-center lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0"
           >
-            <h2 className="text-xl font-semibold leading-tight text-white sm:text-2xl lg:text-3xl">
+            <p className="text-xl font-semibold leading-tight text-white sm:text-2xl lg:text-3xl">
               Have a project in your mind?
-            </h2>
+            </p>
 
             <MagneticButton
               href="/contact-us"

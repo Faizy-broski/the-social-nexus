@@ -1,8 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import NetworkLines from "@/components/contact/network-lines";
 import { Reveal } from "@/components/motion/Reveal";
 import { ServiceThumbnail } from "@/components/home/ServiceThumbnail";
 import { getPublishedServices } from "@/lib/data/services";
+
+export const metadata: Metadata = {
+  title: "Our Services",
+  description:
+    "Web development, mobile apps, SEO, AI chatbots, branding and digital marketing. Explore every service Social Nexus offers to grow your business.",
+  alternates: { canonical: "/services" },
+};
 
 export default async function Page() {
   const rows = await getPublishedServices();

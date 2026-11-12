@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { GoogleAdsManagementAgencyLondonPage } from "@/components/services/GoogleAdsManagementAgencyLondonPage";
 
 export const metadata: Metadata = {
-  title: "Google Ads Management Agency London | Proven PPC Growth Experts",
+  title: { absolute: "Google Ads Management Agency London | Proven PPC Growth Experts" },
   description:
     "Looking for a Google Ads management agency London businesses trust? Get expert PPC campaigns, lower costs, and more leads. Book your free audit today.",
   alternates: {

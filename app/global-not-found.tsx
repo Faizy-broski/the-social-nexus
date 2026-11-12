@@ -31,6 +31,7 @@ const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 export const metadata: Metadata = {
   title: "404 – Page Not Found | Social Nexus",
   description: "The page you're looking for doesn't exist, moved, or never made it past the drawing board.",
+  robots: { index: false, follow: false },
 };
 
 export default function GlobalNotFound() {

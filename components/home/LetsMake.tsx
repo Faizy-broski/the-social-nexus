@@ -8,14 +8,14 @@ const LetsMake = () => {
           Have a project in mind?
         </p>
 
-        <h2
+        <p
           className="scroll-reveal-row mt-3 text-3xl font-extrabold uppercase leading-tight tracking-tight text-[#121212] sm:mt-4 sm:text-5xl lg:text-6xl xl:text-7xl"
           style={{ animationDelay: "120ms" }}
         >
           Let&apos;s make <span className="gradient-text-animated">something</span>
           <br />
            great together!
-        </h2>
+        </p>
 
         <div className="mt-8 sm:mt-12" style={{ animationDelay: "260ms" }}>
           <MagneticButton

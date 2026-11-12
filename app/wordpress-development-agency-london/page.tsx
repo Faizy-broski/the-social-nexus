@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { WordpressDevelopmentAgencyLondonPage } from "@/components/services/WordpressDevelopmentAgencyLondonPage";
 
 export const metadata: Metadata = {
-  title: "WordPress Development Agency London | Trusted Team for 2026",
+  title: { absolute: "WordPress Development Agency London | Trusted Team for 2026" },
   description:
     "Looking for a reliable WordPress development agency London businesses trust? Get custom design, WooCommerce builds, and ongoing support that scales.",
   alternates: {

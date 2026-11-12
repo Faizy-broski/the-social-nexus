@@ -111,7 +111,7 @@ export default function HeroSection() {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
       />
 
       {/* Static fallback for reduced-motion users — the gradient overlay

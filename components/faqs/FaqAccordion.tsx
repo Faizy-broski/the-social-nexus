@@ -33,7 +33,7 @@ export function FaqAccordion({ faqs }: { faqs: FaqRow[] }) {
 
         <div className="relative mx-auto max-w-6xl px-6 lg:px-8">
           <Reveal
-            as="h2"
+            as="h1"
             variant="up"
             richer
             className="text-center text-4xl font-extrabold tracking-tight gradient-text sm:text-7xl"
@@ -44,9 +44,9 @@ export function FaqAccordion({ faqs }: { faqs: FaqRow[] }) {
           <div className="mt-16 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
             {/* Left intro column */}
             <Reveal variant="right" richer className="lg:col-span-3">
-              <h3 className="text-2xl font-bold leading-tight text-white">
+              <h2 className="text-2xl font-bold leading-tight text-white">
                 Explore Frequently Asked Questions
-              </h3>
+              </h2>
 
               <MagneticButton
                 href="/contact-us"

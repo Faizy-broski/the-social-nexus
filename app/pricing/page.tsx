@@ -11,7 +11,7 @@ import { getPublishedPricing } from "@/lib/data/pricing";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "Pricing & Packages | The Social Nexus",
+  title: "Pricing & Packages",
   description:
     "Clear, upfront packages for websites, SEO and digital marketing from The Social Nexus. Compare what's included and pick the plan that fits your business.",
   alternates: {

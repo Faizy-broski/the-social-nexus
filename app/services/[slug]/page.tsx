@@ -24,9 +24,13 @@ export async function generateMetadata({
   const service = await getPublishedServiceBySlug(slug);
   if (!service) return {};
 
+  const trim = (t: string, max: number) =>
+    t.length <= max ? t : t.slice(0, max).replace(/\s+\S*$/, "") + "…";
+
   return {
-    title: `${service.title.join(" ")} | The Social Nexus`,
-    description: service.hero_description,
+    title: trim(service.title.join(" "), 42),
+    description: trim(service.hero_description ?? "", 155),
+    alternates: { canonical: `/services/${slug}` },
   };
 }
 

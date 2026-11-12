@@ -4,7 +4,9 @@ import { WebBriefForm } from "@/components/web-brief/web-brief-form";
 import NetworkLines from "@/components/contact/network-lines";
 
 export const metadata: Metadata = {
-  title: "Web Brief / Business Information | The Social Nexus",
+  title: "Web Brief / Business Information",
+  alternates: { canonical: "/web-brief" },
+  robots: { index: false, follow: true },
   description:
     "Share your business and website details with The Social Nexus so we can start building your project the right way.",
 };

@@ -4,7 +4,9 @@ import { LogoBriefForm } from "@/components/logo-brief/logo-brief-form";
 import NetworkLines from "@/components/contact/network-lines";
 
 export const metadata: Metadata = {
-  title: "Logo Brief | The Social Nexus",
+  title: "Logo Brief",
+  alternates: { canonical: "/logo-brief" },
+  robots: { index: false, follow: true },
   description:
     "Share your logo requirements with The Social Nexus so our design team can start crafting the right identity for your brand.",
 };

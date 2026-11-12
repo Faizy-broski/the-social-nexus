@@ -44,11 +44,11 @@ export function PortfolioIntro() {
            </div>
 
       <div className="relative scroll-reveal-row mx-auto max-w-4xl px-6 text-center lg:px-8">
-        <h2 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl">
+        <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl">
           Over 12+ Years Of <span className="gradient-text-animated">Consistently</span>
           <br />
           <span className="gradient-text-animated">Delivering</span> Excellence
-        </h2>
+        </h1>
 
         <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-base font-semibold text-white">
           {stats.map((stat, i) => (
@@ -342,7 +342,7 @@ function MasonryGallery({ images }: { images: GalleryImageRow[] }) {
         >
           <Image
             src={img.image_path}
-            alt=""
+            alt={`Social media design sample ${i + 1}`}
             width={400}
             height={400}
             className="h-auto w-full object-cover transition-transform duration-300 group-hover/img:scale-105"
@@ -391,7 +391,7 @@ function LogoGrid({ images }: { images: GalleryImageRow[] }) {
         >
           <Image
             src={src}
-            alt=""
+            alt={`Logo design sample ${i + 1}`}
             fill
             sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw"
             className="object-cover transition-transform duration-300 group-hover/img:scale-105"

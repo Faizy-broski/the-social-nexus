@@ -7,7 +7,8 @@ import { ContactForm } from "@/components/contact/contact-form";
 import NetworkLines from "@/components/contact/network-lines";
 
 export const metadata: Metadata = {
-  title: "Contact Us | The Social Nexus",
+  title: "Contact Us",
+  alternates: { canonical: "/contact-us" },
   description:
     "Get in touch with The Social Nexus — tell us about your project and we'll get back to you within one business day.",
 };
