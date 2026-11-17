@@ -2,6 +2,7 @@ import type { ContactFormValues } from "@/lib/validations/contact";
 import type { HeroContactFormValues } from "@/lib/validations/hero-contact";
 import type { WebBriefFormValues } from "@/lib/validations/web-brief";
 import type { LogoBriefFormValues } from "@/lib/validations/logo-brief";
+import type { YoutubeAuditValues } from "@/lib/validations/youtube-audit";
 
 const BRAND_NAVY = "#0B1020";
 const BRAND_NAVY_LIGHT = "#171F35";
@@ -216,6 +217,24 @@ export function logoBriefEmailTemplate(data: Omit<LogoBriefFormValues, "attachme
       { label: "Logo requirements", value: nl2br(data.logoRequirements || ""), multiline: true },
       { label: "Primary color", value: escapeHtml(data.primaryColor || "") },
       { label: "Secondary color", value: escapeHtml(data.secondaryColor || "") },
+    ],
+  });
+}
+
+export function youtubeAuditEmailTemplate(data: YoutubeAuditValues) {
+  const href = /^https?:\/\//i.test(data.channelUrl)
+    ? data.channelUrl
+    : `https://${data.channelUrl}`;
+  return renderShell({
+    eyebrow: "YouTube audit",
+    heading: `New YouTube audit request from ${data.name}`,
+    intro: "Someone requested a free channel audit on the YouTube Channel Management page.",
+    preheader: `New YouTube audit request from ${data.name}`,
+    rows: [
+      { label: "Name", value: escapeHtml(data.name) },
+      { label: "Email", value: `<a href="mailto:${escapeHtml(data.email)}" style="color:${BRAND_TEAL_DARK};">${escapeHtml(data.email)}</a>` },
+      { label: "YouTube channel", value: `<a href="${escapeHtml(href)}" style="color:${BRAND_TEAL_DARK};">${escapeHtml(data.channelUrl)}</a>` },
+      { label: "Biggest challenge", value: data.challenge ? nl2br(data.challenge) : "&mdash;", multiline: true },
     ],
   });
 }

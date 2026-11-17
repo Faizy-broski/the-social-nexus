@@ -51,6 +51,10 @@ const navLinks: NavLink[] = [
         label: "Google Ads Management Agency London",
         href: "/google-ads-management-agency-london",
       },
+      {
+        label: "YouTube Channel Management",
+        href: "/youtube-channel-management",
+      },
     ],
   },
   { label: "Portfolio", href: "/portfolio" },

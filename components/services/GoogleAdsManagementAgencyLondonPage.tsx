@@ -205,6 +205,7 @@ const internalLinks = [
     label: "Website Conversion Rate Optimization Guide",
     href: "/website-developers-for-small-business",
   },
+  { label: "YouTube Channel Management", href: "/youtube-channel-management" },
 ];
 
 const externalLinks = [

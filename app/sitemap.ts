@@ -20,6 +20,7 @@ const STATIC_ROUTES: Array<{
   { path: "/seo-agency-london", changeFrequency: "monthly", priority: 0.7 },
   { path: "/website-developers-for-small-business", changeFrequency: "monthly", priority: 0.7 },
   { path: "/wordpress-development-agency-london", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/youtube-channel-management", changeFrequency: "monthly", priority: 0.7 },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

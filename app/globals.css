@@ -296,7 +296,11 @@
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
-    overflow-x: hidden;
+    /* `clip` (not `hidden`): hidden turns <body> into a scroll container,
+       which silently breaks every `position: sticky` descendant (e.g. the
+       pinned scenes on /youtube-channel-management). Clip still stops
+       horizontal overflow; <html> above keeps its own overflow-x: hidden. */
+    overflow-x: clip;
   }
 
   /* Global smoothness — every color/shadow/transform transition eases the

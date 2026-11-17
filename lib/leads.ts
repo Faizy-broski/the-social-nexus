@@ -1,6 +1,11 @@
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 
-type LeadSource = "contact" | "contact_hero" | "web_brief" | "logo_brief";
+type LeadSource =
+  | "contact"
+  | "contact_hero"
+  | "web_brief"
+  | "logo_brief"
+  | "youtube_audit";
 
 type SaveLeadInput = {
   source: LeadSource;
