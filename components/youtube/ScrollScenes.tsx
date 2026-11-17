@@ -9,7 +9,8 @@ import {
   useTransform,
   type MotionValue,
 } from "motion/react";
-import type { LucideIcon } from "lucide-react";
+import Image from "next/image";
+import { Play, type LucideIcon } from "lucide-react";
 import type { YoutubeShowcaseItem } from "@/lib/youtube-management-content";
 
 /**
@@ -72,22 +73,16 @@ export function HeroScroll({
 /* 2. Pinned crossfade list                                            */
 /* ------------------------------------------------------------------ */
 
-type PinnedItem = { icon: LucideIcon; title: string; description: string };
+type PinnedItem = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  /** Background photo, served from /public. */
+  image: string;
+};
 
-function PinnedCard({ item }: { item: PinnedItem }) {
-  const Icon = item.icon;
-  return (
-    <div className="flex h-full flex-col justify-center rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-10">
-      <Icon className="h-9 w-9 text-brand-gold" aria-hidden="true" />
-      <h3 className="mt-6 text-2xl font-semibold text-brand-teal-light sm:text-3xl">
-        {item.title}
-      </h3>
-      <p className="mt-4 text-base leading-relaxed text-white/60 sm:text-lg">
-        {item.description}
-      </p>
-    </div>
-  );
-}
+// Different drift origins so neighbouring photos don't all move the same way.
+const ORIGINS = ["20% 30%", "80% 40%", "40% 80%", "70% 20%"];
 
 export function PinnedList({
   items,
@@ -115,7 +110,28 @@ export function PinnedList({
           {children}
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {items.map((item) => (
-              <PinnedCard key={item.title} item={item} />
+              <div
+                key={item.title}
+                className="overflow-hidden rounded-3xl border border-white/10 bg-white/5"
+              >
+                <div className="relative aspect-video">
+                  <Image
+                    src={item.image}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1024px) 25vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-5">
+                  <h3 className="text-lg font-semibold text-brand-teal-light">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/60">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -129,44 +145,98 @@ export function PinnedList({
       style={{ height: `${items.length * 30 + 70}vh` }}
       className="relative"
     >
-      <div
-        className={`sticky top-0 flex h-screen items-center pt-20 lg:pt-0 ${SECTION_X}`}
-      >
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-8 lg:grid-cols-2 lg:gap-16">
-          <div>
-            {children}
-            <ul className="mt-8 hidden space-y-2 lg:block">
+      <div className="sticky top-0 h-screen overflow-hidden bg-brand-navy">
+        {/* Photography: one full-bleed frame per service, crossfading while
+            each drifts slowly so the stills read as footage. */}
+        {items.map((item, i) => (
+          <m.div
+            key={item.image}
+            aria-hidden="true"
+            initial={false}
+            animate={{ opacity: i === active ? 1 : 0 }}
+            transition={{ duration: 1.1, ease: "easeInOut" }}
+            className="absolute inset-0"
+          >
+            <div
+              className="yt-kenburns absolute inset-0"
+              style={{ transformOrigin: ORIGINS[i % ORIGINS.length] }}
+            >
+              <Image
+                src={item.image}
+                alt=""
+                fill
+                sizes="100vw"
+                quality={70}
+                priority={i === 0}
+                className="object-cover"
+              />
+            </div>
+          </m.div>
+        ))}
+
+        {/* Scrim only where the type sits: heavy on the left, clear on the
+            right so the photograph stays the hero. */}
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-r from-brand-navy via-brand-navy/75 to-brand-navy/5 lg:via-brand-navy/55" />
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-brand-navy via-transparent to-brand-navy/70" />
+
+        <div
+          className={`relative flex h-full flex-col justify-between pb-20 pt-24 sm:pb-10 lg:pt-16 ${SECTION_X}`}
+        >
+          <div className="mx-auto w-full max-w-6xl">{children}</div>
+
+          <div className="mx-auto w-full max-w-6xl">
+            <div className="relative min-h-60 sm:min-h-64 lg:min-h-72">
+              {items.map((item, i) => {
+                const Icon = item.icon;
+                const isActive = i === active;
+                return (
+                  <m.div
+                    key={item.title}
+                    aria-hidden={!isActive}
+                    initial={false}
+                    animate={{
+                      opacity: isActive ? 1 : 0,
+                      y: isActive ? 0 : i < active ? -24 : 24,
+                      filter: isActive ? "blur(0px)" : "blur(6px)",
+                    }}
+                    transition={{ duration: 0.7, ease: EASE }}
+                    className="absolute inset-x-0 bottom-0 max-w-2xl"
+                  >
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-md">
+                      <Icon className="h-5 w-5 text-brand-gold" aria-hidden="true" />
+                    </span>
+                    <h3 className="mt-5 text-4xl font-semibold leading-[1.02] tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl">
+                      {item.title}
+                    </h3>
+                    <p className="mt-5 max-w-md text-base leading-relaxed text-white/75 sm:text-lg">
+                      {item.description}
+                    </p>
+                  </m.div>
+                );
+              })}
+            </div>
+
+            {/* Progress rail: one tick per service; titles from lg up. */}
+            <ul className="mt-8 grid grid-flow-col auto-cols-fr gap-2 sm:gap-3">
               {items.map((item, i) => (
-                <li
-                  key={item.title}
-                  className={`text-lg font-medium transition-all duration-500 ${
-                    i === active
-                      ? "translate-x-2 text-white"
-                      : "text-white/25"
-                  }`}
-                >
-                  {item.title}
+                <li key={item.title}>
+                  <span className="block h-px w-full bg-white/20">
+                    <span
+                      className={`block h-px origin-left bg-brand-gold transition-transform duration-700 ${
+                        i <= active ? "scale-x-100" : "scale-x-0"
+                      }`}
+                    />
+                  </span>
+                  <span
+                    className={`mt-3 hidden text-[0.7rem] font-medium uppercase tracking-wide transition-colors duration-500 lg:block ${
+                      i === active ? "text-white" : "text-white/35"
+                    }`}
+                  >
+                    {item.title}
+                  </span>
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div className="relative min-h-[20rem] sm:min-h-[22rem]">
-            {items.map((item, i) => (
-              <m.div
-                key={item.title}
-                aria-hidden={i !== active}
-                initial={false}
-                animate={{
-                  opacity: i === active ? 1 : 0,
-                  y: i === active ? 0 : i < active ? -28 : 28,
-                }}
-                transition={{ duration: 0.55, ease: EASE }}
-                className="absolute inset-0"
-              >
-                <PinnedCard item={item} />
-              </m.div>
-            ))}
           </div>
         </div>
       </div>
@@ -272,55 +342,100 @@ export function ScrollCompare({
 /* 5. Pinned horizontal pan: the showcase (the peak of the page)       */
 /* ------------------------------------------------------------------ */
 
-function ShowcaseCard({ item }: { item: YoutubeShowcaseItem }) {
+function ShowcaseCard({
+  item,
+  index,
+  count,
+  progress,
+  animated,
+}: {
+  item: YoutubeShowcaseItem;
+  index: number;
+  count: number;
+  progress: MotionValue<number>;
+  animated: boolean;
+}) {
+  // Which card the pan is currently "on", as a fractional index. Cards fade
+  // and shrink slightly with distance from it, and the photo inside each
+  // card slides against the card for depth.
+  const focus = useTransform(progress, (v) => v * (count - 1));
+  const distance = useTransform(focus, (f) => Math.min(Math.abs(index - f), 1));
+  const scale = useTransform(distance, (d) => 1 - d * 0.06);
+  const opacity = useTransform(distance, (d) => 1 - d * 0.5);
+  const photoX = useTransform(focus, (f) => (index - f) * -36);
+
   return (
-    <article className="w-[78vw] shrink-0 sm:w-[52vw] lg:w-[34vw] lg:max-w-140">
-      <div
-        className="relative aspect-video overflow-hidden rounded-2xl border border-white/10"
-        style={{
-          background: `linear-gradient(135deg, ${item.colors[0]}, ${item.colors[1]})`,
-        }}
-      >
-        <p className="absolute inset-0 flex items-center p-5 text-2xl font-extrabold uppercase leading-[0.95] tracking-tight text-white [text-shadow:0_2px_14px_rgba(0,0,0,0.35)] sm:p-7 sm:text-3xl">
-          {item.thumbnailText}
-        </p>
-        <span className="absolute left-3 top-3 rounded-full bg-black/55 px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-white/80">
+    <m.article
+      style={animated ? { scale, opacity } : undefined}
+      className="w-[80vw] shrink-0 sm:w-[56vw] lg:w-[38vw] lg:max-w-160"
+    >
+      <div className="group relative aspect-video overflow-hidden rounded-3xl border border-white/10 bg-brand-navy-light">
+        <m.div
+          style={animated ? { x: photoX } : undefined}
+          className="absolute -inset-x-10 inset-y-0"
+        >
+          <div className="yt-kenburns absolute inset-0">
+            <Image
+              src={item.image}
+              alt={`${item.channel}: sample video thumbnail`}
+              fill
+              sizes="(min-width: 1024px) 40vw, 80vw"
+              quality={70}
+              className="object-cover"
+            />
+          </div>
+        </m.div>
+
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/80 via-black/15 to-black/30" />
+
+        <span className="absolute left-4 top-4 rounded-full bg-black/45 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-white/85 backdrop-blur-md">
           Sample
         </span>
-        <span className="absolute bottom-3 right-3 rounded bg-black/80 px-1.5 py-0.5 text-xs font-medium text-white">
+
+        <span
+          aria-hidden="true"
+          className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/35 bg-white/15 text-white backdrop-blur-md transition-transform duration-500 group-hover:scale-110"
+        >
+          <Play className="ml-0.5 h-6 w-6 fill-white" />
+        </span>
+
+        <p className="absolute inset-x-5 bottom-5 pr-14 text-xl font-semibold leading-tight tracking-tight text-white sm:text-2xl">
+          {item.thumbnailText}
+        </p>
+        <span className="absolute bottom-4 right-4 rounded bg-black/70 px-1.5 py-0.5 text-xs font-medium text-white">
           {item.duration}
         </span>
       </div>
 
-      <div className="mt-5">
-        <p className="text-sm font-semibold uppercase tracking-wide text-brand-gold">
-          {item.channel}
-        </p>
-        <p className="mt-1 text-sm text-white/50">{item.niche}</p>
-        <dl className="mt-4 grid grid-cols-2 gap-4 border-t border-white/10 pt-4">
+      <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+        <div>
+          <p className="text-base font-semibold text-white">{item.channel}</p>
+          <p className="mt-0.5 text-sm text-white/50">{item.niche}</p>
+        </div>
+        <dl className="flex gap-7 sm:text-right">
           <div>
-            <dt className="text-xs uppercase tracking-wide text-white/50">
+            <dt className="text-[0.65rem] uppercase tracking-wide text-white/45">
               Subscribers
             </dt>
-            <dd className="mt-1 text-lg font-semibold text-white">
+            <dd className="mt-1 text-sm font-semibold text-white">
               {item.subsBefore}
-              <span className="px-1.5 text-white/30">→</span>
+              <span className="px-1 text-white/30">→</span>
               <span className="text-brand-teal-light">{item.subsAfter}</span>
             </dd>
           </div>
           <div>
-            <dt className="text-xs uppercase tracking-wide text-white/50">
+            <dt className="text-[0.65rem] uppercase tracking-wide text-white/45">
               Avg. views
             </dt>
-            <dd className="mt-1 text-lg font-semibold text-white">
+            <dd className="mt-1 text-sm font-semibold text-white">
               {item.viewsBefore}
-              <span className="px-1.5 text-white/30">→</span>
+              <span className="px-1 text-white/30">→</span>
               <span className="text-brand-teal-light">{item.viewsAfter}</span>
             </dd>
           </div>
         </dl>
       </div>
-    </article>
+    </m.article>
   );
 }
 
@@ -382,8 +497,15 @@ export function HorizontalShowcase({
       <div className={`py-16 sm:py-20 ${SECTION_X}`}>
         {header}
         <div className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-10 md:grid-cols-2 [&>article]:w-auto">
-          {items.map((item) => (
-            <ShowcaseCard key={item.channel} item={item} />
+          {items.map((item, i) => (
+            <ShowcaseCard
+              key={item.channel}
+              item={item}
+              index={i}
+              count={items.length}
+              progress={scrollYProgress}
+              animated={false}
+            />
           ))}
         </div>
       </div>
@@ -398,14 +520,21 @@ export function HorizontalShowcase({
     >
       <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden pt-20 lg:pt-0">
         <div className={SECTION_X}>{header}</div>
-        <div className="overflow-hidden lg:ml-16">
+        <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] lg:ml-16">
           <m.div
             ref={trackRef}
             style={{ x, paddingLeft: startX }}
             className="flex w-max gap-6 pr-12 sm:gap-10"
           >
-            {items.map((item) => (
-              <ShowcaseCard key={item.channel} item={item} />
+            {items.map((item, i) => (
+              <ShowcaseCard
+                key={item.channel}
+                item={item}
+                index={i}
+                count={items.length}
+                progress={scrollYProgress}
+                animated
+              />
             ))}
           </m.div>
         </div>

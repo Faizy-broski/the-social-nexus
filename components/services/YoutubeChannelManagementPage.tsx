@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowUpRight,
@@ -17,7 +18,6 @@ import {
   Video,
   XCircle,
 } from "lucide-react";
-import NetworkLines from "@/components/contact/network-lines";
 import { Reveal } from "@/components/motion/Reveal";
 import MagneticButton from "@/components/home/MagneticButton";
 import { YoutubeAuditForm } from "@/components/youtube/YoutubeAuditForm";
@@ -48,48 +48,56 @@ const deliverables = [
   {
     icon: Lightbulb,
     title: "Strategy & Topic Research",
+    image: "/youtube/strategy.jpg",
     description:
       "We research what your audience already searches for and watches, then build a content plan around real demand instead of guesswork.",
   },
   {
     icon: ImageIcon,
     title: "Titles & Thumbnails",
+    image: "/youtube/thumbnails.jpg",
     description:
       "Packaging decides whether a video gets clicked. We design thumbnails and write titles built to earn the click without misleading viewers.",
   },
   {
     icon: Clapperboard,
     title: "Editing & Motion Graphics",
+    image: "/youtube/editing.jpg",
     description:
       "Tight pacing, clear visuals, B-roll and animation that keep viewers watching and make complex ideas easier to follow.",
   },
   {
     icon: Video,
     title: "Recording Guidance",
+    image: "/youtube/recording.jpg",
     description:
       "Scripting support and live recording sessions so your delivery is sharp and every take gives the editor strong material.",
   },
   {
     icon: CalendarClock,
     title: "Publishing & Scheduling",
+    image: "/youtube/publishing.jpg",
     description:
       "Uploads, descriptions, tags, end screens and a consistent schedule, handled for you so the channel never goes quiet.",
   },
   {
     icon: FlaskConical,
     title: "A/B Packaging Tests",
+    image: "/youtube/testing.jpg",
     description:
       "We test titles and thumbnails against each other and keep a log of what works for your audience, so every upload learns from the last.",
   },
   {
     icon: Smartphone,
     title: "Shorts Distribution",
+    image: "/youtube/shorts.jpg",
     description:
       "We cut your long-form videos into Shorts and publish them, so each video reaches viewers who don't watch long-form yet.",
   },
   {
     icon: BarChart3,
     title: "Performance Reporting",
+    image: "/youtube/reporting.jpg",
     description:
       "Plain-English reports on retention, click-through and watch time, with clear next steps, not a wall of charts.",
   },
@@ -169,12 +177,19 @@ export function YoutubeChannelManagementPage() {
         className="relative overflow-hidden px-5 pb-16 pt-28 sm:px-8 sm:pt-32 md:px-12 lg:pl-20 lg:pr-10 lg:pt-40 xl:pl-25 xl:pr-12"
         background={
           <>
-            <div className="animate-float absolute -left-32 top-0 h-96 w-96 rounded-full bg-brand-teal/20 blur-[120px]" />
-            <div
-              className="animate-float absolute right-0 top-1/3 h-72 w-72 rounded-full bg-brand-gold/10 blur-[110px]"
-              style={{ animationDelay: "1.2s", animationDuration: "5.5s" }}
-            />
-            <NetworkLines />
+            <div className="yt-kenburns absolute inset-0 opacity-45">
+              <Image
+                src="/youtube/hero.jpg"
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                quality={70}
+                className="object-cover"
+              />
+            </div>
+            <div className="absolute inset-0 bg-linear-to-b from-brand-navy/40 via-brand-navy/55 to-brand-navy" />
+            <div className="absolute inset-0 bg-linear-to-r from-brand-navy/80 via-transparent to-transparent" />
           </>
         }
       >
@@ -249,10 +264,6 @@ export function YoutubeChannelManagementPage() {
           Everything Behind the Camera,{" "}
           <span className="gradient-text-animated">Handled</span>
         </h2>
-        <p className="mt-5 text-base leading-relaxed text-white/60 sm:text-lg">
-          From the first idea to the published video and the report that
-          follows, here is what our team looks after.
-        </p>
       </PinnedList>
 
       {/* ============ THE CHALLENGE (scene 3: word-by-word scrub) ============ */}

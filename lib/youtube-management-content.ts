@@ -42,11 +42,11 @@ export const youtubeFaqs = [
 export type YoutubeShowcaseItem = {
   channel: string;
   niche: string;
-  /** Text printed on the CSS-generated thumbnail. */
+  /** Video title shown over the thumbnail. */
   thumbnailText: string;
   duration: string;
-  /** Two CSS colours for the thumbnail gradient. */
-  colors: [string, string];
+  /** Thumbnail photo, served from /public. */
+  image: string;
   subsBefore: string;
   subsAfter: string;
   viewsBefore: string;
@@ -65,7 +65,7 @@ export const youtubeShowcase: YoutubeShowcaseItem[] = [
     niche: "Personal finance",
     thumbnailText: "Why your savings are shrinking",
     duration: "12:41",
-    colors: ["#0f766e", "#0b1020"],
+    image: "/youtube/finance.jpg",
     subsBefore: "28K",
     subsAfter: "214K",
     viewsBefore: "4.2K",
@@ -76,29 +76,29 @@ export const youtubeShowcase: YoutubeShowcaseItem[] = [
     niche: "Design & creativity",
     thumbnailText: "I rebuilt a brand in 24 hours",
     duration: "18:03",
-    colors: ["#b45309", "#1e1b4b"],
+    image: "/youtube/design.jpg",
     subsBefore: "9.8K",
     subsAfter: "87K",
     viewsBefore: "1.9K",
     viewsAfter: "22K",
   },
   {
-    channel: "The Daily Lathe",
-    niche: "Woodworking",
-    thumbnailText: "The joint nobody teaches",
+    channel: "Golden Hour",
+    niche: "Lifestyle vlogs",
+    thumbnailText: "A week of slow mornings",
     duration: "9:27",
-    colors: ["#7c2d12", "#111827"],
+    image: "/youtube/podcast.jpg",
     subsBefore: "41K",
     subsAfter: "186K",
     viewsBefore: "7.5K",
     viewsAfter: "38K",
   },
   {
-    channel: "Fit in 15",
-    niche: "Health & fitness",
-    thumbnailText: "15 minutes. No equipment.",
+    channel: "Frame by Frame",
+    niche: "Photography & gear",
+    thumbnailText: "The lens that changed my work",
     duration: "15:00",
-    colors: ["#1d4ed8", "#0b1020"],
+    image: "/youtube/camera.jpg",
     subsBefore: "15K",
     subsAfter: "129K",
     viewsBefore: "3.1K",
@@ -109,7 +109,7 @@ export const youtubeShowcase: YoutubeShowcaseItem[] = [
     niche: "Travel",
     thumbnailText: "The island tourists never find",
     duration: "21:14",
-    colors: ["#9d174d", "#172554"],
+    image: "/youtube/travel.jpg",
     subsBefore: "52K",
     subsAfter: "240K",
     viewsBefore: "9.0K",

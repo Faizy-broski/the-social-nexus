@@ -849,3 +849,20 @@
     transform: scale(0.96);
   }
 }
+
+/* Slow "Ken Burns" drift so still photography reads as footage. Used by the
+   cinematic scenes on /youtube-channel-management. The global
+   prefers-reduced-motion rule above already neutralises animations. */
+@keyframes yt-kenburns {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.16) translate3d(-1.5%, -1%, 0);
+  }
+}
+
+.yt-kenburns {
+  animation: yt-kenburns 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
