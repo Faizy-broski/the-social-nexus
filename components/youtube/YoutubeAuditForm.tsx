@@ -120,7 +120,7 @@ export function YoutubeAuditForm() {
 
       <div className="space-y-2">
         <Label htmlFor="yt-channel" className="text-white/80">
-          YouTube channel link
+          YouTube channel link (optional)
         </Label>
         <Input
           id="yt-channel"

@@ -222,9 +222,8 @@ export function logoBriefEmailTemplate(data: Omit<LogoBriefFormValues, "attachme
 }
 
 export function youtubeAuditEmailTemplate(data: YoutubeAuditValues) {
-  const href = /^https?:\/\//i.test(data.channelUrl)
-    ? data.channelUrl
-    : `https://${data.channelUrl}`;
+  const channelUrl = data.channelUrl ?? "";
+  const href = /^https?:\/\//i.test(channelUrl) ? channelUrl : `https://${channelUrl}`;
   return renderShell({
     eyebrow: "YouTube audit",
     heading: `New YouTube audit request from ${data.name}`,
@@ -233,7 +232,7 @@ export function youtubeAuditEmailTemplate(data: YoutubeAuditValues) {
     rows: [
       { label: "Name", value: escapeHtml(data.name) },
       { label: "Email", value: `<a href="mailto:${escapeHtml(data.email)}" style="color:${BRAND_TEAL_DARK};">${escapeHtml(data.email)}</a>` },
-      { label: "YouTube channel", value: `<a href="${escapeHtml(href)}" style="color:${BRAND_TEAL_DARK};">${escapeHtml(data.channelUrl)}</a>` },
+      { label: "YouTube channel", value: channelUrl ? `<a href="${escapeHtml(href)}" style="color:${BRAND_TEAL_DARK};">${escapeHtml(channelUrl)}</a>` : "&mdash;" },
       { label: "Biggest challenge", value: data.challenge ? nl2br(data.challenge) : "&mdash;", multiline: true },
     ],
   });

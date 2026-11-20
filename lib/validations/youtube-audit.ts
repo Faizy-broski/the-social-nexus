@@ -16,12 +16,18 @@ export const youtubeAuditSchema = z.object({
     .trim()
     .min(1, "Enter your email address.")
     .email("Enter a valid email address."),
+  // Optional: not every creator has a channel yet. When provided, it must
+  // still look like a YouTube link.
   channelUrl: z
     .string()
     .trim()
-    .min(1, "Enter your YouTube channel link.")
     .max(300, "Link is too long.")
-    .regex(youtubeUrlRegex, "Enter a valid YouTube channel link."),
+    .refine(
+      (value) => value === "" || youtubeUrlRegex.test(value),
+      "Enter a valid YouTube channel link.",
+    )
+    .optional()
+    .or(z.literal("")),
   challenge: z
     .string()
     .trim()
