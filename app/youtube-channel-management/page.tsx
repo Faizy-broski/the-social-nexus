@@ -16,6 +16,20 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     url: URL,
     type: "website",
+    images: [
+      {
+        url: "/youtube/hero.jpg",
+        width: 1920,
+        height: 1280,
+        alt: "YouTube channel management by Social Nexus",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/youtube/hero.jpg"],
   },
 };
 
@@ -28,11 +42,29 @@ const jsonLd = {
       serviceType: "YouTube channel management",
       description: DESCRIPTION,
       url: URL,
+      areaServed: ["GB", "US", "PK"],
       provider: {
         "@type": "Organization",
         name: "Social Nexus",
         url: "https://thesocialnexus.co.uk",
       },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://thesocialnexus.co.uk",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "YouTube Channel Management",
+          item: URL,
+        },
+      ],
     },
     {
       "@type": "FAQPage",
